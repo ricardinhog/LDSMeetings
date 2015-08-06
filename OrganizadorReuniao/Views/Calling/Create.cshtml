@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Chamados";
+}
+
+<div class="page-header">
+    <h2>Chamados</h2>
+</div>
+
+@using (Html.BeginForm("Create", "Calling", FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-group">
+        <label for="calling">Selecione o chamado</label>
+        <select name="calling">
+            @foreach (OrganizadorReuniao.Models.Calling calling in ViewBag.callings)
+            {
+                <option value="@calling.Id">@calling.Name</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="member">Encontre o membro</label>
+        <input type="text" name="member" id="member" />
+        <input type="hidden" name="id" id="id" value="0" />
+        <div id="result"></div>
+    </div>
+    
+    @Html.ValidationSummary("Favor verificar erros abaixo", new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-default">Salvar</button>
+}
