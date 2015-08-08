@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="Helper\Database.cs" />
     <Compile Include="Helper\DefaultConfig.cs" />
+    <Compile Include="Helper\Common.cs" />
     <Compile Include="Helper\Log.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />

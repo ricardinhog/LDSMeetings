@@ -24,10 +24,19 @@ namespace OrganizadorReuniao.Controllers
             if (ModelState.IsValid)
             {
                 Models.User newUser = new Models.User();
-                Result result = newUser.addUser(model.Email, model.Password);
+                
+                // check if the email address is already being used
+                if (!newUser.emailExists(model.Email))
+                {
+                    Result result = newUser.addUser(model.Email, model.Password);
 
-                if (result.Success)
-                    return RedirectToAction("Success");
+                    if (result.Success)
+                        return RedirectToAction("Success");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Este endereço de email já está sendo utilizado");
+                }
             }
             return View(model);
         }

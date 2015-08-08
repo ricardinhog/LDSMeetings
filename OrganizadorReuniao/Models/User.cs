@@ -18,12 +18,13 @@ namespace OrganizadorReuniao.Models
 
         // private variables
         private Database database = new Database();
+        private Common common = new Common();
 
         public Result addUser(string email, string password)
         {
             MySqlCommand cmd = new MySqlCommand("insert into lds_user (email, password, created_by) values (@email, @password, now())");
             cmd.Parameters.AddWithValue("email", email);
-            cmd.Parameters.AddWithValue("password", password); // TODO: Add encryption
+            cmd.Parameters.AddWithValue("password", common.hash(password)); 
 
             return database.executeQuery(cmd);
         }
@@ -32,7 +33,7 @@ namespace OrganizadorReuniao.Models
         {
             MySqlCommand cmd = new MySqlCommand("update lds_user set email = @email, password = @password where id = @id");
             cmd.Parameters.AddWithValue("email", email);
-            cmd.Parameters.AddWithValue("password", password);
+            cmd.Parameters.AddWithValue("password", common.hash(password));
             cmd.Parameters.AddWithValue("id", id);
 
             return database.executeQuery(cmd);
@@ -61,7 +62,7 @@ namespace OrganizadorReuniao.Models
         public User getUser(string email, string password)
         {
             User user = new User();
-            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email and password = @password", email, password))
+            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email and password = @password", email, common.hash(password)))
             {
                 user.Id = Convert.ToInt32(data[0]);
                 user.Email = email;
@@ -72,5 +73,14 @@ namespace OrganizadorReuniao.Models
             return user;
         }
 
+        public bool emailExists(string email)
+        {
+            bool exists = false;
+            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email", email))
+            {
+                exists = true;
+            }
+            return exists;
+        }
     }
 }
