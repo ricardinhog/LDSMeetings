@@ -1,6 +1,6 @@
 ﻿@model OrganizadorReuniao.Models.UserViewModel
 @{
-    ViewBag.Title = "Acesso";
+    ViewBag.Title = OrganizadorReuniao.Languages.pt_br.LoginPageTitle;
 }
 
 <div class="page-header">
@@ -17,13 +17,13 @@
     
     <div class="form-group">
         @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password, new { placeholder = "Digite sua senha" })
+        @Html.PasswordFor(m => m.Password, new { placeholder = OrganizadorReuniao.Languages.pt_br.TypeYourPassword })
         @Html.ValidationMessageFor(m => m.Password) 
     </div>
     
-    @Html.ValidationSummary("Favor verificar erros abaixo", new { @class = "alert alert-danger" })
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />
     
-    <button type="submit" class="btn btn-default">Entrar</button>
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.SignInButton</button>
 }

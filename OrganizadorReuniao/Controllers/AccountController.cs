@@ -1,4 +1,4 @@
-﻿using OrganizadorReuniao.Languages.pt_br;
+﻿using OrganizadorReuniao.Languages;
 using OrganizadorReuniao.Models;
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace OrganizadorReuniao.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", texts.EmailAlreadyBeingUsed);
+                    ModelState.AddModelError("", pt_br.EmailAlreadyBeingUsed);
                 }
             }
             return View(model);

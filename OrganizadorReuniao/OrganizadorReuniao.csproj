@@ -146,10 +146,10 @@
     <Compile Include="Helper\DefaultConfig.cs" />
     <Compile Include="Helper\Common.cs" />
     <Compile Include="Helper\Log.cs" />
-    <Compile Include="Languages\pt-br\texts.Designer.cs">
+    <Compile Include="Languages\pt-br.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>texts.resx</DependentUpon>
+      <DependentUpon>pt-br.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -284,14 +284,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resource\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Languages\pt-br\texts.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>texts.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="Languages\pt-br.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>pt-br.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

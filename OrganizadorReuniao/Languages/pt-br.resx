@@ -117,7 +117,127 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Agenda SUD</value>
+  </data>
+  <data name="CallingPageTitle" xml:space="preserve">
+    <value>Chamados</value>
+  </data>
+  <data name="ClickHere" xml:space="preserve">
+    <value>Clique aqui</value>
+  </data>
+  <data name="ConfirmPasswordField" xml:space="preserve">
+    <value>Confirmar senha</value>
+  </data>
+  <data name="ConfirmPasswordRequiredMessage" xml:space="preserve">
+    <value>Confirmar senha é obrigatório</value>
+  </data>
+  <data name="ConfirmYourNewPassword" xml:space="preserve">
+    <value>Confirme sua nova senha</value>
+  </data>
+  <data name="ConfirmYourPassword" xml:space="preserve">
+    <value>Confirme sua senha</value>
+  </data>
+  <data name="CreateAccountTitle" xml:space="preserve">
+    <value>Criar Conta</value>
+  </data>
+  <data name="CreateButton" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="CreateUnitPageTitle" xml:space="preserve">
+    <value>Criar Unidade</value>
+  </data>
   <data name="EmailAlreadyBeingUsed" xml:space="preserve">
     <value>Este endereço de email já está sendo utilizado</value>
+  </data>
+  <data name="EmailField" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailInvalidMessage" xml:space="preserve">
+    <value>Email inválido</value>
+  </data>
+  <data name="EmailRequiredMessage" xml:space="preserve">
+    <value>Email obrigatório</value>
+  </data>
+  <data name="FindTheDesiredMember" xml:space="preserve">
+    <value>Encontre o membro</value>
+  </data>
+  <data name="LoginPageTitle" xml:space="preserve">
+    <value>Acesso</value>
+  </data>
+  <data name="LogoutPageTitle" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="NameField" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="NameRequiredMessage" xml:space="preserve">
+    <value>Nome obrigatório</value>
+  </data>
+  <data name="OnlyNumbersAllowed" xml:space="preserve">
+    <value>Somente números</value>
+  </data>
+  <data name="PasswordAtLeast6characteres" xml:space="preserve">
+    <value>A senha deve possuir pelo menos 6 caracteres</value>
+  </data>
+  <data name="PasswordDoesNotMatch" xml:space="preserve">
+    <value>Confirmação de senha não confere</value>
+  </data>
+  <data name="PasswordField" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="PasswordRequiredMessage" xml:space="preserve">
+    <value>Senha obrigatória</value>
+  </data>
+  <data name="PhoneField" xml:space="preserve">
+    <value>Telefone</value>
+  </data>
+  <data name="PleaseCheckTheFollowingErrors" xml:space="preserve">
+    <value>Favor verificar erros abaixo</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="SelectTheDesiredCalling" xml:space="preserve">
+    <value>Selecione o chamado</value>
+  </data>
+  <data name="SignInButton" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sucesso</value>
+  </data>
+  <data name="ToEnterTheSystem" xml:space="preserve">
+    <value>para entrar no sistema</value>
+  </data>
+  <data name="TypeYourNewPassword" xml:space="preserve">
+    <value>Digite sua nova senha</value>
+  </data>
+  <data name="TypeYourPassword" xml:space="preserve">
+    <value>Digite sua senha</value>
+  </data>
+  <data name="UnitCreatedSuccessfully" xml:space="preserve">
+    <value>Sua unidade foi criada com sucesso</value>
+  </data>
+  <data name="UnitNumberField" xml:space="preserve">
+    <value>Número unidade</value>
+  </data>
+  <data name="UnitNumberRequiredMessage" xml:space="preserve">
+    <value>Número de unidade obrigatório</value>
+  </data>
+  <data name="UpdateAccountPageTitle" xml:space="preserve">
+    <value>Atualizar Conta</value>
+  </data>
+  <data name="UpdateButton" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="YourAccountWasCreatedSuccessfully" xml:space="preserve">
+    <value>Sua conta foi criada com sucesso</value>
+  </data>
+  <data name="YourAccountWasUpdatedSuccessfully" xml:space="preserve">
+    <value>Sua conta for atualizada com sucesso</value>
+  </data>
+  <data name="YourSessionHasFinishedSuccessfully" xml:space="preserve">
+    <value>Sua sessão foi encerrada com sucesso</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿@{
     bool authenticated = (Session["user"] != null);
+    // TODO: change strings tp resource names
 }
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,7 @@
                 <a href="#" class="pull-left" style="margin-right: 10px;">
                     <img src="~/Images/moroni.png" />
                 </a>
-                <a class="navbar-brand" href="#">Agenda SUD</a>
+                <a class="navbar-brand" href="#">@OrganizadorReuniao.Languages.pt_br.AppName</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

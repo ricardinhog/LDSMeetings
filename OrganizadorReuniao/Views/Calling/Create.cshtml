@@ -1,15 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Chamados";
+    ViewBag.Title = OrganizadorReuniao.Languages.pt_br.CallingPageTitle;
 }
 
 <div class="page-header">
-    <h2>Chamados</h2>
+    <h2>@OrganizadorReuniao.Languages.pt_br.CallingPageTitle</h2>
 </div>
 
 @using (Html.BeginForm("Create", "Calling", FormMethod.Post, new { role = "form" }))
 {
     <div class="form-group">
-        <label for="calling">Selecione o chamado</label>
+        <label for="calling">@OrganizadorReuniao.Languages.pt_br.SelectTheDesiredCalling</label>
         <select name="calling">
             @foreach (OrganizadorReuniao.Models.Calling calling in ViewBag.callings)
             {
@@ -19,7 +19,7 @@
     </div>
     
     <div class="form-group">
-        <label for="member">Encontre o membro</label>
+        <label for="member">@OrganizadorReuniao.Languages.pt_br.FindTheDesiredMember</label>
         <input type="text" name="member" id="member" />
         <input type="hidden" name="id" id="id" value="0" />
         <div id="result"></div>
@@ -30,9 +30,9 @@
         <input type="date" name="date" id="date" class="form-control" />
     </div>
     
-    @Html.ValidationSummary("Favor verificar erros abaixo", new { @class = "alert alert-danger" })
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />
     
-    <button type="submit" class="btn btn-default">Salvar</button>
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.SaveButton</button>
 }

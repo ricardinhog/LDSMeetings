@@ -2,7 +2,7 @@
     $("input[type=email]").each(function () {
         if (!$(this).hasClass("form-control")) {
             $(this).addClass("form-control");
-            $(this).prop("placeholder", "Endereço de email");
+            $(this).prop("placeholder", "Endereço de email"); // TODO: check how to use resources inside js file
             $(this).prop("maxlength", "100");
         }
     });

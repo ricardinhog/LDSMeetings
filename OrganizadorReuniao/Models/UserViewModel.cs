@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrganizadorReuniao.Languages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,21 +12,21 @@ namespace OrganizadorReuniao.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage="Email obrigatório")]
-        [DataType(DataType.EmailAddress, ErrorMessage="Email inválido")]
-        [Display(Name = "Email")]
+        [Required(ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "EmailRequiredMessage")]
+        [DataType(DataType.EmailAddress, ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "EmailInvalidMessage")]
+        [Display(ResourceType = typeof(pt_br), Name = "EmailField")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Senha obrigatória")]
+        [Required(ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "PasswordRequiredMessage")]
         [DataType(DataType.Password)]
-        [Display(Name = "Senha")]
-        [MinLength(6, ErrorMessage="A senha deve possuir pelo menos 6 caracteres")]
+        [Display(ResourceType = typeof(pt_br), Name = "PasswordField")]
+        [MinLength(6, ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "PasswordAtLeast6characteres")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Confirmar senha é obrigatório")]
+        [Required(ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "ConfirmPasswordRequiredMessage")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirmar senha")]
-        [Compare("Password", ErrorMessage="Confirmação de senha não confere")]
+        [Display(ResourceType = typeof(pt_br), Name = "ConfirmPasswordField")]
+        [Compare("Password", ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "PasswordDoesNotMatch")]
         public string Confirm { get; set; }
     }
 }

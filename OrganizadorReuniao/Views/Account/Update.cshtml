@@ -1,6 +1,6 @@
 ﻿@model OrganizadorReuniao.Models.UserViewModel
 @{
-    ViewBag.Title = "Atualizar Conta";
+    ViewBag.Title = OrganizadorReuniao.Languages.pt_br.UpdateAccountPageTitle;
 }
 
 <div class="page-header">
@@ -19,19 +19,19 @@
     
     <div class="form-group">
         @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password, new { placeholder = "Digite sua nova senha" })
+        @Html.PasswordFor(m => m.Password, new { placeholder = OrganizadorReuniao.Languages.pt_br.TypeYourNewPassword })
         @Html.ValidationMessageFor(m => m.Password) 
     </div>
     
     <div class="form-group">
         @Html.LabelFor(m => m.Confirm)
-        @Html.PasswordFor(m => m.Confirm, new { placeholder = "Confirmar sua nova senha" })
+        @Html.PasswordFor(m => m.Confirm, new { placeholder = OrganizadorReuniao.Languages.pt_br.ConfirmYourNewPassword })
         @Html.ValidationMessageFor(m => m.Confirm) 
     </div>
     
-    @Html.ValidationSummary("Favor verificar erros abaixo", new { @class = "alert alert-danger" })
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />
     
-    <button type="submit" class="btn btn-default">Atualizar</button>
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.UpdateButton</button>
 }

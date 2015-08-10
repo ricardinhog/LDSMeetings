@@ -1,6 +1,6 @@
 ﻿@model OrganizadorReuniao.Models.UnitViewModel
 @{
-    ViewBag.Title = "Criar Unidade";
+    ViewBag.Title = OrganizadorReuniao.Languages.pt_br.CreateUnitPageTitle;
 }
 
 <div class="page-header">
@@ -33,9 +33,9 @@
         @Html.ValidationMessageFor(m => m.Number) 
     </div>
     
-    @Html.ValidationSummary("Favor verificar erros abaixo", new { @class = "alert alert-danger" })
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />
     
-    <button type="submit" class="btn btn-default">Criar</button>
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.CreateButton</button>
 }
