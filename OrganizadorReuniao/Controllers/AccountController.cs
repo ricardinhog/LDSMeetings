@@ -1,4 +1,5 @@
-﻿using OrganizadorReuniao.Models;
+﻿using OrganizadorReuniao.Languages.pt_br;
+using OrganizadorReuniao.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace OrganizadorReuniao.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Este endereço de email já está sendo utilizado");
+                    ModelState.AddModelError("", texts.EmailAlreadyBeingUsed);
                 }
             }
             return View(model);

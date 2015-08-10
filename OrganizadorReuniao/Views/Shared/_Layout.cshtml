@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool authenticated = (Session["user"] != null);
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -30,23 +33,32 @@
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#about">Sobre</a></li>
                     <li><a href="#contact">Contato</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuracoes <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Atualizar Dados</a></li>
-                            <li><a href="#">Email</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Funcionalidades</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
+                    @if (authenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuracoes <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Atualizar Dados</a></li>
+                                <li><a href="#">Email</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-header">Funcionalidades</li>
+                                <li><a href="/Calling/Create">Chamados</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/Account/Create">Criar conta</a></li>
-                    <li><a href="/Account/Update">Atualizar conta</a></li>
-                    <li><a href="/Account/Login">Entrar</a></li>
-                    <li><a href="/Account/Logout">Sair</a></li>
+                    @if (!authenticated)
+                    {
+                        <li><a href="/Account/Create">Criar conta</a></li>
+                        <li><a href="/Account/Login">Entrar</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Account/Update">Atualizar conta</a></li>
+                        <li><a href="/Account/Logout">Sair</a></li>    
+                    }
                 </ul>
             </div>
             <!--/.nav-collapse -->
