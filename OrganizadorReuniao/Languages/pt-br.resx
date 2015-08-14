@@ -168,6 +168,9 @@
   <data name="LogoutPageTitle" xml:space="preserve">
     <value>Sair</value>
   </data>
+  <data name="MemoPageTitle" xml:space="preserve">
+    <value>Agenda Sacramental</value>
+  </data>
   <data name="NameField" xml:space="preserve">
     <value>Nome</value>
   </data>

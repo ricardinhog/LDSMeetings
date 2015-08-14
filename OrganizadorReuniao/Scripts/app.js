@@ -34,7 +34,30 @@
         var text = $(this).val();
         search("hymn", text);
     });
+
+    $("a").each(function () {
+        var src = $(this).prop("href");
+        if (src == "#")
+            src = "";
+        $(this).prop("href", "#");
+        $(this).click(function () {
+            set_window_url(src);
+        });
+    });
+    /*
+    $('input[type=text]').each(function () {
+        $(this).data('fontSize', $(this).css('font-size')).css('font-size', '16px');
+    });
+
+    $('input[type=email]').each(function () {
+        $(this).data('fontSize', $(this).css('font-size')).css('font-size', '16px');
+    });
+
+    $('input[type=password]').each(function () {
+        $(this).data('fontSize', $(this).css('font-size')).css('font-size', '16px');
+    });*/
 });
+function set_window_url(url) { document.location = url; }
 function search(obj, keyword) {
     $("#result").html("");
     $("#id").val("0");

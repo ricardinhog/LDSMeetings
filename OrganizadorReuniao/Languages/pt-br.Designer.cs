@@ -214,6 +214,15 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agenda Sacramental.
+        /// </summary>
+        public static string MemoPageTitle {
+            get {
+                return ResourceManager.GetString("MemoPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nome.
         /// </summary>
         public static string NameField {
