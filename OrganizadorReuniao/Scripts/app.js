@@ -35,7 +35,7 @@
         search("hymn", text);
     });
 
-    $("a").each(function () {
+    /*$("a").each(function () {
         var src = $(this).prop("href");
         if (src == "#")
             src = "";
@@ -43,7 +43,7 @@
         $(this).click(function () {
             set_window_url(src);
         });
-    });
+    });*/
     /*
     $('input[type=text]').each(function () {
         $(this).data('fontSize', $(this).css('font-size')).css('font-size', '16px');
