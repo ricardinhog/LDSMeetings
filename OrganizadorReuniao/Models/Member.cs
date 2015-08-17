@@ -24,8 +24,26 @@ namespace OrganizadorReuniao.Models
         public Priesthood priesthood { get; set; }
         public string Gender { get; set; }
 
+        public enum memberType
+        {
+            active,
+            absent,
+            elder,
+            highPriest,
+            reliefSociety,
+            deacon,
+            teacher,
+            priest,
+            beehive,
+            miaMaid,
+            laurel,
+            sundaySchoolYouth,
+            sundaySchool
+        }
+
         // private variables
         private Database database = new Database();
+        private Common common = new Common();
 
         public bool addMember(string email, string password)
         {
@@ -53,14 +71,14 @@ namespace OrganizadorReuniao.Models
             foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender FROM bakeappdb.lds_member order by last_name, first_name"))
             {
                 Member member = new Member();
-                member.Id = Convert.ToInt32(data[0]);
+                member.Id = common.convertNumber(data[0]);
                 member.FirstName = data[1];
                 member.LastName = data[2];
-                member.BirthDate = new DateTime(); // TODO: convert date
-                member.Date = new DateTime(); // TODO: convert date
+                member.BirthDate = common.convertDate(data[3]);
+                member.Date = common.convertDate(data[5]);
                 member.MemberRecord = data[6];
-                member.Actived = (data[7] == "1");
-                member.Restricted = (data[8] == "1");
+                member.Actived = common.convertBool(data[7]);
+                member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
                 members.Add(member);
             }
@@ -71,24 +89,98 @@ namespace OrganizadorReuniao.Models
         {
             keyword = "%" + keyword + "%";
             List<Member> members = new List<Member>();
-            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender " + 
-                "FROM bakeappdb.lds_member  " + 
-                "where unit_id = @unit " + 
-                "  and (first_name like @first_name " + 
-                "   or last_name like @last_name " + 
+            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender " +
+                "FROM bakeappdb.lds_member  " +
+                "where unit_id = @unit " +
+                "  and (first_name like @first_name " +
+                "   or last_name like @last_name " +
                 "   or birthdate like @birthdate " +
-                "   or member_record like @member_record) " + 
+                "   or member_record like @member_record) " +
                 "order by last_name, first_name", unitId, keyword, keyword, keyword, keyword))
             {
                 Member member = new Member();
-                member.Id = Convert.ToInt32(data[0]);
+                member.Id = common.convertNumber(data[0]);
                 member.FirstName = data[1];
                 member.LastName = data[2];
-                member.BirthDate = new DateTime(); // TODO: convert date
-                member.Date = new DateTime(); // TODO: convert date
+                member.BirthDate = common.convertDate(data[3]);
+                member.Date = common.convertDate(data[5]);
                 member.MemberRecord = data[6];
-                member.Actived = (data[7] == "1");
-                member.Restricted = (data[8] == "1");
+                member.Actived = common.convertBool(data[7]);
+                member.Restricted = common.convertBool(data[8]);
+                member.Gender = data[9];
+                members.Add(member);
+            }
+            return members;
+        }
+
+        public List<Member> getMembers(memberType type, int unitId, DateTime date)
+        {
+            List<Member> members = new List<Member>();
+            string sql = "SELECT id, first_name, last_name, " + common.formatDate("birthdate") +
+                ", unit_id, " + common.formatDate("created_by") + ", member_record, active, restricted, gender " +
+                "FROM bakeappdb.lds_member where unit_id = @unit ";
+            switch (type)
+            {
+                case memberType.active:
+                    // check last three months
+                    break;
+                case memberType.absent:
+                    // if absent last sunday
+                    int weekDay = (int)DateTime.Now.DayOfWeek;
+                    if (weekDay == 0)
+                        weekDay = 7;
+                    DateTime sunday = DateTime.Now.AddDays(-weekDay).Date;
+
+
+
+                    break;
+                case memberType.beehive:
+                    // female ages 12 to 13
+                    break;
+                case memberType.miaMaid:
+                    // female ages 14 to 15
+                    break;
+                case memberType.laurel:
+                    // female ages 16 to 17
+                    break;
+                case memberType.deacon:
+                    // male ages 12 to 13
+                    break;
+                case memberType.teacher:
+                    // male ages 14 to 15
+                    break;
+                case memberType.priest:
+                    // male ages 16 to 17
+                    break;
+                case memberType.elder:
+                    // male ages 18+ minus high priest or elder
+                    break;
+                case memberType.highPriest:
+                    // male with high priest
+                    break;
+                case memberType.reliefSociety:
+                    // female ages 18+
+                    break;
+                case memberType.sundaySchool:
+                    // members 18+
+                    break;
+                case memberType.sundaySchoolYouth:
+                    // members ages 12 to 17
+                    break;
+            }
+            sql += " order by last_name, first_name";
+
+            foreach (List<string> data in database.retrieveData(sql, unitId))
+            {
+                Member member = new Member();
+                member.Id = common.convertNumber(data[0]);
+                member.FirstName = data[1];
+                member.LastName = data[2];
+                member.BirthDate = common.convertDate(data[3]);
+                member.Date = common.convertDate(data[5]);
+                member.MemberRecord = data[6];
+                member.Actived = common.convertBool(data[7]);
+                member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
                 members.Add(member);
             }

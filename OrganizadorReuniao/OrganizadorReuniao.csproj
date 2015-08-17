@@ -136,6 +136,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CallingController.cs" />
+    <Compile Include="Controllers\FrequencyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JSONController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
@@ -310,6 +311,7 @@
     <Content Include="Views\Unit\Success.cshtml" />
     <Content Include="Views\Calling\Create.cshtml" />
     <Content Include="Views\Memo\Index.cshtml" />
+    <Content Include="Views\Shared\_Icon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
