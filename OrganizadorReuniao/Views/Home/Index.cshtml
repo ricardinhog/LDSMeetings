@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
+    int weekDay = (int)DateTime.Now.DayOfWeek;
+    DateTime sunday = DateTime.Now.AddDays(-weekDay);
 }
 
 <div class="row">
-    <span>Index</span>
+    <span>@(sunday)</span>
 </div>
