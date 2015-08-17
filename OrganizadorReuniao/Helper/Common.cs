@@ -11,9 +11,19 @@ namespace OrganizadorReuniao.Helper
     {
         private DefaultConfig config = new DefaultConfig();
 
+        public string formatDate(string fieldName)
+        {
+            return string.Format("date_format({0},'%Y-%m-%d %H:%i:%s')", fieldName);
+        }
+
         public bool convertBool(int flag)
         {
             return (flag == 1);
+        }
+
+        public bool convertBool(string flag)
+        {
+            return convertBool(Convert.ToInt32(flag));
         }
 
         public int convertBool(bool flag)
