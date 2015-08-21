@@ -61,11 +61,47 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ausente.
+        /// </summary>
+        public static string absent {
+            get {
+                return ResourceManager.GetString("absent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ativo.
+        /// </summary>
+        public static string active {
+            get {
+                return ResourceManager.GetString("active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homens Adultos.
+        /// </summary>
+        public static string adultsMen {
+            get {
+                return ResourceManager.GetString("adultsMen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agenda SUD.
         /// </summary>
         public static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abelhinha.
+        /// </summary>
+        public static string beehive {
+            get {
+                return ResourceManager.GetString("beehive", resourceCulture);
             }
         }
         
@@ -151,6 +187,24 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diácono.
+        /// </summary>
+        public static string deacon {
+            get {
+                return ResourceManager.GetString("deacon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elder.
+        /// </summary>
+        public static string elder {
+            get {
+                return ResourceManager.GetString("elder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Este endereço de email já está sendo utilizado.
         /// </summary>
         public static string EmailAlreadyBeingUsed {
@@ -196,6 +250,24 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sumo Sacerdote.
+        /// </summary>
+        public static string highPriest {
+            get {
+                return ResourceManager.GetString("highPriest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Laurel.
+        /// </summary>
+        public static string laurel {
+            get {
+                return ResourceManager.GetString("laurel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Acesso.
         /// </summary>
         public static string LoginPageTitle {
@@ -219,6 +291,15 @@ namespace OrganizadorReuniao.Languages {
         public static string MemoPageTitle {
             get {
                 return ResourceManager.GetString("MemoPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menina Moça.
+        /// </summary>
+        public static string miaMaid {
+            get {
+                return ResourceManager.GetString("miaMaid", resourceCulture);
             }
         }
         
@@ -304,6 +385,42 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sacerdote.
+        /// </summary>
+        public static string priest {
+            get {
+                return ResourceManager.GetString("priest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primária.
+        /// </summary>
+        public static string primary {
+            get {
+                return ResourceManager.GetString("primary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sociedade de Socorro.
+        /// </summary>
+        public static string reliefSociety {
+            get {
+                return ResourceManager.GetString("reliefSociety", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sacramental.
+        /// </summary>
+        public static string sacramental {
+            get {
+                return ResourceManager.GetString("sacramental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salvar.
         /// </summary>
         public static string SaveButton {
@@ -336,6 +453,33 @@ namespace OrganizadorReuniao.Languages {
         public static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Escola Dominical.
+        /// </summary>
+        public static string sundaySchool {
+            get {
+                return ResourceManager.GetString("sundaySchool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Escola Dominical - Jovens.
+        /// </summary>
+        public static string sundaySchoolYouth {
+            get {
+                return ResourceManager.GetString("sundaySchoolYouth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mestre.
+        /// </summary>
+        public static string teacher {
+            get {
+                return ResourceManager.GetString("teacher", resourceCulture);
             }
         }
         
@@ -408,6 +552,24 @@ namespace OrganizadorReuniao.Languages {
         public static string UpdateButton {
             get {
                 return ResourceManager.GetString("UpdateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rapazes.
+        /// </summary>
+        public static string youngMen {
+            get {
+                return ResourceManager.GetString("youngMen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moças.
+        /// </summary>
+        public static string youngWomen {
+            get {
+                return ResourceManager.GetString("youngWomen", resourceCulture);
             }
         }
         

@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="absent" xml:space="preserve">
+    <value>Ausente</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="adultsMen" xml:space="preserve">
+    <value>Homens Adultos</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>Agenda SUD</value>
+  </data>
+  <data name="beehive" xml:space="preserve">
+    <value>Abelhinha</value>
   </data>
   <data name="CallingPageTitle" xml:space="preserve">
     <value>Chamados</value>
@@ -147,6 +159,12 @@
   <data name="CreateUnitPageTitle" xml:space="preserve">
     <value>Criar Unidade</value>
   </data>
+  <data name="deacon" xml:space="preserve">
+    <value>Diácono</value>
+  </data>
+  <data name="elder" xml:space="preserve">
+    <value>Elder</value>
+  </data>
   <data name="EmailAlreadyBeingUsed" xml:space="preserve">
     <value>Este endereço de email já está sendo utilizado</value>
   </data>
@@ -162,6 +180,12 @@
   <data name="FindTheDesiredMember" xml:space="preserve">
     <value>Encontre o membro</value>
   </data>
+  <data name="highPriest" xml:space="preserve">
+    <value>Sumo Sacerdote</value>
+  </data>
+  <data name="laurel" xml:space="preserve">
+    <value>Laurel</value>
+  </data>
   <data name="LoginPageTitle" xml:space="preserve">
     <value>Acesso</value>
   </data>
@@ -170,6 +194,9 @@
   </data>
   <data name="MemoPageTitle" xml:space="preserve">
     <value>Agenda Sacramental</value>
+  </data>
+  <data name="miaMaid" xml:space="preserve">
+    <value>Menina Moça</value>
   </data>
   <data name="NameField" xml:space="preserve">
     <value>Nome</value>
@@ -198,6 +225,18 @@
   <data name="PleaseCheckTheFollowingErrors" xml:space="preserve">
     <value>Favor verificar erros abaixo</value>
   </data>
+  <data name="priest" xml:space="preserve">
+    <value>Sacerdote</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>Primária</value>
+  </data>
+  <data name="reliefSociety" xml:space="preserve">
+    <value>Sociedade de Socorro</value>
+  </data>
+  <data name="sacramental" xml:space="preserve">
+    <value>Sacramental</value>
+  </data>
   <data name="SaveButton" xml:space="preserve">
     <value>Salvar</value>
   </data>
@@ -209,6 +248,15 @@
   </data>
   <data name="Success" xml:space="preserve">
     <value>Sucesso</value>
+  </data>
+  <data name="sundaySchool" xml:space="preserve">
+    <value>Escola Dominical</value>
+  </data>
+  <data name="sundaySchoolYouth" xml:space="preserve">
+    <value>Escola Dominical - Jovens</value>
+  </data>
+  <data name="teacher" xml:space="preserve">
+    <value>Mestre</value>
   </data>
   <data name="ToEnterTheSystem" xml:space="preserve">
     <value>para entrar no sistema</value>
@@ -233,6 +281,12 @@
   </data>
   <data name="UpdateButton" xml:space="preserve">
     <value>Atualizar</value>
+  </data>
+  <data name="youngMen" xml:space="preserve">
+    <value>Rapazes</value>
+  </data>
+  <data name="youngWomen" xml:space="preserve">
+    <value>Moças</value>
   </data>
   <data name="YourAccountWasCreatedSuccessfully" xml:space="preserve">
     <value>Sua conta foi criada com sucesso</value>

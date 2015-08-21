@@ -1,6 +1,8 @@
-﻿using System;
+﻿using OrganizadorReuniao.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -10,6 +12,43 @@ namespace OrganizadorReuniao.Helper
     public class Common
     {
         private DefaultConfig config = new DefaultConfig();
+
+        public List<Member> parseFile(string fileContent)
+        {
+            List<Member> members = new List<Member>();
+            foreach (string line in fileContent.Replace("/r/n", "|").Split('|'))
+            {
+                string[] memberData = line.Split(',');
+                if (memberData.Length > 2)
+                {
+                    Member member = new Member();
+                    member.LastName = memberData[0].Split('-')[0];
+                    member.FirstName = memberData[0].Split('-')[1];
+                    member.Gender = memberData[1];
+                    int day = Convert.ToInt32(memberData[2].Split('/')[0]);
+                    int month = Convert.ToInt32(memberData[2].Split('/')[1]);
+                    int year = Convert.ToInt32(memberData[2].Split('/')[2]);
+                    member.BirthDate = new DateTime(year, month, day);
+                    members.Add(member);
+                }
+            }
+            return members;
+        }
+
+        public string readResourceValue(string key)
+        {
+            string resourceValue = key;
+            try
+            {
+                resourceValue = Languages.pt_br.ResourceManager.GetString(key);
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex);
+                resourceValue = key;
+            }
+            return resourceValue;
+        }
 
         public string formatDate(string fieldName)
         {

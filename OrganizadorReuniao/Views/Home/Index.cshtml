@@ -1,9 +1,61 @@
 ﻿@{
     ViewBag.Title = "Index";
-    int weekDay = (int)DateTime.Now.DayOfWeek;
-    DateTime sunday = DateTime.Now.AddDays(-weekDay);
+    OrganizadorReuniao.Models.Member member = new OrganizadorReuniao.Models.Member();
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        function updateMembersList() {
+            var count = 0;
+            var id = $("#frequencyType").val();
+            $.getJSON("/JSON/SearchMembers", "typeId=" + id, function (data) {
+                var html = "";
+                if (data.length > 0) {
+                    $.each(data, function (index, value) {
+                        html += "<tr>";
+                        html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
+                        html += "<td>" + value.FormatedDate + "</td>";
+                        html += "<td style='text-align: center;'><div class='checkbox'><input type='checkbox' value='" + value.Id + "'></div></td></tr>";
+                        count++;
+                    });
+                }
+                else {
+                    html = "<tr><td colspan='3'><h2><span class='label label-warning'>Nenhum membro encontrado</span></h2></td></tr>";
+                }
+                $("#tbody").html(html);
+                $("#count").html(count);
+            });
+        }
+        updateMembersList();
+
+    </script>
 }
 
 <div class="row">
-    <span>@(sunday)</span>
+    <label for="date">Data dd/mm/aaaa</label>
+    <input type="date" name="date" id="date" class="form-control" />
+    <label for="frequencyType">Tipo de lista</label>
+    <select id="frequencyType" name="frequencyType" class="form-control" onchange="updateMembersList();">
+        @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
+        {
+            <option value="@frequency.Id">@frequency.Name</option>
+        }
+    </select>
 </div>
+
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Nasc.</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+</table>
+
+<span id="count">0</span> membro(s) encontrado(s)
