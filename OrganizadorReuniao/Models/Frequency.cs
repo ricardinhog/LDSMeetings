@@ -1,4 +1,5 @@
-﻿using OrganizadorReuniao.Helper;
+﻿using MySql.Data.MySqlClient;
+using OrganizadorReuniao.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,36 @@ namespace OrganizadorReuniao.Models
         private string getDescription(string key)
         {
             return common.readResourceValue(key);
+        }
+
+        public bool wasPresent(int memberId, DateTime date, Member.memberType type)
+        {
+            bool present = false;
+            foreach (List<string> data in database.retrieveData("select 1 from lds_frequency where member_id = @member_id and created_by = @date and type_id = @type", memberId, common.convertDate(date, true), (int)type))
+            {
+                present = true;
+            }
+            return present;
+        }
+
+        public bool setPresent(int memberId, DateTime date, Member.memberType listType, bool present)
+        {
+            MySqlCommand cmd = null;
+            if (present)
+            {
+                cmd = new MySqlCommand("insert into lds_frequency (member_id, created_by, type_id) values (@id, @date, @type)");
+                cmd.Parameters.AddWithValue("id", memberId);
+                cmd.Parameters.AddWithValue("date", common.convertDate(date, true));
+                cmd.Parameters.AddWithValue("type", (int)listType);
+            }
+            else
+            {
+                cmd = new MySqlCommand("delete from lds_frequency where member_id = @id and created_by = @date and type_id = @type");
+                cmd.Parameters.AddWithValue("id", memberId);
+                cmd.Parameters.AddWithValue("date", common.convertDate(date, true));
+                cmd.Parameters.AddWithValue("type", (int)listType);
+            }
+            return database.executeQuery(cmd).Success;
         }
     }
 }

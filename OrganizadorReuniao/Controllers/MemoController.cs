@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace OrganizadorReuniao.Controllers
 {
-    public class MemoController : Controller
+    public class MemoController : BaseController
     {
         public ActionResult Index()
         {

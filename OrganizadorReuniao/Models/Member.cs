@@ -30,6 +30,7 @@ namespace OrganizadorReuniao.Models
                 return string.Format("{0}/{1}/{2}", BirthDate.Day, BirthDate.Month, BirthDate.Year);
             }
         }
+        public bool Present { get; set; }
 
         public enum memberType
         {
@@ -110,12 +111,12 @@ namespace OrganizadorReuniao.Models
             return members;
         }
 
-        public List<Member> getMembers(memberType type, int unitId)
+        public List<Member> getMembers(memberType type, int unitId, DateTime date = new DateTime())
         {
             List<Member> members = new List<Member>();
             string sql = "SELECT id, first_name, last_name, " + common.formatDate("birthdate") +
-                ", unit_id, " + common.formatDate("created_by") + ", member_record, active, restricted, gender " +
-                "FROM bakeappdb.lds_member where unit_id = @unit ";
+                ", unit_id, " + common.formatDate("created_by") + ", member_record, (select count(0) from lds_frequency where created_by >= (NOW() - INTERVAL 3 MONTH) and member_id = m.id) presencas, restricted, gender " +
+                "FROM bakeappdb.lds_member m where unit_id = @unit ";
 
             string sqlCont = string.Empty;
 
@@ -127,10 +128,7 @@ namespace OrganizadorReuniao.Models
                     break;
                 case memberType.absent:
                     // if absent last sunday
-                    int weekDay = (int)DateTime.Now.DayOfWeek;
-                    if (weekDay == 0)
-                        weekDay = 7;
-                    DateTime sunday = DateTime.Now.AddDays(-weekDay).Date;
+                    DateTime sunday = common.getLastSundayDate();
                     sqlCont += string.Format(" and id not in (select member_id from lds_frequency where created_by >= '{0}-{1}-{2}') ",
                         sunday.Year, sunday.Month.ToString().PadLeft(2, '0'), sunday.Day.ToString().PadLeft(2, '0'));
                     break;
@@ -166,7 +164,8 @@ namespace OrganizadorReuniao.Models
                     break;
                 case memberType.elder:
                     // male ages 18+ minus high priest or elder
-                    sqlCont += " and id in (select member_id from lds_priesthood where reference = 4) ";
+                    sqlCont += " and gender = 'M' and " +
+                        "DATEDIFF(CURRENT_DATE, birthdate) >= (18 * 365.25) and id not in (select member_id from lds_priesthood where reference = 5) ";
                     break;
                 case memberType.highPriest:
                     // male with high priest
@@ -219,11 +218,14 @@ namespace OrganizadorReuniao.Models
                 member.BirthDate = common.convertDate(data[3]);
                 member.Date = common.convertDate(data[5]);
                 member.MemberRecord = data[6];
-                member.Actived = common.convertBool(data[7]);
+                member.Actived = (data[7] != "0");
                 member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
+                member.Present = new Frequency().wasPresent(member.Id, date, type);
                 members.Add(member);
             }
+
+            members = members.OrderByDescending(m => m.Actived).ThenBy(m => m.LastName).ThenBy(m => m.FirstName).ToList();
             return members;
         }
     }

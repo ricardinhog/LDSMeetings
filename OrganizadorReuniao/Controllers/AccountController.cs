@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace OrganizadorReuniao.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         /// <summary>
         /// Create a new account

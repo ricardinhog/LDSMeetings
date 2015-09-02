@@ -13,6 +13,11 @@ namespace OrganizadorReuniao.Helper
     {
         private DefaultConfig config = new DefaultConfig();
 
+        public void sendEmail(string email, string message)
+        {
+
+        }
+
         public List<Member> parseFile(string fileContent)
         {
             List<Member> members = new List<Member>();
@@ -70,21 +75,54 @@ namespace OrganizadorReuniao.Helper
             return (flag) ? 1 : 0;
         }
 
-        public DateTime convertDate(string datetime)
+        public DateTime convertDate(string datetime, bool onlyDate = false)
         {
-            string[] chunks = datetime.Split(' ');
-            string[] date = chunks[0].Split('-');
-            string[] time = chunks[1].Split(':');
-            return new DateTime(
-                convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]), 
-                convertNumber(time[0]), convertNumber(time[1]), convertNumber(time[2]));
+            int count = datetime.Split('-')[0].Length;
+
+            if (onlyDate)
+            {
+                string[] date = datetime.Split('-');
+                if (count == 2)
+                {
+                    return new DateTime(convertNumber(date[2]), convertNumber(date[1]), convertNumber(date[0]));
+                }
+                else
+                {
+                    return new DateTime(convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]));
+                }
+            }
+            else
+            {
+                string[] chunks = datetime.Split(' ');
+                string[] date = chunks[0].Split('-');
+                string[] time = chunks[1].Split(':');
+                return new DateTime(
+                    convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]),
+                    convertNumber(time[0]), convertNumber(time[1]), convertNumber(time[2]));
+            }
         }
 
-        public string convertDate(DateTime dateTime)
+        public DateTime getLastSundayDate()
         {
-            return string.Format("{0}-{1}-{2} {3}:{4}:{5}", 
-                dateTime.Year, dateTime.Month.ToString().PadLeft(2, '0'), dateTime.Day.ToString().PadLeft(2, '0'),
-                dateTime.Hour.ToString().PadLeft(2, '0'), dateTime.Minute.ToString().PadLeft(2, '0'), dateTime.Second.ToString().PadLeft(2, '0'));
+            int weekDay = (int)DateTime.Now.DayOfWeek;
+            if (weekDay == 0)
+                weekDay = 7;
+            return DateTime.Now.AddDays(-weekDay).Date;
+        }
+
+        public string convertDate(DateTime dateTime, bool onlyDate = false)
+        {
+            if (onlyDate)
+            {
+                return string.Format("{0}-{1}-{2}",
+                    dateTime.Year, dateTime.Month.ToString().PadLeft(2, '0'), dateTime.Day.ToString().PadLeft(2, '0'));
+            }
+            else
+            {
+                return string.Format("{0}-{1}-{2} {3}:{4}:{5}",
+                    dateTime.Year, dateTime.Month.ToString().PadLeft(2, '0'), dateTime.Day.ToString().PadLeft(2, '0'),
+                    dateTime.Hour.ToString().PadLeft(2, '0'), dateTime.Minute.ToString().PadLeft(2, '0'), dateTime.Second.ToString().PadLeft(2, '0'));
+            }
         }
 
         public int convertNumber(string number)
@@ -106,8 +144,8 @@ namespace OrganizadorReuniao.Helper
             StringBuilder sBuilder = new StringBuilder();
             try
             {
-                string password = string.Format("{0}.{1}:{2}", 
-                    config.getAppSetting("passwordEnhancerText1"), 
+                string password = string.Format("{0}.{1}:{2}",
+                    config.getAppSetting("passwordEnhancerText1"),
                     text,
                     config.getAppSetting("passwordEnhancerText2"));
 

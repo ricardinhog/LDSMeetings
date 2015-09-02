@@ -5,36 +5,82 @@
 
 @section scripts {
     <script type="text/javascript">
-
+        var ajax_request;
         function updateMembersList() {
-            var count = 0;
-            var id = $("#frequencyType").val();
-            $.getJSON("/JSON/SearchMembers", "typeId=" + id, function (data) {
-                var html = "";
-                if (data.length > 0) {
-                    $.each(data, function (index, value) {
-                        html += "<tr>";
-                        html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
-                        html += "<td>" + value.FormatedDate + "</td>";
-                        html += "<td style='text-align: center;'><div class='checkbox'><input type='checkbox' value='" + value.Id + "'></div></td></tr>";
-                        count++;
-                    });
-                }
-                else {
-                    html = "<tr><td colspan='3'><h2><span class='label label-warning'>Nenhum membro encontrado</span></h2></td></tr>";
-                }
-                $("#tbody").html(html);
-                $("#count").html(count);
-            });
+
+            if (typeof ajax_request !== 'undefined')
+                ajax_request.abort();
+
+            var date = $("#date").val();
+
+            if (date != "") {
+
+                loadAnimation(true);
+                var count = 0;
+                var id = $("#frequencyType").val();
+
+                ajax_request = $.ajax({
+                    type: 'get',
+                    url: '/JSON/SearchMembers',
+                    data: "typeId=" + id + "&date=" + date,
+                    cache: false,
+                    success: function (data) {
+                        var html = "";
+                        if (data.length > 0) {
+                            $.each(data, function (index, value) {
+                                html += "<tr onclick='markMember(" + count + ")'>";
+                                html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
+                                html += "<td>" + value.FormatedDate + "</td>";
+                                html += "<td style='text-align: center;'><input onclick=\"markMember(" + count + ")\" type='checkbox' value='" + value.Id + "' id='input_" + count + "'";
+                                if (value.Present) {
+                                    html += " checked='checked' ";
+                                }
+                                html += " /></td></tr>";
+                                count++;
+                            });
+                        }
+                        else {
+                            html = "<tr><td colspan='3'><h2><span class='label label-warning'>Nenhum membro encontrado</span></h2></td></tr>";
+                        }
+                        $("#tbody").html(html);
+                        $("#count").html(count);
+                        loadAnimation(false);
+                    }
+                });
+            } else {
+            }
         }
         updateMembersList();
 
+        function markMember(num) {
+            var checked = $("#input_" + num).prop('checked');
+            $("#input_" + num).prop('checked', !checked);
+
+            var value = $("#input_" + num).val();
+            var present = $("#input_" + num).prop('checked');
+            var type = $("#frequencyType").val();
+            var date = $("#date").val();
+
+            // save data
+            $.getJSON("/JSON/SaveData", "member=" + value + "&present=" + present + "&type=" + type + "&date=" + date, function (data) {
+            });
+        }
+
+        function loadAnimation(on) {
+            if (on) {
+                $("#loading").show();
+                $("#tbody").html("");
+                $("#count").html("0");
+            } else {
+                $("#loading").hide();
+            }
+        }
     </script>
 }
 
 <div class="row">
     <label for="date">Data dd/mm/aaaa</label>
-    <input type="date" name="date" id="date" class="form-control" />
+    <input type="date" name="date" id="date" class="form-control" value="@(DateTime.Now.ToString("dd/MM/yyyy"))" onchange="updateMembersList();" />
     <label for="frequencyType">Tipo de lista</label>
     <select id="frequencyType" name="frequencyType" class="form-control" onchange="updateMembersList();">
         @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
@@ -44,9 +90,14 @@
     </select>
 </div>
 
+<div class="row" style="text-align: center;">
+    <br />
+    <img src="~/Images/ajax-loader.gif" style="margin: auto; display: none;" id="loading" />
+</div>
+
 <hr />
 
-<table class="table table-striped">
+<table class="table table-striped datatable">
     <thead>
         <tr>
             <th>Nome</th>
@@ -58,4 +109,6 @@
     </tbody>
 </table>
 
-<span id="count">0</span> membro(s) encontrado(s)
+<div class="row">
+    <p style="text-align: center;"><span id="count">0</span> membro(s) encontrado(s)</p>
+</div>

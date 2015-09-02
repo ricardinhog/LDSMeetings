@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace OrganizadorReuniao.Controllers
 {
-    public class CallingController : Controller
+    public class CallingController : BaseController
     {
         public ActionResult Create()
         {

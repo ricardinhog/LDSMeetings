@@ -457,7 +457,7 @@ namespace OrganizadorReuniao.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Escola Dominical.
+        ///   Looks up a localized string similar to Escola Dominical - Adultos.
         /// </summary>
         public static string sundaySchool {
             get {

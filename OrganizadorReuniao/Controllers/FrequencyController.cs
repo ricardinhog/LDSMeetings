@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace OrganizadorReuniao.Controllers
 {
-    public class FrequencyController : Controller
+    public class FrequencyController : BaseController
     {
         //
         // GET: /Frequency/
