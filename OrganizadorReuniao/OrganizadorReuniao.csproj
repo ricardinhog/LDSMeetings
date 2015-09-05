@@ -142,6 +142,7 @@
     <Compile Include="Controllers\JSONController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -158,6 +159,7 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Calling.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\Frequency.cs" />
     <Compile Include="Models\Hymn.cs" />
@@ -395,6 +397,7 @@
     <Content Include="Views\Calling\Create.cshtml" />
     <Content Include="Views\Memo\Index.cshtml" />
     <Content Include="Views\Shared\_Icon.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

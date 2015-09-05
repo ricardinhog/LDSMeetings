@@ -75,6 +75,19 @@ namespace OrganizadorReuniao.Helper
             return (flag) ? 1 : 0;
         }
 
+        public int sundaysPerMonth(int month, int year)
+        {
+            DateTime date = new DateTime(year, month, 1);
+            int count = 0;
+            while (date.Month == month)
+            {
+                if (date.DayOfWeek == DayOfWeek.Sunday)
+                    count++;
+                date = date.AddDays(1);
+            }
+            return count;
+        }
+
         public DateTime convertDate(string datetime, bool onlyDate = false)
         {
             int count = datetime.Split('-')[0].Length;

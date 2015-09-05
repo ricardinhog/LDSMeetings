@@ -32,19 +32,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="pull-left" style="margin-right: 10px;">
+                <a href="/Home/Index" class="pull-left" style="margin-right: 10px;">
                     <img src="~/Images/moroni.png" />
                 </a>
-                <a class="navbar-brand" href="#">@OrganizadorReuniao.Languages.pt_br.AppName</a>
+                <a class="navbar-brand" href="/Home/Index">@OrganizadorReuniao.Languages.pt_br.AppName</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/Home/Index">Home</a></li>
+                    @*<li class="active"><a href="/Home/Index">Home</a></li>
                     <li><a href="#about">Sobre</a></li>
-                    <li><a href="#contact">Contato</a></li>
+                    <li><a href="#contact">Contato</a></li>*@
                     @if (authenticated)
                     {
-                        <li class="dropdown">
+                        <li><a href="/Report">Relatório</a></li>
+                        <li><a href="/Home/Index">Frequência</a></li>
+                        @*<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuracoes <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Atualizar Dados</a></li>
@@ -54,13 +56,13 @@
                                 <li><a href="/Calling/Create">Chamados</a></li>
                                 <li><a href="/Memo">Criar Ata</a></li>
                             </ul>
-                        </li>
+                        </li>*@
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (!authenticated)
                     {
-                        <li><a href="/Account/Create">Criar conta</a></li>
+                        @*<li><a href="/Account/Create">Criar conta</a></li>*@
                         <li><a href="/Account/Login">Entrar</a></li>
                     }
                     else

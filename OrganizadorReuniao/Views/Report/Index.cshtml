@@ -1,0 +1,194 @@
+﻿@model List<OrganizadorReuniao.Models.Report>
+@{
+    ViewBag.Title = "Index";
+    int jan = 0;
+    int feb = 0;
+    int mar = 0;
+    int apr = 0;
+    int may = 0;
+    int jun = 0;
+    int jul = 0;
+    int aug = 0;
+    int sep = 0;
+    int oct = 0;
+    int nov = 0;
+    int dec = 0;
+
+    int trim1 = 0;
+    int trim2 = 0;
+    int trim3 = 0;
+    int trim4 = 0;
+}
+
+<div class="page-header">
+    <h2>Relatório</h2>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function updateList() {
+            $("#submitForm").click();
+        }
+    </script>
+}
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Report", FormMethod.Post, new { role = "form" }))
+    {    
+        <div class="col-sm-4">
+            <label for="year">Ano</label>
+            <select id="year" name="year" class="form-control" onchange="updateList()">
+                <option value="2015">2015</option>
+            </select>
+        </div>
+        <div class="col-sm-8">
+            <label for="year">Lista</label>
+            <select id="reportId" name="reportId" class="form-control" onchange="updateList()">
+                @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
+                {
+                    if ((int)ViewBag.option == frequency.Id)
+                    {
+                    <option value="@frequency.Id" selected="selected">@frequency.Name</option>
+                    }
+                    else
+                    {
+                    <option value="@frequency.Id">@frequency.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <input type="submit" style="display: none" id="submitForm" />
+    }
+</div>
+
+<hr />
+
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Jan</th>
+                <th>Fev</th>
+                <th>Mar</th>
+                <th>Abr</th>
+                <th>Mai</th>
+                <th>Jun</th>
+                <th>Jul</th>
+                <th>Ago</th>
+                <th>Set</th>
+                <th>Out</th>
+                <th>Nov</th>
+                <th>Dez</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.lastName, @item.firstName</td>
+                    <td>@item.age</td>
+                    <td>@item.jan</td>
+                    <td>@item.feb</td>
+                    <td>@item.mar</td>
+                    <td>@item.apr</td>
+                    <td>@item.may</td>
+                    <td>@item.jun</td>
+                    <td>@item.jul</td>
+                    <td>@item.aug</td>
+                    <td>@item.sep</td>
+                    <td>@item.oct</td>
+                    <td>@item.nov</td>
+                    <td>@item.dec</td>
+                </tr>
+                
+                if (item.jan > 0 || item.feb > 0 || item.mar > 0)
+                {
+                    trim1 += 1;
+                }
+                if (item.apr > 0 || item.may > 0 || item.jun > 0)
+                {
+                    trim2 += 1;
+                }
+                if (item.jul > 0 || item.aug > 0 || item.sep > 0)
+                {
+                    trim3 += 1;
+                }
+                if (item.oct > 0 || item.nov > 0 || item.dec > 0)
+                {
+                    trim4 += 1;
+                }
+
+                jan += item.jan;
+                feb += item.feb;
+                mar += item.mar;
+                apr += item.apr;
+                may += item.may;
+                jun += item.jun;
+                jul += item.jul;
+                aug += item.aug;
+                sep += item.sep;
+                oct += item.oct;
+                nov += item.nov;
+                dec += item.dec;
+            }
+        </tbody>
+        <tbody>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Jan</th>
+                <th>Fev</th>
+                <th>Mar</th>
+                <th>Abr</th>
+                <th>Mai</th>
+                <th>Jun</th>
+                <th>Jul</th>
+                <th>Ago</th>
+                <th>Set</th>
+                <th>Out</th>
+                <th>Nov</th>
+                <th>Dez</th>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr class="warning">
+                <td style="font-weight: bold;">Frequência trimestral</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@trim1</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@trim2</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@trim3</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@trim4</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr class="success">
+                <td style="font-weight: bold;">Média trimestral</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@(Math.Round((decimal)mar / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(3, 2015), 0))</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@(Math.Round((decimal)jun / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(6, 2015), 0))</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@(Math.Round((decimal)sep / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(9, 2015), 0))</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bold;">@(Math.Round((decimal)dec / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(12, 2015), 0))</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
