@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using OrganizadorReuniao.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +11,7 @@ namespace OrganizadorReuniao.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        private Database database = new Database();
 
         public enum referenceType
         {
@@ -27,6 +30,15 @@ namespace OrganizadorReuniao.Models
         public Priesthood getPriesthood(int id)
         {
             return new Priesthood();
+        }
+
+        public Result addPriesthood(int memberId, int reference)
+        {
+            MySqlCommand cmd = new MySqlCommand("insert into lds_priesthood (reference, member_id) values " +
+                "(@reference, @member_id)");
+            cmd.Parameters.AddWithValue("reference", reference);
+            cmd.Parameters.AddWithValue("member_id", memberId);
+            return database.executeQuery(cmd);
         }
     }
 }

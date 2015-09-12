@@ -13,6 +13,12 @@
         }
     });
 
+    $("input[type=date]").each(function () {
+        if (!$(this).hasClass("form-control")) {
+            $(this).addClass("form-control");
+        }
+    });
+
     $("input[type=password]").each(function () {
         if (!$(this).hasClass("form-control")) {
             $(this).addClass("form-control");

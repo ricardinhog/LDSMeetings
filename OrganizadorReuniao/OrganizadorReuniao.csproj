@@ -159,6 +159,7 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Calling.cs" />
+    <Compile Include="Models\MemberViewModel.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\Frequency.cs" />
@@ -321,6 +322,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\check.png" />
+    <Content Include="Images\favicon.png" />
     <Content Include="manifest.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
@@ -398,6 +401,8 @@
     <Content Include="Views\Memo\Index.cshtml" />
     <Content Include="Views\Shared\_Icon.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

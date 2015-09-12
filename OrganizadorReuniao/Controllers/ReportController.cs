@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace OrganizadorReuniao.Controllers
 {
@@ -24,6 +25,7 @@ namespace OrganizadorReuniao.Controllers
         }
 
         [HttpPost]
+        [OutputCache(NoStore = true, Location = OutputCacheLocation.None)]
         public ActionResult Index(int reportId, int year)
         {
             if (!isAuthenticated())

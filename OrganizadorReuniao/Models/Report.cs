@@ -24,7 +24,8 @@ namespace OrganizadorReuniao.Models
         public int nov { get; set; }
         public int dec { get; set; }
         public int year { get; set; }
-
+        public bool isUnitMember { get; set; }
+        public Member.memberType memberType { get; set; }
         // private variables
         private Database database = new Database();
         private Common common = new Common();
@@ -35,18 +36,19 @@ namespace OrganizadorReuniao.Models
                 "	m.last_name,  " +
                 "   m.first_name, " +
                 "	DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(m.birthdate, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(m.birthdate, '00-%m-%d')) AS age,  " +
-                "	(select count(0) from lds_frequency where month(created_by) = 1 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) jan, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 2 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) feb, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 3 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) mar, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 4 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) apr, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 5 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) may, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 6 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) jun, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 7 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) jul, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 8 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) aug, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 9 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) sep, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 10 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) oct, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 11 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) nov, " +
-                "	(select count(0) from lds_frequency where month(created_by) = 12 and year(created_by) = year(now()) and member_id = m.id and type_id = 15) as \"dec\" " +
+                "	(select count(0) from lds_frequency where month(created_by) = 1 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") jan, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 2 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") feb, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 3 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") mar, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 4 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") apr, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 5 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") may, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 6 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") jun, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 7 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") jul, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 8 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") aug, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 9 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") sep, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 10 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") oct, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 11 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") nov, " +
+                "	(select count(0) from lds_frequency where month(created_by) = 12 and year(created_by) = year(now()) and member_id = m.id and type_id = " + (int)type + ") as \"dec\", " +
+                "   m.unit_member " +
                 "from lds_member m ";
 
             string sqlCont = " where ";
@@ -95,7 +97,7 @@ namespace OrganizadorReuniao.Models
                         "DATEDIFF(CURRENT_DATE, birthdate) < (18 * 365.25) ";
                     break;
             }
-            
+
 
             sql += sqlCont + " order by m.last_name, m.first_name";
 
@@ -118,6 +120,8 @@ namespace OrganizadorReuniao.Models
                 report.oct = common.convertNumber(data[12]);
                 report.nov = common.convertNumber(data[13]);
                 report.dec = common.convertNumber(data[14]);
+                report.isUnitMember = common.convertBool(data[15]);
+                report.memberType = type;
                 reportData.Add(report);
             }
 

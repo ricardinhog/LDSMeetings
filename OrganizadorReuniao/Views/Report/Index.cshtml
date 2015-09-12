@@ -86,52 +86,55 @@
         <tbody id="tbody">
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="@((!item.isUnitMember) ? "warning" : "")">
                     <td>@item.lastName, @item.firstName</td>
                     <td>@item.age</td>
-                    <td>@item.jan</td>
-                    <td>@item.feb</td>
-                    <td>@item.mar</td>
-                    <td>@item.apr</td>
-                    <td>@item.may</td>
-                    <td>@item.jun</td>
-                    <td>@item.jul</td>
-                    <td>@item.aug</td>
-                    <td>@item.sep</td>
-                    <td>@item.oct</td>
-                    <td>@item.nov</td>
-                    <td>@item.dec</td>
+                    <td>@((item.jan > 0) ? item.jan.ToString() : "")</td>
+                    <td>@((item.feb > 0) ? item.feb.ToString() : "")</td>
+                    <td>@((item.mar > 0) ? item.mar.ToString() : "")</td>
+                    <td>@((item.apr > 0) ? item.apr.ToString() : "")</td>
+                    <td>@((item.may > 0) ? item.may.ToString() : "")</td>
+                    <td>@((item.jun > 0) ? item.jun.ToString() : "")</td>
+                    <td>@((item.jul > 0) ? item.jul.ToString() : "")</td>
+                    <td>@((item.aug > 0) ? item.aug.ToString() : "")</td>
+                    <td>@((item.sep > 0) ? item.sep.ToString() : "")</td>
+                    <td>@((item.oct > 0) ? item.oct.ToString() : "")</td>
+                    <td>@((item.nov > 0) ? item.nov.ToString() : "")</td>
+                    <td>@((item.dec > 0) ? item.dec.ToString() : "")</td>
                 </tr>
                 
-                if (item.jan > 0 || item.feb > 0 || item.mar > 0)
+                if (item.isUnitMember || item.memberType == OrganizadorReuniao.Models.Member.memberType.sacramental)
                 {
-                    trim1 += 1;
-                }
-                if (item.apr > 0 || item.may > 0 || item.jun > 0)
-                {
-                    trim2 += 1;
-                }
-                if (item.jul > 0 || item.aug > 0 || item.sep > 0)
-                {
-                    trim3 += 1;
-                }
-                if (item.oct > 0 || item.nov > 0 || item.dec > 0)
-                {
-                    trim4 += 1;
-                }
+                    if (item.jan > 0 || item.feb > 0 || item.mar > 0)
+                    {
+                        trim1 += 1;
+                    }
+                    if (item.apr > 0 || item.may > 0 || item.jun > 0)
+                    {
+                        trim2 += 1;
+                    }
+                    if (item.jul > 0 || item.aug > 0 || item.sep > 0)
+                    {
+                        trim3 += 1;
+                    }
+                    if (item.oct > 0 || item.nov > 0 || item.dec > 0)
+                    {
+                        trim4 += 1;
+                    }
 
-                jan += item.jan;
-                feb += item.feb;
-                mar += item.mar;
-                apr += item.apr;
-                may += item.may;
-                jun += item.jun;
-                jul += item.jul;
-                aug += item.aug;
-                sep += item.sep;
-                oct += item.oct;
-                nov += item.nov;
-                dec += item.dec;
+                    jan += item.jan;
+                    feb += item.feb;
+                    mar += item.mar;
+                    apr += item.apr;
+                    may += item.may;
+                    jun += item.jun;
+                    jul += item.jul;
+                    aug += item.aug;
+                    sep += item.sep;
+                    oct += item.oct;
+                    nov += item.nov;
+                    dec += item.dec;
+                }
             }
         </tbody>
         <tbody>
@@ -153,7 +156,7 @@
             </tr>
         </tbody>
         <tbody>
-            <tr class="warning">
+            <tr class="info">
                 <td style="font-weight: bold;">Frequência trimestral</td>
                 <td></td>
                 <td></td>

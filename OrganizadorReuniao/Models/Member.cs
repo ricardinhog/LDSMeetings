@@ -1,4 +1,5 @@
-﻿using OrganizadorReuniao.Helper;
+﻿using MySql.Data.MySqlClient;
+using OrganizadorReuniao.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace OrganizadorReuniao.Models
         public string MemberRecord { get; set; }
         public bool Actived { get; set; }
         public bool Restricted { get; set; }
+        public bool isUnitMember { get; set; }
         public List<Frequency> Frequencies { get; set; }
         public Member Father { get; set; }
         public Member Mother { get; set; }
@@ -58,9 +60,25 @@ namespace OrganizadorReuniao.Models
         private Database database = new Database();
         private Common common = new Common();
 
-        public bool addMember(string email, string password)
+        public Result addMember(string firstName, string lastName, DateTime birthDate, string gender, bool isUnitMember, string priesthood)
         {
-            return true;
+            firstName = firstName.Trim();
+            lastName = lastName.Trim();
+
+            MySqlCommand cmd = new MySqlCommand("insert into lds_member (first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender, unit_member) values " +
+                "(@first_name, @last_name, @birthdate, 1, now(), null, 1, 0, @gender, @unit_member)");
+            cmd.Parameters.AddWithValue("first_name", firstName);
+            cmd.Parameters.AddWithValue("last_name", lastName);
+            cmd.Parameters.AddWithValue("birthdate", common.convertDate(birthDate, true));
+            cmd.Parameters.AddWithValue("gender", gender);
+            cmd.Parameters.AddWithValue("unit_member", common.convertBool(isUnitMember));
+            Result result = database.executeQuery(cmd);
+            if (result.Success)
+            {
+                if (priesthood != "0" && gender == "M")
+                    result = new Priesthood().addPriesthood(result.Id, common.convertNumber(priesthood));
+            }
+            return result;
         }
 
         public bool updateMember(int id, string email, string password)
@@ -87,7 +105,7 @@ namespace OrganizadorReuniao.Models
         {
             keyword = "%" + keyword + "%";
             List<Member> members = new List<Member>();
-            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender " +
+            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender, unit_member " +
                 "FROM bakeappdb.lds_member  " +
                 "where unit_id = @unit " +
                 "  and (first_name like @first_name " +
@@ -106,6 +124,7 @@ namespace OrganizadorReuniao.Models
                 member.Actived = common.convertBool(data[7]);
                 member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
+                member.isUnitMember = common.convertBool(data[10]);
                 members.Add(member);
             }
             return members;
@@ -115,7 +134,7 @@ namespace OrganizadorReuniao.Models
         {
             List<Member> members = new List<Member>();
             string sql = "SELECT id, first_name, last_name, " + common.formatDate("birthdate") +
-                ", unit_id, " + common.formatDate("created_by") + ", member_record, (select count(0) from lds_frequency where created_by >= (NOW() - INTERVAL 3 MONTH) and member_id = m.id) presencas, restricted, gender " +
+                ", unit_id, " + common.formatDate("created_by") + ", member_record, (select count(0) from lds_frequency where created_by >= (NOW() - INTERVAL 3 MONTH) and member_id = m.id) presencas, restricted, gender, unit_member " +
                 "FROM bakeappdb.lds_member m where unit_id = @unit ";
 
             string sqlCont = string.Empty;
@@ -222,6 +241,7 @@ namespace OrganizadorReuniao.Models
                 member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
                 member.Present = new Frequency().wasPresent(member.Id, date, type);
+                member.isUnitMember = common.convertBool(data[10]);
                 members.Add(member);
             }
 

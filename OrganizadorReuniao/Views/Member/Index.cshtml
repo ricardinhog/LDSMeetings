@@ -1,0 +1,75 @@
+﻿@model OrganizadorReuniao.Models.MemberViewModel
+@{
+    ViewBag.Title = "Novo Membro";
+}
+
+<div class="page-header">
+    <h2>Novo Membro</h2>
+</div>
+
+@using (Html.BeginForm("Index", "Member", FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.EditorFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName)
+        @Html.EditorFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.BirthDate)
+        @Html.EditorFor(m => m.BirthDate)
+        @Html.ValidationMessageFor(m => m.BirthDate)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender)
+        <select name="gender" onchange="showPriesthoodOptions(this.value)">
+            <option value="F" selected="selected">Feminino</option>
+            <option value="M">Masculino</option>
+        </select>
+    </div>
+    
+    <div class="form-group" style="display: none;" id="priesthoodDiv">
+        <label for="priesthood">Sacerdócio</label>
+        <select name="priesthood" id="priesthood">
+            <option value="0" selected="selected">Nenhum</option>
+            <option value="1">Diácono</option>
+            <option value="2">Mestre</option>
+            <option value="3">Sacerdote</option>
+            <option value="4">Élder</option>
+            <option value="5">Sumo Sacerdote</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.IsUnitMember)
+        <select name="unitMember">
+            <option value="0">Não</option>
+            <option value="1" selected="selected">Sim</option>
+        </select>
+    </div>
+    
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.CreateButton</button>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function showPriesthoodOptions(gender) {
+            if (gender == "M") {
+                $("#priesthoodDiv").show();
+            } else {
+                $("#priesthoodDiv").hide();
+            }
+        }
+    </script>
+}

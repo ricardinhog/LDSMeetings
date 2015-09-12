@@ -29,16 +29,26 @@
                         var html = "";
                         if (data.length > 0) {
                             $.each(data, function (index, value) {
-                                html += "<tr onclick='markMember(" + count + ")'>";
+                                html += "<tr onclick='markMember(" + count + ")'";
+                                if (!value.isUnitMember) {
+                                    html += " class='warning' ";
+                                }
+                                html += " >";
                                 html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
                                 html += "<td>" + value.FormatedDate + "</td>";
-                                html += "<td style='text-align: center;'><input onclick=\"markMember(" + count + ")\" type='checkbox' value='" + value.Id + "' id='input_" + count + "' class='checks' ";
+                                html += "<td style='text-align: center;'><input style='display: none;' onclick=\"markMember(" + count + ")\" type='checkbox' value='" + value.Id + "' id='input_" + count + "' class='checks' ";
                                 if (value.Present) {
                                     html += " checked='checked' ";
                                     sum = sum + 1;
                                     $("#countPresent").html(sum);
                                 }
-                                html += " /></td></tr>";
+                                html += " />";
+                                if (value.Present) {
+                                    html += "<img src='/Images/check.png' title='Present' style='display: block;' id='checkMark_" + count + "' />";
+                                } else {
+                                    html += "<img src='/Images/check.png' title='Present' style='display: none;' id='checkMark_" + count + "' />";
+                                }
+                                html += "</td></tr>";
                                 count++;
                             });
                         }
@@ -67,6 +77,13 @@
             // save data
             $.getJSON("/JSON/SaveData", "member=" + value + "&present=" + present + "&type=" + type + "&date=" + date, function (data) {
                 sum = 0;
+
+                if (present) {
+                    $("#checkMark_" + num).css("display", "block");
+                } else {
+                    $("#checkMark_" + num).css("display", "none");
+                }
+
                 $(".checks").each(function () {
                     var isImportant = $(this).prop('checked');
                     if (isImportant) {
@@ -93,22 +110,22 @@
     <h2>Lista de Frequência</h2>
 </div>
 
-    <div class="row" style="padding: 10px;">
-        <label for="date">Data dd/mm/aaaa</label>
-        <input type="date" name="date" id="date" class="form-control" value="@(DateTime.Now.ToString("dd/MM/yyyy"))" onchange="updateMembersList();" />
-        <label for="frequencyType">Tipo de lista</label>
-        <select id="frequencyType" name="frequencyType" class="form-control" onchange="updateMembersList();">
-            @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
-            {
-                <option value="@frequency.Id">@frequency.Name</option>
-            }
-        </select>
-    </div>
+<div class="row" style="padding: 10px;">
+    <label for="date">Data dd/mm/aaaa</label>
+    <input type="date" name="date" id="date" class="form-control" value="@(DateTime.Now.ToString("dd/MM/yyyy"))" onchange="updateMembersList();" />
+    <label for="frequencyType">Tipo de lista</label>
+    <select id="frequencyType" name="frequencyType" class="form-control" onchange="updateMembersList();">
+        @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
+        {
+            <option value="@frequency.Id">@frequency.Name</option>
+        }
+    </select>
+</div>
 
-    <div class="row" style="text-align: center; padding: 10px;">
-        <br />
-        <img src="~/Images/ajax-loader.gif" style="margin: auto; display: none;" id="loading" />
-    </div>
+<div class="row" style="text-align: center; padding: 10px;">
+    <br />
+    <img src="~/Images/ajax-loader.gif" style="margin: auto; display: none;" id="loading" />
+</div>
 
 <hr />
 
