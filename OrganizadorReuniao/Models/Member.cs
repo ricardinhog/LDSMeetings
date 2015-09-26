@@ -23,7 +23,7 @@ namespace OrganizadorReuniao.Models
         public Member Mother { get; set; }
         public List<Member> Children { get; set; }
         public List<Calling> Callings { get; set; }
-        public Priesthood priesthood { get; set; }
+        public int priesthood { get; set; }
         public string Gender { get; set; }
         public string FormatedDate
         {
@@ -81,9 +81,27 @@ namespace OrganizadorReuniao.Models
             return result;
         }
 
-        public bool updateMember(int id, string email, string password)
+        public Result updateMember(int id, string firstName, string lastName, DateTime birthDate, string gender, bool isUnitMember, string priesthood)
         {
-            return true;
+            firstName = firstName.Trim();
+            lastName = lastName.Trim();
+
+            MySqlCommand cmd = new MySqlCommand("update lds_member set first_name = @first_name, last_name = @last_name, birthdate = @birthdate, gender = @gender, unit_member = @unit_member " +
+                " where id = @id");
+            cmd.Parameters.AddWithValue("first_name", firstName);
+            cmd.Parameters.AddWithValue("last_name", lastName);
+            cmd.Parameters.AddWithValue("birthdate", common.convertDate(birthDate, true));
+            cmd.Parameters.AddWithValue("gender", gender);
+            cmd.Parameters.AddWithValue("unit_member", common.convertBool(isUnitMember));
+            cmd.Parameters.AddWithValue("id", id);
+            Result result = database.executeQuery(cmd);
+            if (result.Success)
+            {
+                result = new Priesthood().deletePriesthood(id);
+                if (priesthood != "0" && gender == "M" && result.Success)
+                    result = new Priesthood().addPriesthood(id, common.convertNumber(priesthood));
+            }
+            return result;
         }
 
         public bool deleteMember(int id)
@@ -93,7 +111,26 @@ namespace OrganizadorReuniao.Models
 
         public Member getMember(int id)
         {
-            return new Member();
+            Member member = new Member();
+
+            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, " + common.formatDate("birthdate") + ", unit_id, " + common.formatDate("created_by") + ", member_record, active, restricted, gender, unit_member " +
+                "FROM bakeappdb.lds_member  " +
+                "where id = @id " +
+                "order by last_name, first_name", id))
+            {
+                member.Id = common.convertNumber(data[0]);
+                member.FirstName = data[1];
+                member.LastName = data[2];
+                member.BirthDate = common.convertDate(data[3]);
+                member.Date = common.convertDate(data[5]);
+                member.MemberRecord = data[6];
+                member.Actived = common.convertBool(data[7]);
+                member.Restricted = common.convertBool(data[8]);
+                member.Gender = data[9];
+                member.isUnitMember = common.convertBool(data[10]);
+                member.priesthood = new Priesthood().getMemberPriesthood(member.Id);
+            }
+            return member;
         }
 
         public List<Member> getMembers(int unitId)
@@ -105,7 +142,7 @@ namespace OrganizadorReuniao.Models
         {
             keyword = "%" + keyword + "%";
             List<Member> members = new List<Member>();
-            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, birthdate, unit_id, created_by, member_record, active, restricted, gender, unit_member " +
+            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, " + common.formatDate("birthdate") + ", unit_id, " + common.formatDate("created_by") + ", member_record, active, restricted, gender, unit_member " +
                 "FROM bakeappdb.lds_member  " +
                 "where unit_id = @unit " +
                 "  and (first_name like @first_name " +

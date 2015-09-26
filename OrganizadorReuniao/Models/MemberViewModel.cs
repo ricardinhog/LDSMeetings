@@ -29,5 +29,7 @@ namespace OrganizadorReuniao.Models
 
         [Display(Name = "Membro da unidade?")]
         public string IsUnitMember { get; set; }
+
+        public string PriesthoodOption { get; set; }
     }
 }

@@ -27,13 +27,27 @@ namespace OrganizadorReuniao.Models
             return new List<Priesthood>();
         }
 
-        public Priesthood getPriesthood(int id)
+        public int getMemberPriesthood(int memberId)
         {
-            return new Priesthood();
+            int reference = 0;
+            foreach (List<string> data in database.retrieveData("select reference from bakeappdb.lds_priesthood where member_id = @member_id order by id asc", memberId))
+            {
+                reference = new Common().convertNumber(data[0]);
+            }
+            return reference;
+        }
+
+        public Result deletePriesthood(int memberId)
+        {
+            MySqlCommand cmd = new MySqlCommand("delete from lds_priesthood where member_id = @member_id");
+            cmd.Parameters.AddWithValue("member_id", memberId);
+            return database.executeQuery(cmd);
         }
 
         public Result addPriesthood(int memberId, int reference)
         {
+            deletePriesthood(memberId);
+
             MySqlCommand cmd = new MySqlCommand("insert into lds_priesthood (reference, member_id) values " +
                 "(@reference, @member_id)");
             cmd.Parameters.AddWithValue("reference", reference);

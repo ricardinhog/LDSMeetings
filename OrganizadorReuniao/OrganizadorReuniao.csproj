@@ -324,6 +324,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\check.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\Pencil-icon.png" />
     <Content Include="manifest.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
@@ -403,6 +404,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\Success.cshtml" />
+    <Content Include="Views\Member\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
