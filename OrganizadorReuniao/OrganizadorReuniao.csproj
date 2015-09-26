@@ -323,8 +323,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\check.png" />
+    <Content Include="Images\check_bg.png" />
     <Content Include="Images\favicon.png" />
     <Content Include="Images\Pencil-icon.png" />
+    <Content Include="Images\spacer.gif" />
     <Content Include="manifest.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />

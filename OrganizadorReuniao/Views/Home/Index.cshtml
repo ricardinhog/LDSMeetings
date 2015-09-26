@@ -37,8 +37,8 @@
                                 }
                                 html += " >";
                                 html += "<td><img src='/Images/Pencil-icon.png' title='Editar membro' style='display: block; cursor: pointer;' onclick='editMember(" + value.Id + ")' /></td>";
-                                html += "<td onclick='markMember(" + count + ")'>" + value.LastName + ", " + value.FirstName + "</td>";
-                                html += "<td onclick='markMember(" + count + ")'>" + value.FormatedDate + "</td>";
+                                html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
+                                html += "<td>" + value.FormatedDate + "</td>";
                                 html += "<td onclick='markMember(" + count + ")' style='text-align: center;'><input style='display: none;' onclick=\"markMember(" + count + ")\" type='checkbox' value='" + value.Id + "' id='input_" + count + "' class='checks' ";
                                 if (value.Present) {
                                     html += " checked='checked' ";
@@ -48,9 +48,9 @@
                                 }
                                 html += " />";
                                 if (value.Present) {
-                                    html += "<img src='/Images/check.png' title='Present' style='display: block;' id='checkMark_" + count + "' />";
+                                    html += "<img src='/Images/spacer.gif' title='Present' class='check' id='checkMark_" + count + "' />";
                                 } else {
-                                    html += "<img src='/Images/check.png' title='Present' style='display: none;' id='checkMark_" + count + "' />";
+                                    html += "<img src='/Images/spacer.gif' title='Present' class='uncheck' id='checkMark_" + count + "' />";
                                 }
                                 html += "</td></tr>";
                                 count++;
@@ -84,9 +84,11 @@
                 sum = 0;
 
                 if (present) {
-                    $("#checkMark_" + num).css("display", "block");
+                    $("#checkMark_" + num).removeClass("uncheck");
+                    $("#checkMark_" + num).addClass("check");
                 } else {
-                    $("#checkMark_" + num).css("display", "none");
+                    $("#checkMark_" + num).removeClass("check");
+                    $("#checkMark_" + num).addClass("uncheck");
                 }
 
                 $(".checks").each(function () {

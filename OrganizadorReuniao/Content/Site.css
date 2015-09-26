@@ -65,3 +65,19 @@ textarea {
     height: 60px;
     width: 100%;
 }
+
+img.check {
+    background-position: 0px 0px;
+    width: 24px;
+    height: 24px;
+    background-image: url('/Images/check_bg.png');
+    background-repeat: no-repeat;
+}
+
+img.uncheck {
+    background-position: -24px 0px;
+    width: 24px;
+    height: 24px;
+    background-image: url('/Images/check_bg.png');
+    background-repeat: no-repeat;
+}
