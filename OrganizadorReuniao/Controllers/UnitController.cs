@@ -11,28 +11,43 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Create()
         {
-            return View();
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult Create(UnitViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
             {
-                User user = (User)Session["user"];
+                if (ModelState.IsValid)
+                {
+                    User user = (User)Session["user"];
 
-                Unit unit = new Unit();
-                Result result = unit.addUnit(model.Name, model.Phone, model.Email, user.Id, model.Number);
+                    Unit unit = new Unit();
+                    Result result = unit.addUnit(model.Name, model.Phone, model.Email, user.Id, model.Number);
 
-                if (result.Success)
-                    return RedirectToAction("Success");
+                    if (result.Success)
+                        return RedirectToAction("Success");
+                }
+                return View(model);
             }
-            return View(model);
         }
 
         public ActionResult Success()
         {
-            return View();
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View();
+            }
         }
     }
 }

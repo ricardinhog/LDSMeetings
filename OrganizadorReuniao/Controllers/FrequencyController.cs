@@ -13,12 +13,12 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index(int frequencyType)
         {
-
-
-
-
-
-            return View();
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View();
+            }
         }
 
     }

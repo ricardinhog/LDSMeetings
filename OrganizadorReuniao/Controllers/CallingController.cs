@@ -13,66 +13,96 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            new Calling().delete(id);
-            return RedirectToAction("Index");
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                new Calling().delete(id);
+                return RedirectToAction("Index");
+            }
         }
 
         public ActionResult New()
         {
-            CallingViewModel model = new CallingViewModel();
-            model.Date = DateTime.Now;
-            return View(model);
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                CallingViewModel model = new CallingViewModel();
+                model.Date = DateTime.Now;
+                return View(model);
+            }
         }
 
         [HttpPost]
         public ActionResult New(CallingViewModel model, int member, int calling, int callingFlag)
         {
-            if (ModelState.IsValid)
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
             {
-                Calling newCalling = new Calling();
-                Result result = newCalling.add(calling, member, string.Empty, model.Date, new Common().convertBool(callingFlag));
-                if (result.Success)
-                    return RedirectToAction("Index");
-                else
-                    ModelState.AddModelError("", "Ocorreu um erro ao criar novo chamado");
-            }
+                if (ModelState.IsValid)
+                {
+                    Calling newCalling = new Calling();
+                    Result result = newCalling.add(calling, member, string.Empty, model.Date, new Common().convertBool(callingFlag));
+                    if (result.Success)
+                        return RedirectToAction("Index");
+                    else
+                        ModelState.AddModelError("", "Ocorreu um erro ao criar novo chamado");
+                }
 
-            return View(model);
+                return View(model);
+            }
         }
 
         public ActionResult Index()
         {
-            return View(new Calling().getAllCallings());
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View(new Calling().getAllCallings());
+            }
         }
 
 
         public ActionResult Edit(int id)
         {
-            CallingViewModel model = new CallingViewModel();
-            Calling call = new Calling().get(id);
-            model.CallingId = call.CallingId;
-            model.MemberId = call.MemberId;
-            model.CallingFlag = new Common().convertBool(call.CallingFlag);
-            model.Date = call.Date;
-            model.Id = call.Id;
-            model.Other = call.Other;
-            return View(model);
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                CallingViewModel model = new CallingViewModel();
+                Calling call = new Calling().get(id);
+                model.CallingId = call.CallingId;
+                model.MemberId = call.MemberId;
+                model.CallingFlag = new Common().convertBool(call.CallingFlag);
+                model.Date = call.Date;
+                model.Id = call.Id;
+                model.Other = call.Other;
+                return View(model);
+            }
         }
 
         [HttpPost]
         public ActionResult Edit(CallingViewModel model, int member, int calling, int callingFlag)
         {
-            if (ModelState.IsValid)
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
             {
-                Calling call = new Calling();
-                Result result = call.update(model.Id, calling, member, string.Empty, model.Date, new Common().convertBool(callingFlag));
-                if (result.Success)
-                    return RedirectToAction("Index");
-                else
-                    ModelState.AddModelError("", "Ocorreu um erro ao atualizar chamado/desobrigação");
-            }
+                if (ModelState.IsValid)
+                {
+                    Calling call = new Calling();
+                    Result result = call.update(model.Id, calling, member, string.Empty, model.Date, new Common().convertBool(callingFlag));
+                    if (result.Success)
+                        return RedirectToAction("Index");
+                    else
+                        ModelState.AddModelError("", "Ocorreu um erro ao atualizar chamado/desobrigação");
+                }
 
-            return View(model);
+                return View(model);
+            }
         }
     }
 }

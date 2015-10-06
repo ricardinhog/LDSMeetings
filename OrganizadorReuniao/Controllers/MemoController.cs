@@ -12,10 +12,15 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Get(string date)
         {
-            DateTime meetingDate = new Common().convertDate(date.Replace("/", "-"), true);
-            Memo memo = new Memo();
-            memo.loadData(meetingDate);
-            return Json(memo, JsonRequestBehavior.AllowGet);
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                DateTime meetingDate = new Common().convertDate(date.Replace("/", "-"), true);
+                Memo memo = new Memo();
+                memo.loadData(meetingDate);
+                return Json(memo, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Save(int id, string date, int conductedBy, int presidedBy, string recognitions,
@@ -24,44 +29,54 @@ namespace OrganizadorReuniao.Controllers
             string theme3, string theme4, string theme5, int intermediateHymn, int pianist,
             int conductor, string otherSubjects, int lastHymn, int lastPrayer)
         {
-            DateTime meetingDate = new Common().convertDate(date.Replace("/", "-"), true);
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                DateTime meetingDate = new Common().convertDate(date.Replace("/", "-"), true);
 
-            Memo memo = new Memo();
-            memo.id = id;
-            memo.date = meetingDate;
-            memo.conductedBy = conductedBy;
-            memo.presidedBy = presidedBy;
-            memo.recognitions = recognitions;
-            memo.openingHymn = firstHymn;
-            memo.firstPrayer = firstPrayer;
-            memo.stake = stake;
-            memo.stakeFlag = stakeFlag;
-            memo.ward = ward;
-            memo.wardFlag = wardFlag;
-            memo.sacramentalHymn = sacramentalHymn;
-            memo.speaker1 = speaker1;
-            memo.speaker2 = speaker2;
-            memo.speaker3 = speaker3;
-            memo.speaker4 = speaker4;
-            memo.speaker5 = speaker5;
-            memo.speaker1Theme = theme1;
-            memo.speaker2Theme = theme2;
-            memo.speaker3Theme = theme3;
-            memo.speaker4Theme = theme4;
-            memo.speaker5Theme = theme5;
-            memo.intermediateHymn = intermediateHymn;
-            memo.pianistBy = pianist;
-            memo.hymnConductedBy = conductor;
-            memo.otherSubjects = otherSubjects;
-            memo.lastHymn = lastHymn;
-            memo.lastPrayer = lastPrayer;
+                Memo memo = new Memo();
+                memo.id = id;
+                memo.date = meetingDate;
+                memo.conductedBy = conductedBy;
+                memo.presidedBy = presidedBy;
+                memo.recognitions = recognitions;
+                memo.openingHymn = firstHymn;
+                memo.firstPrayer = firstPrayer;
+                memo.stake = stake;
+                memo.stakeFlag = stakeFlag;
+                memo.ward = ward;
+                memo.wardFlag = wardFlag;
+                memo.sacramentalHymn = sacramentalHymn;
+                memo.speaker1 = speaker1;
+                memo.speaker2 = speaker2;
+                memo.speaker3 = speaker3;
+                memo.speaker4 = speaker4;
+                memo.speaker5 = speaker5;
+                memo.speaker1Theme = theme1;
+                memo.speaker2Theme = theme2;
+                memo.speaker3Theme = theme3;
+                memo.speaker4Theme = theme4;
+                memo.speaker5Theme = theme5;
+                memo.intermediateHymn = intermediateHymn;
+                memo.pianistBy = pianist;
+                memo.hymnConductedBy = conductor;
+                memo.otherSubjects = otherSubjects;
+                memo.lastHymn = lastHymn;
+                memo.lastPrayer = lastPrayer;
 
-            return Json(memo.updateOrAdd(), JsonRequestBehavior.AllowGet);
+                return Json(memo.updateOrAdd(), JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult Index()
         {
-            return View();
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View();
+            }
         }
     }
 }

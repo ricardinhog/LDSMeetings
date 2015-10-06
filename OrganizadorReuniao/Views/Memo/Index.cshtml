@@ -393,9 +393,7 @@
 </div>
 <br />
 <br />
-<span id="updatedOn"></span>
-<br />
-<br />
+<h6 id="updatedOn" style="text-align: center;"></h6>
 <br />
 <br />
 
@@ -406,6 +404,8 @@
 
 @section scripts{
     <script type="text/javascript">
+        var ajax_request;
+        var goToLink = "";
         function loadForm() {
             var date = $("#date").val();
             $.getJSON("/Memo/Get", "date=" + date + "&" + Date.now(), function (data) {
@@ -417,9 +417,17 @@
                     $("#recognitions").val(data.recognitions);
                     $("#firstHymn").val(data.openingHymn);
                     $("#firstPrayer").val(data.firstPrayer);
-                    $("input[name=stakeFlag]:checked").val(data.stakeFlag);
+                    if (data.stakeFlag) {
+                        $("#stakeFlagY").click();
+                    } else {
+                        $("#stakeFlagN").click();
+                    }
                     $("#stake").val(data.stake);
-                    $("input[name=wardFlag]:checked").val(data.wardFlag);
+                    if (data.wardFlag) {
+                        $("#wardFlagY").click();
+                    } else {
+                        $("#wardFlagN").click();
+                    }
                     $("#ward").val(data.ward);
                     $("#sacramentalHymn").val(data.sacramentalHymn);
                     $("#speaker1").val(data.speaker1);
@@ -446,46 +454,77 @@
             });
         }
         function saveForm() {
-            checkFlags();
 
-            var data = "conductedBy=" + $("#conductedBy").val() + "&";
-            data = data + "presidedBy=" + $("#presidedBy").val() + "&";
-            data = data + "recognitions=" + $("#recognitions").val() + "&";
-            data = data + "firstHymn=" + $("#firstHymn").val() + "&";
-            data = data + "firstPrayer=" + $("#firstPrayer").val() + "&";
-            data = data + "stakeFlag=" + $("input[name=stakeFlag]:checked").val() + "&";
-            data = data + "stake=" + $("#stake").val() + "&";
-            data = data + "wardFlag=" + $("input[name=wardFlag]:checked").val() + "&";
-            data = data + "ward=" + $("#ward").val() + "&";
-            data = data + "sacramentalHymn=" + $("#sacramentalHymn").val() + "&";
-            data = data + "speaker1=" + $("#speaker1").val() + "&";
-            data = data + "theme1=" + $("#theme1").val() + "&";
-            data = data + "speaker2=" + $("#speaker2").val() + "&";
-            data = data + "theme2=" + $("#theme2").val() + "&";
-            data = data + "speaker3=" + $("#speaker3").val() + "&";
-            data = data + "theme3=" + $("#theme3").val() + "&";
-            data = data + "speaker4=" + $("#speaker4").val() + "&";
-            data = data + "theme4=" + $("#theme4").val() + "&";
-            data = data + "speaker5=" + $("#speaker5").val() + "&";
-            data = data + "theme5=" + $("#theme5").val() + "&";
-            data = data + "intermediateHymn=" + $("#intermediateHymn").val() + "&";
-            data = data + "pianist=" + $("#pianist").val() + "&";
-            data = data + "conductor=" + $("#conductor").val() + "&";
-            data = data + "otherSubjects=" + $("#otherSubjects").val() + "&";
-            data = data + "lastHymn=" + $("#lastHymn").val() + "&";
-            data = data + "lastPrayer=" + $("#lastPrayer").val() + "&";
-            data = data + "id=" + $("#id").val() + "&";
-            data = data + "date=" + $("#date").val() + "&";
-            data = data + Date.now();
+            var date = $("#date").val();
+            if (date != "") {
 
-            $.post("/Memo/Save", data, function (result) {
-                $("#updatedOn").html("Informacoes salvas em " + Date());
-                if (result.Id != 0)
-                    $("#id").val(result.Id);
-            });
+                if (typeof ajax_request !== 'undefined')
+                    ajax_request.abort();
+
+                checkFlags();
+
+                var data = "conductedBy=" + $("#conductedBy").val() + "&";
+                data = data + "presidedBy=" + $("#presidedBy").val() + "&";
+                data = data + "recognitions=" + $("#recognitions").val() + "&";
+                data = data + "firstHymn=" + $("#firstHymn").val() + "&";
+                data = data + "firstPrayer=" + $("#firstPrayer").val() + "&";
+                data = data + "stakeFlag=" + $("input[name=stakeFlag]:checked").val() + "&";
+                data = data + "stake=" + $("#stake").val() + "&";
+                data = data + "wardFlag=" + $("input[name=wardFlag]:checked").val() + "&";
+                data = data + "ward=" + $("#ward").val() + "&";
+                data = data + "sacramentalHymn=" + $("#sacramentalHymn").val() + "&";
+                data = data + "speaker1=" + $("#speaker1").val() + "&";
+                data = data + "theme1=" + $("#theme1").val() + "&";
+                data = data + "speaker2=" + $("#speaker2").val() + "&";
+                data = data + "theme2=" + $("#theme2").val() + "&";
+                data = data + "speaker3=" + $("#speaker3").val() + "&";
+                data = data + "theme3=" + $("#theme3").val() + "&";
+                data = data + "speaker4=" + $("#speaker4").val() + "&";
+                data = data + "theme4=" + $("#theme4").val() + "&";
+                data = data + "speaker5=" + $("#speaker5").val() + "&";
+                data = data + "theme5=" + $("#theme5").val() + "&";
+                data = data + "intermediateHymn=" + $("#intermediateHymn").val() + "&";
+                data = data + "pianist=" + $("#pianist").val() + "&";
+                data = data + "conductor=" + $("#conductor").val() + "&";
+                data = data + "otherSubjects=" + $("#otherSubjects").val() + "&";
+                data = data + "lastHymn=" + $("#lastHymn").val() + "&";
+                data = data + "lastPrayer=" + $("#lastPrayer").val() + "&";
+                data = data + "id=" + $("#id").val() + "&";
+                data = data + "date=" + $("#date").val() + "&";
+                data = data + Date.now();
+
+                ajax_request = $.ajax({
+                    type: "post",
+                    url: "/Memo/Save",
+                    data: data,
+                    cache: false,
+                    success: function (result) {
+                        $("#updatedOn").html("Informacoes salvas em " + Date());
+                        if (result.Id != 0)
+                            $("#id").val(result.Id);
+
+                        if (goToLink != "")
+                            location.href = goToLink;
+                    }
+                });
+            }
+            else {
+                if (goToLink != "")
+                    location.href = goToLink;
+            }
         }
         $(document).ready(function () {
             loadForm();
+            setInterval(function(){
+                saveForm();
+            }, 30000);
+
+            $("a").click(function (event) {
+                event.preventDefault();
+                var link = $(this).prop("href");
+                goToLink = link;
+                saveForm();
+            });
         });
         function checkFlags() {
             var stakeFlag = $("#stakeFlagN").prop("checked");
