@@ -22,7 +22,7 @@
     <div class="col-md-4">
         <label><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Data</label>
         <input type="date" class="form-control" onchange="loadForm()" onblur="loadForm()" id="date" />
-        <p class="help-block">Formato: dd/mm/aaaa</p>
+        <p class="help-block no-print">Formato: dd/mm/aaaa</p>
     </div>
 </div>
 
@@ -168,7 +168,7 @@
 
 <hr />
 
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-md-2">
         <label>Assuntos da Estaca</label><br />
         <label class="radio-inline">
@@ -190,11 +190,11 @@
 <div class="row">
     <div class="col-md-2">
         <label>Assuntos da Ala</label><br />
-        <label class="radio-inline">
+        <label class="radio-inline no-print">
             <input type="radio" name="wardFlag" id="wardFlagY" value="1" onclick="saveForm()">
             Sim
         </label>
-        <label class="radio-inline">
+        <label class="radio-inline no-print">
             <input type="radio" name="wardFlag" id="wardFlagN" value="0" checked onclick="saveForm()">
             Não
         </label>
@@ -295,7 +295,7 @@
     </div>
 </div>
 <br />
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Quarto discurso</label>
         <select class="form-control" name="speaker4" onchange="saveForm()" id="speaker4">
@@ -365,7 +365,7 @@
 
 <hr />
 
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-md-12">
         <label>Outros assuntos</label>
         <textarea class="form-control" rows="3" onchange="saveForm()" id="otherSubjects"></textarea>
@@ -458,7 +458,9 @@
                     $("#updatedOn").html("Informacoes atualizadas");
 
                     checkFlags();
-                } 
+                } else {
+                    $("#id").val("0");
+                }
             });
         }
         function saveForm() {
