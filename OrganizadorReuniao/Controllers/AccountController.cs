@@ -57,11 +57,14 @@ namespace OrganizadorReuniao.Controllers
         /// <returns></returns>
         public ActionResult Login()
         {
+            if (Request.QueryString["ReturnUrl"] != null)
+                ViewBag.url = Request.QueryString["ReturnUrl"];
             return View();
+
         }
 
         [HttpPost]
-        public ActionResult Login(UserViewModel model)
+        public ActionResult Login(UserViewModel model, string url)
         {
             // remove validation errors
             foreach (var key in ModelState.Keys.ToList())
@@ -75,7 +78,10 @@ namespace OrganizadorReuniao.Controllers
                 if (checkUser.Id != 0)
                 {
                     Session["user"] = checkUser;
-                    return RedirectToAction("Index", "Home");
+                    if (url == "")
+                        return RedirectToAction("Index", "Home");
+                    else
+                        return RedirectPermanent(url);
                 }
                 else
                 {
