@@ -84,7 +84,7 @@
                     @foreach (var activity in list)
                     {
                         <tr>
-                            <td>@activity.Date.ToString("dd/MM/yy HH:mm")</td>
+                            <td>@activity.Date.ToString("dd/MM HH:mm")</td>
                             <td>@activity.Name</td>
                             <td>@activity.Place</td>
                             <td>@activity.Obs</td>
@@ -146,10 +146,10 @@
                     @foreach (var call in callings)
                     {
                         <tr>
-                            <td>@call.Date.ToString("dd/MM/yy")</td>
+                            <td>@call.Date.ToString("dd/MM")</td>
                             <td>@call.Name</td>
                             <td>@call.Member</td>
-                            <td>@((call.CallingFlag) ? "Chamado" : "Desobrigação")</td>
+                            <td class="@((call.CallingFlag)?"bg-success":"bg-info")>@((call.CallingFlag) ? "C" : "D")</td>
                         </tr>
                     }
                 </tbody>
