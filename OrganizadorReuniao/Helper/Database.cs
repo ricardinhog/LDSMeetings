@@ -25,8 +25,11 @@ namespace OrganizadorReuniao.Helper
                 cmd.Connection = cn;
                 cmd.ExecuteNonQuery();
 
-                cmd = new MySqlCommand("SELECT LAST_INSERT_ID()", cn);
-                result.Id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                if (cmd.CommandText.Substring(0, 6).ToUpper() == "INSERT")
+                {
+                    cmd = new MySqlCommand("SELECT LAST_INSERT_ID()", cn);
+                    result.Id = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                }
             }
             catch (Exception ex)
             {
