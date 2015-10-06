@@ -7,7 +7,7 @@
     <h2>Chamados/Desobrigações</h2>
 </div>
 
-<div class="row">
+<div class="row no-print">
     <input type="button" value="Novo Chamado/Desobrigação" onclick="location.href = '/Calling/New'" style="margin-left: 15px;" class="btn btn-primary" />
 </div>
 
@@ -28,8 +28,8 @@ else
     <table class="table table-striped datatable">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
+                <th class="no-print"></th>
+                <th class="no-print"></th>
                 <th>Data</th>
                 <th>Membro</th>
                 <th>Cargo</th>
@@ -40,9 +40,9 @@ else
             @foreach (var call in Model)
             {
                 <tr>
-                    <td>
+                    <td class="no-print">
                         <img src='/Images/Pencil-icon.png' title='Editar chamado' style='display: block; cursor: pointer;' onclick='editCalling(@call.Id)' /></td>
-                    <td>
+                    <td class="no-print">
                         <img src='/Images/Button-Delete-icon.png' title='Excluir chamado' style='display: block; cursor: pointer;' onclick="removeCalling(@call.Id, '@call.Name')" /></td>
                     <td>@call.Date.ToString("dd/MM/yy")</td>
                     <td>@call.Member</td>

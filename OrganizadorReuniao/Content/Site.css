@@ -81,3 +81,11 @@ img.uncheck {
     background-image: url('/Images/check_bg.png');
     background-repeat: no-repeat;
 }
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}

@@ -7,7 +7,7 @@
     <h2>Atividades</h2>
 </div>
 
-<div class="row">
+<div class="row no-print">
     <input type="button" value="Nova Atividade" onclick="location.href = '/Activities/New'" style="margin-left: 15px;" class="btn btn-primary" />
 </div>
 
@@ -26,8 +26,8 @@ else
     <table class="table table-striped datatable">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
+                <th class="no-print"></th>
+                <th class="no-print"></th>
                 <th>Data</th>
                 <th>Evento</th>
                 <th>Local</th>
@@ -38,9 +38,9 @@ else
             @foreach (var activity in Model)
             {
                 <tr>
-                    <td>
+                    <td class="no-print">
                         <img src='/Images/Pencil-icon.png' title='Editar evento' style='display: block; cursor: pointer;' onclick='editActivity(@activity.Id)' /></td>
-                    <td>
+                    <td class="no-print">
                         <img src='/Images/Button-Delete-icon.png' title='Excluir evento' style='display: block; cursor: pointer;' onclick="removeActivity(@activity.Id, '@activity.Name')" /></td>
                     <td>@activity.Date.ToString("d/MM/yy HH:mm")</td>
                     <td>@activity.Name</td>
