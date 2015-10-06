@@ -9,6 +9,15 @@
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form" }))
 {
+    if (ViewBag.url != null)
+    {
+        <input type="hidden" value="@ViewBag.url" name="url" />
+    }
+    else
+    {
+        <input type="hidden" value="" name="url" />
+    }
+    
     <div class="form-group">
         @Html.LabelFor(m => m.Email)
         @Html.EditorFor(m => m.Email)
@@ -25,5 +34,5 @@
     
     <hr />
     
-    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.SignInButton</button>
+    <button type="submit" class="btn btn-primary">@OrganizadorReuniao.Languages.pt_br.SignInButton</button>
 }

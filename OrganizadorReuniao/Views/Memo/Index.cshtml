@@ -28,6 +28,14 @@
 
 <hr />
 
+<div class="row">
+    <div class="col-md-12">
+        <p class="bg-info" style="padding: 10px;">Ao preencher o formulário os dados serão salvos automaticamente</p>
+    </div>
+</div>
+
+<hr />
+
 <form>
 
 <div class="row">
@@ -149,7 +157,7 @@
                             <td>@call.Date.ToString("dd/MM")</td>
                             <td>@call.Name</td>
                             <td>@call.Member</td>
-                            <td class="@((call.CallingFlag)?"bg-success":"bg-info")>@((call.CallingFlag) ? "C" : "D")</td>
+                            <td class="@((call.CallingFlag)?"bg-success":"bg-info")">@((call.CallingFlag) ? "C" : "D")</td>
                         </tr>
                     }
                 </tbody>
