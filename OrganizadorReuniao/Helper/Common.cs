@@ -65,6 +65,14 @@ namespace OrganizadorReuniao.Helper
             return (flag == 1);
         }
 
+        public string convertZeroNull(int number)
+        {
+            if (number <= 0)
+                return "null";
+            else
+                return number.ToString();
+        }
+
         public bool convertBool(string flag)
         {
             return convertBool(Convert.ToInt32(flag));
@@ -90,28 +98,35 @@ namespace OrganizadorReuniao.Helper
 
         public DateTime convertDate(string datetime, bool onlyDate = false)
         {
-            int count = datetime.Split('-')[0].Length;
-
-            if (onlyDate)
+            if (datetime != "")
             {
-                string[] date = datetime.Split('-');
-                if (count == 2)
+                int count = datetime.Split('-')[0].Length;
+
+                if (onlyDate)
                 {
-                    return new DateTime(convertNumber(date[2]), convertNumber(date[1]), convertNumber(date[0]));
+                    string[] date = datetime.Split('-');
+                    if (count == 2)
+                    {
+                        return new DateTime(convertNumber(date[2]), convertNumber(date[1]), convertNumber(date[0]));
+                    }
+                    else
+                    {
+                        return new DateTime(convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]));
+                    }
                 }
                 else
                 {
-                    return new DateTime(convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]));
+                    string[] chunks = datetime.Split(' ');
+                    string[] date = chunks[0].Split('-');
+                    string[] time = chunks[1].Split(':');
+                    return new DateTime(
+                        convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]),
+                        convertNumber(time[0]), convertNumber(time[1]), convertNumber(time[2]));
                 }
             }
             else
             {
-                string[] chunks = datetime.Split(' ');
-                string[] date = chunks[0].Split('-');
-                string[] time = chunks[1].Split(':');
-                return new DateTime(
-                    convertNumber(date[0]), convertNumber(date[1]), convertNumber(date[2]),
-                    convertNumber(time[0]), convertNumber(time[1]), convertNumber(time[2]));
+                return new DateTime();
             }
         }
 

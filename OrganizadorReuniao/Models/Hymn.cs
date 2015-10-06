@@ -16,7 +16,17 @@ namespace OrganizadorReuniao.Models
 
         public List<Hymn> getAll()
         {
-            return new List<Hymn>();
+            List<Hymn> hymns = new List<Hymn>();
+            foreach (List<string> data in database.retrieveData("SELECT id, name " +
+                "FROM bakeappdb.lds_hymn  " +
+                " order by name, id"))
+            {
+                Hymn hymn = new Hymn();
+                hymn.Number = Convert.ToInt32(data[0]);
+                hymn.Name = data[1];
+                hymns.Add(hymn);
+            }
+            return hymns;
         }
 
         public Hymn getHymn(int id)

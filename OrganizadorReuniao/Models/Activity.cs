@@ -17,60 +17,92 @@ namespace OrganizadorReuniao.Models
 
         // private variables
         private Database database = new Database();
+        private Common common = new Common();
 
-        public Result addActivity(string name, DateTime date, string place, string obs, int unitId)
+        public Result add(string name, DateTime date, string place, string obs, int unitId)
         {
             MySqlCommand cmd = new MySqlCommand("insert into lds_activity (name, scheduled_by, place, obs, unit_id) values (@name, @scheduled_by, @place, @obs, @unit_id)");
             cmd.Parameters.AddWithValue("name", name);
             cmd.Parameters.AddWithValue("scheduled_by", date);
             cmd.Parameters.AddWithValue("place", place);
             cmd.Parameters.AddWithValue("obs", obs);
-            cmd.Parameters.AddWithValue("unit_id", unitId); 
+            cmd.Parameters.AddWithValue("unit_id", unitId);
 
             return database.executeQuery(cmd);
         }
 
-        public Result updateUser(int id, string email, string password)
+        public Result update(int id, string name, DateTime date, string place, string obs, int unitId)
         {
-            MySqlCommand cmd = new MySqlCommand("update lds_user set email = @email, password = @password where id = @id");
-            cmd.Parameters.AddWithValue("email", email);
-            cmd.Parameters.AddWithValue("password", password);
+            MySqlCommand cmd = new MySqlCommand("update lds_activity set name = @name, scheduled_by = @scheduled_by, place = @place, obs = @obs, unit_id = 1 where id = @id");
+            cmd.Parameters.AddWithValue("name", name);
+            cmd.Parameters.AddWithValue("scheduled_by", date);
+            cmd.Parameters.AddWithValue("place", place);
+            cmd.Parameters.AddWithValue("obs", obs);
+            cmd.Parameters.AddWithValue("unit_id", unitId);
             cmd.Parameters.AddWithValue("id", id);
 
             return database.executeQuery(cmd);
         }
 
-        public Result deleteUser(int id)
+        public Result delete(int id)
         {
-            MySqlCommand cmd = new MySqlCommand("delete from lds_user where id = @id");
+            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where id = @id");
             cmd.Parameters.AddWithValue("id", id);
 
             return database.executeQuery(cmd);
         }
 
-        public User getUser(int id)
+        public Result deleteOld()
         {
-            User user = new User();
-            foreach (List<string> data in database.retrieveData("select email, password from lds_user where id = @id", id))
-            {
-                user.Id = id;
-                user.Email = data[0];
-                user.Password = data[1];
-            }
-            return user;
+            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where scheduled_by < now()");
+            return database.executeQuery(cmd);
         }
 
-        public User getUser(string email, string password)
+        public List<Activity> getAll()
         {
-            User user = new User();
-            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email and password = @password", email, password))
+            List<Activity> list = new List<Activity>();
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity order by scheduled_by asc"))
             {
-                user.Id = Convert.ToInt32(data[0]);
-                user.Email = email;
-                user.Password = password;
+                Activity activity = new Activity();
+                activity.Id = common.convertNumber(data[0]);
+                activity.Name = data[1];
+                activity.Date = common.convertDate(data[2]);
+                activity.Place = data[3];
+                activity.Obs = data[4];
+                list.Add(activity);
             }
-            return user;
+            return list;
         }
 
+        public List<Activity> getNextNMonths(int nInterval)
+        {
+            List<Activity> list = new List<Activity>();
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by > now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) order by scheduled_by asc"))
+            {
+                Activity activity = new Activity();
+                activity.Id = common.convertNumber(data[0]);
+                activity.Name = data[1];
+                activity.Date = common.convertDate(data[2]);
+                activity.Place = data[3];
+                activity.Obs = data[4];
+                list.Add(activity);
+            }
+            return list;
+        }
+
+        public Activity get(int id)
+        {
+            Activity activity = null;
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where id = @id", id))
+            {
+                activity = new Activity();
+                activity.Id = common.convertNumber(data[0]);
+                activity.Name = data[1];
+                activity.Date = common.convertDate(data[2]);
+                activity.Place = data[3];
+                activity.Obs = data[4];
+            }
+            return activity;
+        }
     }
 }

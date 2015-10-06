@@ -1,0 +1,55 @@
+﻿@model OrganizadorReuniao.Models.CallingViewModel
+@{
+    ViewBag.Title = "Novo Chamado/Desobrigação";
+
+    List<OrganizadorReuniao.Models.Member> members = new OrganizadorReuniao.Models.Member().getMembers(1);
+    members = members.OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
+    List<OrganizadorReuniao.Models.Calling> callings = new OrganizadorReuniao.Models.Calling().getAll();
+}
+
+<div class="page-header">
+    <h2>Novo Chamado/Desobrigação</h2>
+</div>
+
+@using (Html.BeginForm("New", "Calling", FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberId)
+        <select class="form-control" name="member">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.CallingId)
+        <select class="form-control" name="calling">
+            @foreach (var calling in callings)
+            {
+                <option value="@calling.Id">@calling.Name</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.EditorFor(m => m.Date)
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.CallingFlag)
+        <select class="form-control" name="callingFlag">
+            <option value="1">Chamado</option>
+            <option value="0">Desobrigação</option>
+        </select>
+    </div>
+    
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.SaveButton</button>
+}

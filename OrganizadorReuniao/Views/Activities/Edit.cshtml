@@ -1,0 +1,61 @@
+﻿@model OrganizadorReuniao.Models.ActivityViewModel
+@{
+    ViewBag.Title = "Editar Atividade";
+}
+
+<div class="page-header">
+    <h2>Editar Atividade</h2>
+</div>
+
+@using (Html.BeginForm("Edit", "Activities", FormMethod.Post, new { role = "form" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.EditorFor(m => m.Date) Data Anterior @Model.Date.ToString("dd/MM/yy")
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+    
+    <div class="form-group">
+        <label for="hour">Hora</label>
+        <select name="hour">
+            @for (int i = 0; i < 24; i++)
+            {
+                <option value="@i" @((Model.Date.Hour == i)?"selected=selected":"")>@((i < 10) ? i.ToString().PadLeft(2, '0') : i.ToString())</option>
+            }
+        </select>
+        <br />
+        <label for="minute">Minuto</label>
+        <select name="minute">
+            <option value="0" @((Model.Date.Minute == 0)?"selected=selected":"")>00</option>
+            <option value="15" @((Model.Date.Minute == 15)?"selected=selected":"")>15</option>
+            <option value="30" @((Model.Date.Minute == 30)?"selected=selected":"")>30</option>
+            <option value="45" @((Model.Date.Minute == 45)?"selected=selected":"")>45</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Place)
+        @Html.EditorFor(m => m.Place)
+        @Html.ValidationMessageFor(m => m.Place)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Obs)
+        @Html.EditorFor(m => m.Obs)
+        @Html.ValidationMessageFor(m => m.Obs)
+    </div>
+    
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-default">@OrganizadorReuniao.Languages.pt_br.SaveButton</button>
+}

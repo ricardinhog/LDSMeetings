@@ -135,6 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallingController.cs" />
     <Compile Include="Controllers\FrequencyController.cs" />
@@ -159,7 +160,10 @@
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Calling.cs" />
+    <Compile Include="Models\ActivityViewModel.cs" />
+    <Compile Include="Models\CallingViewModel.cs" />
     <Compile Include="Models\MemberViewModel.cs" />
+    <Compile Include="Models\Memo.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\Frequency.cs" />
@@ -322,6 +326,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\Button-Delete-icon.png" />
     <Content Include="Images\check.png" />
     <Content Include="Images\check_bg.png" />
     <Content Include="Images\favicon.png" />
@@ -407,6 +412,12 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\Success.cshtml" />
     <Content Include="Views\Member\Edit.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\Activities\New.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
+    <Content Include="Views\Calling\New.cshtml" />
+    <Content Include="Views\Calling\Index.cshtml" />
+    <Content Include="Views\Calling\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,70 @@
+﻿@model List<OrganizadorReuniao.Models.Calling>
+@{
+    ViewBag.Title = "Chamados/Desobrigações";
+}
+
+<div class="page-header">
+    <h2>Chamados/Desobrigações</h2>
+</div>
+
+<div class="row">
+    <input type="button" value="Novo Chamado/Desobrigação" onclick="location.href = '/Calling/New'" style="margin-left: 15px;" class="btn btn-default" />
+</div>
+
+<br />
+
+@if (Model.Count == 0)
+{
+    <br />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bg-warning" style="padding: 10px;">Você ainda não tem nenhum chamado/desobrigação cadastrado</p>
+        </div>
+    </div>
+}
+else
+{
+    <table class="table table-striped datatable">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Data</th>
+                <th>Membro</th>
+                <th>Cargo</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var call in Model)
+            {
+                <tr>
+                    <td>
+                        <img src='/Images/Pencil-icon.png' title='Editar chamado' style='display: block; cursor: pointer;' onclick='editCalling(@call.Id)' /></td>
+                    <td>
+                        <img src='/Images/Button-Delete-icon.png' title='Excluir chamado' style='display: block; cursor: pointer;' onclick="removeCalling(@call.Id, '@call.Name')" /></td>
+                    <td>@call.Date.ToString("dd/MM/yy")</td>
+                    <td>@call.Member</td>
+                    <td>@call.Name</td>
+                    <td class="@((call.CallingFlag)?"bg-success":"bg-info")">@((call.CallingFlag)?"Chamado":"Desobrigação")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section scripts {
+    <script type="text/javascript">
+        function editCalling(id) {
+            location.href = '/Calling/Edit/' + id;
+        }
+        function removeCalling(id, name) {
+            var confirmation = confirm("Deseja mesmo excluir o chamado/desobrigação '" + name + "'?");
+            if (confirmation) {
+                $.post("/Calling/Delete/", "id=" + id, function () {
+                    location.href = '/Calling/';
+                });
+            }
+        }
+    </script>
+}

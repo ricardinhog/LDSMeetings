@@ -1,24 +1,98 @@
 ﻿@{
     ViewBag.Title = OrganizadorReuniao.Languages.pt_br.MemoPageTitle;
+    List<OrganizadorReuniao.Models.Activity> list = new OrganizadorReuniao.Models.Activity().getNextNMonths(3);
+    List<OrganizadorReuniao.Models.Member> members = new OrganizadorReuniao.Models.Member().getMembers(1);
+    //List<OrganizadorReuniao.Models.Member> members = new List<OrganizadorReuniao.Models.Member>();
+    //OrganizadorReuniao.Models.Member member1 = new OrganizadorReuniao.Models.Member();
+    //member1.Id = 5;
+    //member1.FirstName = "Primeiro nome";
+    //member1.LastName = "Ultimo nome";
+    //members.Add(member1);
+    members = members.OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
+    List<OrganizadorReuniao.Models.Calling> callings = new OrganizadorReuniao.Models.Calling().getNextNMonths(3);
+    List<OrganizadorReuniao.Models.Hymn> hymns = new OrganizadorReuniao.Models.Hymn().getAll();
 }
+
+
 
 <div class="row">
     <div class="col-md-8">
         <h2>@OrganizadorReuniao.Languages.pt_br.MemoPageTitle</h2>
     </div>
     <div class="col-md-4">
-        <label for="exampleInputEmail1">Data</label>
-        <input type="date" class="form-control" />
+        <label><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Data</label>
+        <input type="date" class="form-control" onchange="loadForm()" onblur="loadForm()" id="date" />
         <p class="help-block">Formato: dd/mm/aaaa</p>
     </div>
 </div>
 
 <hr />
 
+<form>
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Digirida por</label>
+        <select class="form-control" name="conductedBy" onchange="saveForm()" id="conductedBy">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Presidida por</label>
+        <select class="form-control" name="presidedBy" onchange="saveForm()" id="presidedBy">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+</div>
+
+<br />
+
 <div class="row">
     <div class="col-md-12">
-        <label for="exampleInputEmail1">Abetura e Reconhecimentos</label>
-        <textarea class="form-control" rows="3"></textarea>
+        <label>Abertura e Reconhecimentos</label>
+        <textarea class="form-control" rows="3" onchange="saveForm()" id="recognitions"></textarea>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <label><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Anúncios</label>
+        @if (list.Count == 0)
+        {
+            <p class="bg-warning" style="padding: 10px;">Nenhum anúncio nos próximos 3 meses encontrado</p>
+        }
+        else
+        {
+            <table class="table table-striped datatable">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Evento</th>
+                        <th>Local</th>
+                        <th>Obs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var activity in list)
+                    {
+                        <tr>
+                            <td>@activity.Date.ToString("dd/MM/yy HH:mm")</td>
+                            <td>@activity.Name</td>
+                            <td>@activity.Place</td>
+                            <td>@activity.Obs</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>
 
@@ -26,18 +100,24 @@
 
 <div class="row">
     <div class="col-md-12">
-        <label for="exampleInputEmail1">Anúncios</label>
-        <textarea class="form-control" rows="3"></textarea>
+        <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino de abertura</label>
+        <select class="form-control" onchange="saveForm()" id="firstHymn">
+            @foreach (var hymn in hymns)
+            {
+                <option value="@hymn.Number">@hymn.Name</option>
+            }
+        </select>
     </div>
 </div>
-
-<hr />
-
+<br />
 <div class="row">
     <div class="col-md-12">
-        <label for="exampleInputEmail1"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino de abertura</label>
-        <select class="form-control">
-            <option value="1">1 - Tal como um facho</option>
+        <label for="firstPrayer">Primeira Oração</label>
+        <select class="form-control" name="firstPrayer" onchange="saveForm()" id="firstPrayer">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
         </select>
     </div>
 </div>
@@ -46,8 +126,35 @@
 
 <div class="row">
     <div class="col-md-12">
-        <label for="exampleInputEmail1">Chamados</label>
-        <textarea class="form-control" rows="3"></textarea>
+        <label><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;&nbsp;Chamados/Desobrigações</label>
+        @if (list.Count == 0)
+        {
+            <p class="bg-warning" style="padding: 10px;">Nenhum chamado/desobrigação nos próximos 3 meses encontrado</p>
+        }
+        else
+        {
+            <table class="table table-striped datatable">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Chamado</th>
+                        <th>Membro</th>
+                        <th>Chamado?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var call in callings)
+                    {
+                        <tr>
+                            <td>@call.Date.ToString("dd/MM/yy")</td>
+                            <td>@call.Name</td>
+                            <td>@call.Member</td>
+                            <td>@((call.CallingFlag) ? "Chamado" : "Desobrigação")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>
 
@@ -57,16 +164,35 @@
     <div class="col-md-2">
         <label>Assuntos da Estaca</label><br />
         <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <input type="radio" name="stakeFlag" id="stakeFlagY" value="1" onclick="saveForm()">
             Sim
         </label>
         <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" checked>
+            <input type="radio" name="stakeFlag" id="stakeFlagN" value="0" checked onclick="saveForm()">
             Não
         </label>
     </div>
     <div class="col-md-10">
-        <textarea class="form-control" rows="2"></textarea>
+        <textarea class="form-control" rows="2" onchange="saveForm()" id="stake"></textarea>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-2">
+        <label>Assuntos da Ala</label><br />
+        <label class="radio-inline">
+            <input type="radio" name="wardFlag" id="wardFlagY" value="1" onclick="saveForm()">
+            Sim
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="wardFlag" id="wardFlagN" value="0" checked onclick="saveForm()">
+            Não
+        </label>
+    </div>
+    <div class="col-md-10">
+        <textarea class="form-control" rows="2" onchange="saveForm()" id="ward"></textarea>
     </div>
 </div>
 
@@ -74,9 +200,180 @@
 
 <div class="row">
     <div class="col-md-12">
-        <label for="exampleInputEmail1"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino sacramental</label>
-        <select class="form-control">
-            <option value="1">1 - Tal como um facho</option>
+        <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino sacramental</label>
+        <select class="form-control" onchange="saveForm()" id="sacramentalHymn">
+            @foreach (var hymn in hymns)
+            {
+                <option value="@hymn.Number">@hymn.Name</option>
+            }
+        </select>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="bg-warning" style="padding: 10px;">O sacramento será abençoado e distribuído a todos</p>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Primeiro discurso</label>
+        <select class="form-control" name="speaker1" onchange="saveForm()" id="speaker1">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Tema</label>
+        <input class="form-control" name="theme1" onchange="saveForm()" id="theme1" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Segundo discurso</label>
+        <select class="form-control" name="speaker2" onchange="saveForm()" id="speaker2">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Tema</label>
+        <input class="form-control" name="theme2"  onchange="saveForm()" id="theme2"/>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino intermediário</label>
+        <select class="form-control" onchange="saveForm()" id="intermediateHymn">
+            @foreach (var hymn in hymns)
+            {
+                <option value="@hymn.Number">@hymn.Name</option>
+            }
+        </select>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Terceiro discurso</label>
+        <select class="form-control" name="speaker3" onchange="saveForm()" id="speaker3">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Tema</label>
+        <input class="form-control" name="theme3" onchange="saveForm()" id="theme3" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Quarto discurso</label>
+        <select class="form-control" name="speaker4" onchange="saveForm()" id="speaker4">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Tema</label>
+        <input class="form-control" name="theme4" onchange="saveForm()" id="theme4" />
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="bg-warning" style="padding: 10px;">Agradecimentos</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Pianista</label>
+        <select class="form-control" name="pianist" onchange="saveForm()" id="pianist">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Regente</label>
+        <select class="form-control" name="conductor" onchange="saveForm()" id="conductor">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Último discurso</label>
+        <select class="form-control" name="speaker5" onchange="saveForm()" id="speaker5">
+            <option value="0" selected="selected"></option>
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Tema</label>
+        <input class="form-control" name="theme5" onchange="saveForm()" id="theme5" />
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <label>Outros assuntos</label>
+        <textarea class="form-control" rows="3" onchange="saveForm()" id="otherSubjects"></textarea>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino de encerramento</label>
+        <select class="form-control" onchange="saveForm()" id="lastHymn">
+            @foreach (var hymn in hymns)
+            {
+                <option value="@hymn.Number">@hymn.Name</option>
+            }
         </select>
     </div>
 </div>
@@ -85,56 +382,126 @@
 
 <div class="row">
     <div class="col-md-12">
-        <p class="bg-success" style="padding: 10px;">O sacramento será abençoado e distribuído a todos</p>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-12">
-        <label for="exampleInputEmail1">Primeiro discurso</label>
-        <input type="text" class="form-control" />
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <label for="exampleInputEmail1">Segundo discurso</label>
-        <input type="text" class="form-control" />
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-12">
-        <label for="exampleInputEmail1"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino intermediário</label>
-        <select class="form-control">
-            <option value="1">1 - Tal como um facho</option>
+        <label for="lastPrayer">Última Oração</label>
+        <select class="form-control" name="lastPrayer" onchange="saveForm()" id="lastPrayer">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
         </select>
     </div>
 </div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-12">
-        <label for="exampleInputEmail1">Terceiro discurso</label>
-        <input type="text" class="form-control" />
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <label for="exampleInputEmail1">Quarto discurso</label>
-        <input type="text" class="form-control" />
-    </div>
-</div>
-
 <br />
+<br />
+<span id="updatedOn"></span>
 <br />
 <br />
 <br />
 <br />
 
+<input type="hidden" value="0" id="id" />
+    <input type="reset" id="cleanForm" style="display: none;" />
+
+    </form>
+
+@section scripts{
+    <script type="text/javascript">
+        function loadForm() {
+            var date = $("#date").val();
+            $.getJSON("/Memo/Get", "date=" + date + "&" + Date.now(), function (data) {
+                $("#cleanForm").click();
+                if (data.id != 0) {
+                    $("#id").val(data.id);
+                    $("#conductedBy").val(data.conductedBy);
+                    $("#presidedBy").val(data.presidedBy);
+                    $("#recognitions").val(data.recognitions);
+                    $("#firstHymn").val(data.openingHymn);
+                    $("#firstPrayer").val(data.firstPrayer);
+                    $("input[name=stakeFlag]:checked").val(data.stakeFlag);
+                    $("#stake").val(data.stake);
+                    $("input[name=wardFlag]:checked").val(data.wardFlag);
+                    $("#ward").val(data.ward);
+                    $("#sacramentalHymn").val(data.sacramentalHymn);
+                    $("#speaker1").val(data.speaker1);
+                    $("#theme1").val(data.speaker1Theme);
+                    $("#speaker2").val(data.speaker2);
+                    $("#theme2").val(data.speaker2Theme);
+                    $("#speaker3").val(data.speaker3);
+                    $("#theme3").val(data.speaker3Theme);
+                    $("#speaker4").val(data.speaker4);
+                    $("#theme4").val(data.speaker4Theme);
+                    $("#speaker5").val(data.speaker5);
+                    $("#theme5").val(data.speaker5Theme);
+                    $("#intermediateHymn").val(data.intermediateHymn);
+                    $("#pianist").val(data.pianistBy);
+                    $("#conductor").val(data.hymnConductedBy);
+                    $("#otherSubjects").val(data.otherSubjects);
+                    $("#lastHymn").val(data.lastHymn);
+                    $("#lastPrayer").val(data.lastPrayer);
+
+                    $("#updatedOn").html("Informacoes atualizadas");
+
+                    checkFlags();
+                } 
+            });
+        }
+        function saveForm() {
+            checkFlags();
+
+            var data = "conductedBy=" + $("#conductedBy").val() + "&";
+            data = data + "presidedBy=" + $("#presidedBy").val() + "&";
+            data = data + "recognitions=" + $("#recognitions").val() + "&";
+            data = data + "firstHymn=" + $("#firstHymn").val() + "&";
+            data = data + "firstPrayer=" + $("#firstPrayer").val() + "&";
+            data = data + "stakeFlag=" + $("input[name=stakeFlag]:checked").val() + "&";
+            data = data + "stake=" + $("#stake").val() + "&";
+            data = data + "wardFlag=" + $("input[name=wardFlag]:checked").val() + "&";
+            data = data + "ward=" + $("#ward").val() + "&";
+            data = data + "sacramentalHymn=" + $("#sacramentalHymn").val() + "&";
+            data = data + "speaker1=" + $("#speaker1").val() + "&";
+            data = data + "theme1=" + $("#theme1").val() + "&";
+            data = data + "speaker2=" + $("#speaker2").val() + "&";
+            data = data + "theme2=" + $("#theme2").val() + "&";
+            data = data + "speaker3=" + $("#speaker3").val() + "&";
+            data = data + "theme3=" + $("#theme3").val() + "&";
+            data = data + "speaker4=" + $("#speaker4").val() + "&";
+            data = data + "theme4=" + $("#theme4").val() + "&";
+            data = data + "speaker5=" + $("#speaker5").val() + "&";
+            data = data + "theme5=" + $("#theme5").val() + "&";
+            data = data + "intermediateHymn=" + $("#intermediateHymn").val() + "&";
+            data = data + "pianist=" + $("#pianist").val() + "&";
+            data = data + "conductor=" + $("#conductor").val() + "&";
+            data = data + "otherSubjects=" + $("#otherSubjects").val() + "&";
+            data = data + "lastHymn=" + $("#lastHymn").val() + "&";
+            data = data + "lastPrayer=" + $("#lastPrayer").val() + "&";
+            data = data + "id=" + $("#id").val() + "&";
+            data = data + "date=" + $("#date").val() + "&";
+            data = data + Date.now();
+
+            $.post("/Memo/Save", data, function (result) {
+                $("#updatedOn").html("Informacoes salvas em " + Date());
+                if (result.Id != 0)
+                    $("#id").val(result.Id);
+            });
+        }
+        $(document).ready(function () {
+            loadForm();
+        });
+        function checkFlags() {
+            var stakeFlag = $("#stakeFlagN").prop("checked");
+            var wardFlag = $("#wardFlagN").prop("checked");
+
+            if (stakeFlag) {
+                $("#stake").hide();
+            } else {
+                $("#stake").show();
+            }
+
+            if (wardFlag) {
+                $("#ward").hide();
+            } else {
+                $("#ward").show();
+            }
+        }
+    </script>
+}
