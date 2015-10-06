@@ -86,6 +86,10 @@
         <tbody id="tbody">
             @foreach (var item in Model)
             {
+                if (item.jan > 0 || item.feb > 0 || item.mar > 0 || item.apr > 0 || item.may > 0 ||
+                    item.jun > 0 || item.jul > 0 || item.aug > 0 || item.sep > 0 || item.oct > 0 ||
+                    item.nov > 0 || item.dec > 0)
+                {
                 <tr class="@((!item.isUnitMember) ? "warning" : "")">
                     <td>@item.lastName, @item.firstName</td>
                     <td>@item.age</td>
@@ -102,7 +106,7 @@
                     <td>@((item.nov > 0) ? item.nov.ToString() : "")</td>
                     <td>@((item.dec > 0) ? item.dec.ToString() : "")</td>
                 </tr>
-                
+                }
                 if (item.isUnitMember || item.memberType == OrganizadorReuniao.Models.Member.memberType.sacramental)
                 {
                     if (item.jan > 0 || item.feb > 0 || item.mar > 0)

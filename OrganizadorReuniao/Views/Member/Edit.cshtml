@@ -25,7 +25,7 @@
     
     <div class="form-group">
         @Html.LabelFor(m => m.BirthDate)
-        @Html.EditorFor(m => m.BirthDate)
+        @Html.EditorFor(m => m.BirthDate) Data Anterior @Model.BirthDate.ToString("dd/MM/yy")
         @Html.ValidationMessageFor(m => m.BirthDate)
     </div>
     
