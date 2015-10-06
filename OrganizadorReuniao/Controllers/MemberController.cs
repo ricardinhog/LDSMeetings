@@ -38,6 +38,18 @@ namespace OrganizadorReuniao.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Delete(int deleteId)
+        {
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                new Member().deleteMember(deleteId);
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public ActionResult Edit(int id)
         {
             if (!isAuthenticated())

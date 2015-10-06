@@ -32,28 +32,28 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Gender)
         <select name="gender" onchange="showPriesthoodOptions(this.value)">
-            <option value="F" @((Model.Gender == "F")?"selected='selected'":"") >Feminino</option>
-            <option value="M" @((Model.Gender == "M")?"selected='selected'":"") >Masculino</option>
+            <option value="F" @((Model.Gender == "F") ? "selected='selected'" : "") >Feminino</option>
+            <option value="M" @((Model.Gender == "M") ? "selected='selected'" : "") >Masculino</option>
         </select>
     </div>
     
     <div class="form-group" style="display: none;" id="priesthoodDiv">
         <label for="priesthood">Sacerdócio</label>
         <select name="priesthood" id="priesthood">
-            <option value="0" @((Model.PriesthoodOption == "0")?"selected='selected'":"")>Nenhum</option>
-            <option value="1" @((Model.PriesthoodOption == "1")?"selected='selected'":"")>Diácono</option>
-            <option value="2" @((Model.PriesthoodOption == "2")?"selected='selected'":"")>Mestre</option>
-            <option value="3" @((Model.PriesthoodOption == "3")?"selected='selected'":"")>Sacerdote</option>
-            <option value="4" @((Model.PriesthoodOption == "4")?"selected='selected'":"")>Élder</option>
-            <option value="5" @((Model.PriesthoodOption == "5")?"selected='selected'":"")>Sumo Sacerdote</option>
+            <option value="0" @((Model.PriesthoodOption == "0") ? "selected='selected'" : "")>Nenhum</option>
+            <option value="1" @((Model.PriesthoodOption == "1") ? "selected='selected'" : "")>Diácono</option>
+            <option value="2" @((Model.PriesthoodOption == "2") ? "selected='selected'" : "")>Mestre</option>
+            <option value="3" @((Model.PriesthoodOption == "3") ? "selected='selected'" : "")>Sacerdote</option>
+            <option value="4" @((Model.PriesthoodOption == "4") ? "selected='selected'" : "")>Élder</option>
+            <option value="5" @((Model.PriesthoodOption == "5") ? "selected='selected'" : "")>Sumo Sacerdote</option>
         </select>
     </div>
     
     <div class="form-group">
         @Html.LabelFor(m => m.IsUnitMember)
         <select name="unitMember">
-            <option value="0" @((Model.IsUnitMember == "0")?"selected='selected'":"") >Não</option>
-            <option value="1" @((Model.IsUnitMember == "1")?"selected='selected'":"") >Sim</option>
+            <option value="0" @((Model.IsUnitMember == "0") ? "selected='selected'" : "") >Não</option>
+            <option value="1" @((Model.IsUnitMember == "1") ? "selected='selected'" : "") >Sim</option>
         </select>
     </div>
     
@@ -63,6 +63,13 @@
     
     <button type="submit" class="btn btn-primary">@OrganizadorReuniao.Languages.pt_br.SaveButton</button>
 }
+
+<hr />
+
+<form action="/Member/Delete" method="post" id="deleteForm">
+    <input type="hidden" value="@Model.Id" name="deleteId" />
+    <input type="button" class="btn btn-danger" value="Excluir Membro" onclick="deleteMember()" />
+</form>
 
 @section scripts {
     <script type="text/javascript">
@@ -74,5 +81,11 @@
             }
         }
         showPriesthoodOptions('@Model.Gender');
+        function deleteMember() {
+            var confirmation = confirm("Este processo é irreversível.\n\nEstá certo que deseja excluir este membro?");
+            if (confirmation) {
+                $("#deleteForm").submit();
+            }
+        }
     </script>
 }

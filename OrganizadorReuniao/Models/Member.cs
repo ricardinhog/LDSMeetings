@@ -104,9 +104,30 @@ namespace OrganizadorReuniao.Models
             return result;
         }
 
-        public bool deleteMember(int id)
+        public Result deleteMember(int id)
         {
-            return true;
+            Result result = null;
+
+            MySqlCommand cmd = new MySqlCommand("delete from lds_calling_member where member_id = @id");
+            cmd.Parameters.AddWithValue("id", id);
+            result = database.executeQuery(cmd);
+
+            cmd = new MySqlCommand("delete from lds_frequency where member_id = @id");
+            cmd.Parameters.AddWithValue("id", id);
+            result = database.executeQuery(cmd);
+
+            cmd = new MySqlCommand("delete from lds_priesthood where member_id = @id");
+            cmd.Parameters.AddWithValue("id", id);
+            result = database.executeQuery(cmd);
+
+            if (result.Success)
+            {
+                cmd = new MySqlCommand("delete from lds_member where id = @id");
+                cmd.Parameters.AddWithValue("id", id);
+                result = database.executeQuery(cmd);
+            }
+
+            return result;
         }
 
         public Member getMember(int id)
