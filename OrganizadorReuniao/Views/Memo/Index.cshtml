@@ -112,7 +112,7 @@
         <select class="form-control" onchange="saveForm()" id="firstHymn">
             @foreach (var hymn in hymns)
             {
-                <option value="@hymn.Number">@hymn.Name</option>
+                <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
             }
         </select>
     </div>
@@ -147,7 +147,7 @@
                         <th>Data</th>
                         <th>Chamado</th>
                         <th>Membro</th>
-                        <th>Chamado?</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -212,7 +212,7 @@
         <select class="form-control" onchange="saveForm()" id="sacramentalHymn">
             @foreach (var hymn in hymns)
             {
-                <option value="@hymn.Number">@hymn.Name</option>
+                <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
             }
         </select>
     </div>
@@ -270,7 +270,7 @@
         <select class="form-control" onchange="saveForm()" id="intermediateHymn">
             @foreach (var hymn in hymns)
             {
-                <option value="@hymn.Number">@hymn.Name</option>
+                <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
             }
         </select>
     </div>
@@ -380,7 +380,7 @@
         <select class="form-control" onchange="saveForm()" id="lastHymn">
             @foreach (var hymn in hymns)
             {
-                <option value="@hymn.Number">@hymn.Name</option>
+                <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
             }
         </select>
     </div>
