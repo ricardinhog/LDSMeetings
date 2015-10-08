@@ -1,16 +1,55 @@
 ﻿@{
+    // page title
     ViewBag.Title = OrganizadorReuniao.Languages.pt_br.MemoPageTitle;
+    
+    // get activities list
     List<OrganizadorReuniao.Models.Activity> list = new OrganizadorReuniao.Models.Activity().getNextNMonths(3);
-    List<OrganizadorReuniao.Models.Member> members = new OrganizadorReuniao.Models.Member().getMembers(1);
-    //List<OrganizadorReuniao.Models.Member> members = new List<OrganizadorReuniao.Models.Member>();
-    //OrganizadorReuniao.Models.Member member1 = new OrganizadorReuniao.Models.Member();
-    //member1.Id = 5;
-    //member1.FirstName = "Primeiro nome";
-    //member1.LastName = "Ultimo nome";
-    //members.Add(member1);
-    members = members.OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
+
+    // get members list
+    List<OrganizadorReuniao.Models.Member> members = new List<OrganizadorReuniao.Models.Member>();
+
+    OrganizadorReuniao.Models.Member blankMember = new OrganizadorReuniao.Models.Member();
+    blankMember.Id = 0;
+    blankMember.FirstName = "Selecione...";
+    members.Add(blankMember);
+    
+    // if localhost bring fake members
+    if (HttpContext.Current.Request.Url.Host.ToLower() == "localhost")
+    {
+        members = new List<OrganizadorReuniao.Models.Member>();
+        OrganizadorReuniao.Models.Member member1 = new OrganizadorReuniao.Models.Member();
+        member1.Id = 5;
+        member1.FirstName = "Primeiro nome";
+        member1.LastName = "Ultimo nome";
+        members.Add(member1);
+        
+        member1 = new OrganizadorReuniao.Models.Member();
+        member1.Id = 6;
+        member1.FirstName = "Segundo nome";
+        member1.LastName = "Ultimo nome";
+        members.Add(member1);
+    }
+    else
+    {
+        foreach (var person in (new OrganizadorReuniao.Models.Member().getMembers(1)).OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList())
+        {
+            members.Add(person);       
+        }
+    }
+    
+    // get callings list
     List<OrganizadorReuniao.Models.Calling> callings = new OrganizadorReuniao.Models.Calling().getNextNMonths(3);
-    List<OrganizadorReuniao.Models.Hymn> hymns = new OrganizadorReuniao.Models.Hymn().getAll();
+    
+    // get hymns list
+    List<OrganizadorReuniao.Models.Hymn> hymns = new List<OrganizadorReuniao.Models.Hymn>();
+    OrganizadorReuniao.Models.Hymn blankHymn = new OrganizadorReuniao.Models.Hymn();
+    blankHymn.Number = 0;
+    blankHymn.Name = "Selecione...";
+    hymns.Add(blankHymn);
+    foreach (var hymn in new OrganizadorReuniao.Models.Hymn().getAll())
+    {
+        hymns.Add(hymn);       
+    }
 }
 
 
@@ -232,7 +271,6 @@
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Primeiro discurso</label>
         <select class="form-control" name="speaker1" onchange="saveForm()" id="speaker1">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -249,7 +287,6 @@
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Segundo discurso</label>
         <select class="form-control" name="speaker2" onchange="saveForm()" id="speaker2">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -282,7 +319,6 @@
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Terceiro discurso</label>
         <select class="form-control" name="speaker3" onchange="saveForm()" id="speaker3">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -299,7 +335,6 @@
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Quarto discurso</label>
         <select class="form-control" name="speaker4" onchange="saveForm()" id="speaker4">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -325,7 +360,6 @@
     <div class="col-md-6">
         <label>Pianista</label>
         <select class="form-control" name="pianist" onchange="saveForm()" id="pianist">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -335,7 +369,6 @@
     <div class="col-md-6">
         <label>Regente</label>
         <select class="form-control" name="conductor" onchange="saveForm()" id="conductor">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -350,7 +383,6 @@
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Último discurso</label>
         <select class="form-control" name="speaker5" onchange="saveForm()" id="speaker5">
-            <option value="0" selected="selected"></option>
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -414,7 +446,9 @@
     <script type="text/javascript">
         var ajax_request;
         var goToLink = "";
+        var loading = false;
         function loadForm() {
+            loading = true;
             var date = $("#date").val();
             $.getJSON("/Memo/Get", "date=" + date + "&" + Date.now(), function (data) {
                 $("#cleanForm").click();
@@ -461,12 +495,14 @@
                 } else {
                     $("#id").val("0");
                 }
+
+                loading = false;
             });
         }
         function saveForm() {
 
             var date = $("#date").val();
-            if (date != "") {
+            if (date != "" && !loading) {
 
                 if (typeof ajax_request !== 'undefined')
                     ajax_request.abort();
