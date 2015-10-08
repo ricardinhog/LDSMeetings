@@ -1,0 +1,43 @@
+﻿@model List<OrganizadorReuniao.Models.Speaker>
+@{
+    ViewBag.Title = "Discursantes";
+}
+
+<div class="page-header">
+    <h2>Discursantes</h2>
+</div>
+
+@if (Model.Count == 0)
+{
+    <br />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bg-warning" style="padding: 10px;">Você ainda não tem nenhum discursante cadastrado</p>
+        </div>
+    </div>
+}
+else
+{
+    <table class="table table-striped datatable">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Ordem</th>
+                <th>Tema</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Model)
+            {
+                <tr>
+                    <td>@member.Date.ToString("d/MM/yy")</td>
+                    <td>@member.Name</td>
+                    <td>@member.Position</td>
+                    <td>@member.Theme</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

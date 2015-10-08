@@ -144,6 +144,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MemoController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\SpeakerController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -418,6 +419,7 @@
     <Content Include="Views\Calling\New.cshtml" />
     <Content Include="Views\Calling\Index.cshtml" />
     <Content Include="Views\Calling\Edit.cshtml" />
+    <Content Include="Views\Speaker\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -448,7 +450,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>30429</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:2448/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
