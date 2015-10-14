@@ -77,7 +77,7 @@ namespace OrganizadorReuniao.Models
         public List<Activity> getNextNMonths(int nInterval)
         {
             List<Activity> list = new List<Activity>();
-            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by > now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) order by scheduled_by asc"))
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by >= now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) order by scheduled_by asc"))
             {
                 Activity activity = new Activity();
                 activity.Id = common.convertNumber(data[0]);
