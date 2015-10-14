@@ -16,6 +16,16 @@ namespace OrganizadorReuniao.Models
         private Database database = new Database();
         private Common common = new Common();
 
+        public Speaker() { }
+
+        public Speaker(string name, string theme, DateTime date, int position)
+        {
+            Name = name;
+            Theme = theme;
+            Date = date;
+            Position = position;
+        }
+
         public List<Speaker> getAll()
         {
             string sql = "select " +
@@ -36,44 +46,23 @@ namespace OrganizadorReuniao.Models
 
             foreach (List<string> data in database.retrieveData(sql))
             {
-                Speaker speaker = new Speaker();
-                speaker.Date = common.convertDate(data[0]);
+                DateTime date = common.convertDate(data[0]);
 
                 // check speaker 1
                 if (common.convertNumber(data[1]) > 0)
-                {
-                    speaker.Name = data[2];
-                    speaker.Theme = data[3];
-                    speaker.Position = 1;
-                    speakers.Add(speaker);
-                }
+                    speakers.Add(new Speaker(data[2], data[3], date, 1));
 
                 // check speaker 2
                 if (common.convertNumber(data[4]) > 0)
-                {
-                    speaker.Name = data[5];
-                    speaker.Theme = data[6];
-                    speaker.Position = 2;
-                    speakers.Add(speaker);
-                }
+                    speakers.Add(new Speaker(data[5], data[6], date, 2));
 
                 // check speaker 3
                 if (common.convertNumber(data[7]) > 0)
-                {
-                    speaker.Name = data[8];
-                    speaker.Theme = data[9];
-                    speaker.Position = 3;
-                    speakers.Add(speaker);
-                }
+                    speakers.Add(new Speaker(data[8], data[9], date, 3));
 
                 // check speaker 4
                 if (common.convertNumber(data[10]) > 0)
-                {
-                    speaker.Name = data[11];
-                    speaker.Theme = data[12];
-                    speaker.Position = 4;
-                    speakers.Add(speaker);
-                }
+                    speakers.Add(new Speaker(data[11], data[12], date, 4));
             }
             return speakers;
         }
