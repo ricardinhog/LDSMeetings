@@ -300,7 +300,7 @@ namespace OrganizadorReuniao.Models
                 member.Actived = (data[7] != "0");
                 member.Restricted = common.convertBool(data[8]);
                 member.Gender = data[9];
-                member.Present = new Frequency().wasPresent(member.Id, date, type, unitId);
+                member.Present = new Frequency().wasPresent(member.Id, date, type);
                 member.isUnitMember = common.convertBool(data[10]);
                 members.Add(member);
             }

@@ -36,10 +36,10 @@ namespace OrganizadorReuniao.Models
                 "	s.speaker5, (select concat(first_name, ' ', last_name) from lds_member where id = s.speaker5) Speaker5, speaker5_theme " +
                 "from lds_sacramental s " +
                 "where " +
-                "	(s.speaker1 > 0 and s.speaker1 is not null) or  " +
+                "	((s.speaker1 > 0 and s.speaker1 is not null) or  " +
                 "	(s.speaker2 > 0 and s.speaker2 is not null) or  " +
                 "	(s.speaker3 > 0 and s.speaker3 is not null) or  " +
-                "	(s.speaker5 > 0 and s.speaker5 is not null) and date >= now() and s.unit_id = @unit_id " +
+                "	(s.speaker5 > 0 and s.speaker5 is not null)) and date >= now() and s.unit_id = @unit_id " +
                 "	order by s.date asc";
 
             List<Speaker> speakers = new List<Speaker>();
