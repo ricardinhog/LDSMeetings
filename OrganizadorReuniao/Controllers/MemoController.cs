@@ -18,7 +18,7 @@ namespace OrganizadorReuniao.Controllers
             {
                 DateTime meetingDate = new Common().convertDate(date.Replace("/", "-"), true);
                 Memo memo = new Memo();
-                memo.loadData(meetingDate);
+                memo.loadData(meetingDate, loggedUser.Unit);
                 return Json(memo, JsonRequestBehavior.AllowGet);
             }
         }
@@ -65,7 +65,7 @@ namespace OrganizadorReuniao.Controllers
                 memo.lastHymn = lastHymn;
                 memo.lastPrayer = lastPrayer;
 
-                return Json(memo.updateOrAdd(), JsonRequestBehavior.AllowGet);
+                return Json(memo.updateOrAdd(loggedUser.Unit), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -75,6 +75,9 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
+                ViewBag.unit = loggedUser.Unit;
+                ViewBag.unitName = loggedUser.UnitName;
+
                 return View();
             }
         }

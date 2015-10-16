@@ -30,6 +30,9 @@ namespace OrganizadorReuniao.Controllers
             {
                 CallingViewModel model = new CallingViewModel();
                 model.Date = DateTime.Now;
+
+                ViewBag.unit = loggedUser.Unit;
+
                 return View(model);
             }
         }
@@ -51,6 +54,8 @@ namespace OrganizadorReuniao.Controllers
                         ModelState.AddModelError("", "Ocorreu um erro ao criar novo chamado");
                 }
 
+                ViewBag.unit = loggedUser.Unit;
+
                 return View(model);
             }
         }
@@ -61,7 +66,7 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                return View(new Calling().getAllCallings());
+                return View(new Calling().getAllCallings(loggedUser.Unit));
             }
         }
 
@@ -73,13 +78,16 @@ namespace OrganizadorReuniao.Controllers
             else
             {
                 CallingViewModel model = new CallingViewModel();
-                Calling call = new Calling().get(id);
+                Calling call = new Calling().get(id, loggedUser.Unit);
                 model.CallingId = call.CallingId;
                 model.MemberId = call.MemberId;
                 model.CallingFlag = new Common().convertBool(call.CallingFlag);
                 model.Date = call.Date;
                 model.Id = call.Id;
                 model.Other = call.Other;
+
+                ViewBag.unit = loggedUser.Unit;
+
                 return View(model);
             }
         }
@@ -100,6 +108,8 @@ namespace OrganizadorReuniao.Controllers
                     else
                         ModelState.AddModelError("", "Ocorreu um erro ao atualizar chamado/desobrigação");
                 }
+
+                ViewBag.unit = loggedUser.Unit;
 
                 return View(model);
             }

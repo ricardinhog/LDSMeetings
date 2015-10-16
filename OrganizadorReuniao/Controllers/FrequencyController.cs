@@ -8,9 +8,6 @@ namespace OrganizadorReuniao.Controllers
 {
     public class FrequencyController : BaseController
     {
-        //
-        // GET: /Frequency/
-
         public ActionResult Index(int frequencyType)
         {
             if (!isAuthenticated())

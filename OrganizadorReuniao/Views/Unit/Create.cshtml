@@ -15,24 +15,6 @@
         @Html.ValidationMessageFor(m => m.Name) 
     </div>
     
-    <div class="form-group">
-        @Html.LabelFor(m => m.Phone)
-        @Html.EditorFor(m => m.Phone)
-        @Html.ValidationMessageFor(m => m.Phone) 
-    </div>
-    
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email)
-        @Html.EditorFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email) 
-    </div>
-    
-    <div class="form-group">
-        @Html.LabelFor(m => m.Number)
-        @Html.PasswordFor(m => m.Number)
-        @Html.ValidationMessageFor(m => m.Number) 
-    </div>
-    
     @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />

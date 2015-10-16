@@ -33,7 +33,7 @@ namespace OrganizadorReuniao.Models
 
         public Result update(int id, string name, DateTime date, string place, string obs, int unitId)
         {
-            MySqlCommand cmd = new MySqlCommand("update lds_activity set name = @name, scheduled_by = @scheduled_by, place = @place, obs = @obs, unit_id = 1 where id = @id");
+            MySqlCommand cmd = new MySqlCommand("update lds_activity set name = @name, scheduled_by = @scheduled_by, place = @place, obs = @obs, unit_id = @unit_id where id = @id");
             cmd.Parameters.AddWithValue("name", name);
             cmd.Parameters.AddWithValue("scheduled_by", date);
             cmd.Parameters.AddWithValue("place", place);
@@ -44,24 +44,27 @@ namespace OrganizadorReuniao.Models
             return database.executeQuery(cmd);
         }
 
-        public Result delete(int id)
+        public Result delete(int id, int unitId)
         {
-            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where id = @id");
+            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where id = @id and unit_id = @unit_id");
             cmd.Parameters.AddWithValue("id", id);
+            cmd.Parameters.AddWithValue("unit_id", unitId);
 
             return database.executeQuery(cmd);
         }
 
-        public Result deleteOld()
+        public Result deleteOld(int unitId)
         {
-            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where scheduled_by < now()");
+            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where scheduled_by < now() and unit_id = @unit_id");
+            cmd.Parameters.AddWithValue("unit_id", unitId);
+
             return database.executeQuery(cmd);
         }
 
-        public List<Activity> getAll()
+        public List<Activity> getAll(int unitId)
         {
             List<Activity> list = new List<Activity>();
-            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity order by scheduled_by asc"))
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where unit_id = @unit_id order by scheduled_by asc", unitId))
             {
                 Activity activity = new Activity();
                 activity.Id = common.convertNumber(data[0]);
@@ -74,10 +77,10 @@ namespace OrganizadorReuniao.Models
             return list;
         }
 
-        public List<Activity> getNextNMonths(int nInterval)
+        public List<Activity> getNextNMonths(int nInterval, int unitId)
         {
             List<Activity> list = new List<Activity>();
-            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by >= now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) order by scheduled_by asc"))
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by >= now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) and unit_id = @unit_id order by scheduled_by asc", unitId))
             {
                 Activity activity = new Activity();
                 activity.Id = common.convertNumber(data[0]);
@@ -90,10 +93,10 @@ namespace OrganizadorReuniao.Models
             return list;
         }
 
-        public Activity get(int id)
+        public Activity get(int id, int unitId)
         {
             Activity activity = null;
-            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where id = @id", id))
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where id = @id and unit_id = @unit_id", id, unitId))
             {
                 activity = new Activity();
                 activity.Id = common.convertNumber(data[0]);

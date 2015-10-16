@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrganizadorReuniao.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,5 +14,19 @@ namespace OrganizadorReuniao.Controllers
             return !(Session["user"] == null);
         }
 
+        public User loggedUser
+        {
+            get
+            {
+                if (!isAuthenticated())
+                {
+                    return null;
+                }
+                else
+                {
+                    return (User)Session["user"];
+                }
+            }
+        }
     }
 }

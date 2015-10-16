@@ -20,7 +20,7 @@ namespace OrganizadorReuniao.Controllers
             else
             {
                 ViewBag.option = (int)Member.memberType.elder;
-                return View(new Report().getReport(Member.memberType.elder, DateTime.Now.Year));
+                return View(new Report().getReport(Member.memberType.elder, DateTime.Now.Year, loggedUser.Unit));
             }
         }
 
@@ -33,7 +33,7 @@ namespace OrganizadorReuniao.Controllers
             else
             {
                 ViewBag.option = reportId;
-                return View(new Report().getReport((Member.memberType)reportId, year));
+                return View(new Report().getReport((Member.memberType)reportId, year, loggedUser.Unit));
             }
         }
     }

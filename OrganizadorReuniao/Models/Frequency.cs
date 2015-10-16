@@ -34,10 +34,10 @@ namespace OrganizadorReuniao.Models
             return common.readResourceValue(key);
         }
 
-        public bool wasPresent(int memberId, DateTime date, Member.memberType type)
+        public bool wasPresent(int memberId, DateTime date, Member.memberType type, int unitId)
         {
             bool present = false;
-            foreach (List<string> data in database.retrieveData("select 1 from lds_frequency where member_id = @member_id and created_by = @date and type_id = @type", memberId, common.convertDate(date, true), (int)type))
+            foreach (List<string> data in database.retrieveData("select 1 from lds_frequency where member_id = @member_id and created_by = @date and type_id = @type and unit_id = @unit_id", memberId, common.convertDate(date, true), (int)type, unitId))
             {
                 present = true;
             }

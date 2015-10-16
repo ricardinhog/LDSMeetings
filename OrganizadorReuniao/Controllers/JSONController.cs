@@ -16,10 +16,8 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                Models.User user = (Models.User)Session["user"];
-
                 Member member = new Member();
-                return Json(member.getMembers(keyword, user.Units[0].Id), JsonRequestBehavior.AllowGet);
+                return Json(member.getMembers(keyword, loggedUser.Unit), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -29,9 +27,8 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                Models.User user = (Models.User)Session["user"];
                 Member member = new Member();
-                return Json(member.getMembers((Member.memberType)typeId, 1, new Common().convertDate(date.Replace("/", "-"), true)), JsonRequestBehavior.AllowGet);
+                return Json(member.getMembers((Member.memberType)typeId, loggedUser.Unit, new Common().convertDate(date.Replace("/", "-"), true)), JsonRequestBehavior.AllowGet);
             }
         }
 

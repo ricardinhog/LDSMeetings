@@ -29,6 +29,12 @@
         @Html.ValidationMessageFor(m => m.Confirm) 
     </div>
     
+    <div class="form-group">
+        @Html.LabelFor(m => m.UnitName)
+        @Html.EditorFor(m => m.UnitName)
+        @Html.ValidationMessageFor(m => m.UnitName) 
+    </div>
+    
     @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />

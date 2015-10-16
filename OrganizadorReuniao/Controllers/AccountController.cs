@@ -32,6 +32,9 @@ namespace OrganizadorReuniao.Controllers
                     Result result = newUser.addUser(model.Email, model.Password);
 
                     if (result.Success)
+                        result = new Unit().addUnit(model.UnitName, result.Id);
+
+                    if (result.Success)
                         return RedirectToAction("Success");
                 }
                 else
@@ -112,39 +115,61 @@ namespace OrganizadorReuniao.Controllers
         /// <returns></returns>
         public ActionResult Update()
         {
-            Models.User user = (Models.User)Session["user"];
-            Models.UserViewModel model = new UserViewModel();
-            model.Email = user.Email;
-            model.Password = user.Password;
-            model.Confirm = user.Password;
-            model.Id = user.Id;
-            return View(model);
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                Models.User user = (Models.User)Session["user"];
+                Models.UserViewModel model = new UserViewModel();
+                model.Email = user.Email;
+                model.Password = user.Password;
+                model.Confirm = user.Password;
+                model.Id = user.Id;
+                model.UnitName = user.UnitName;
+                return View(model);
+            }
         }
 
         [HttpPost]
         public ActionResult Update(UserViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
             {
-                if (model.Password != string.Empty && model.Email != string.Empty)
+                if (ModelState.IsValid)
                 {
-                    Models.User user = new Models.User();
-                    Result result = user.updateUser(model.Id, model.Email, model.Password);
+                    if (model.Password != string.Empty && model.Email != string.Empty)
+                    {
+                        Models.User user = new Models.User();
+                        Result result = user.updateUser(model.Id, model.Email, model.Password);
 
-                    if (result.Success)
-                        return RedirectToAction("UpdateSuccess");
+                        if (result.Success)
+                            result = new Unit().updateUnit(model.UnitName, model.Id);
+
+                        if (result.Success)
+                        {
+                            Session["user"] = new User().getUser(model.Id);
+                            return RedirectToAction("UpdateSuccess");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Os campos email e senha precisam ser preenchidos");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Os campos email e senha precisam ser preenchidos");
-                }
+                return View(model);
             }
-            return View(model);
         }
 
         public ActionResult UpdateSuccess()
         {
-            return View();
+            if (!isAuthenticated())
+                return new HttpUnauthorizedResult();
+            else
+            {
+                return View();
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ namespace OrganizadorReuniao.Controllers
                 if (ModelState.IsValid)
                 {
                     //new Common().convertDate(date.Replace("/", "-")
-                    Result result = new Member().addMember(model.FirstName, model.LastName, model.BirthDate, gender, new Common().convertBool(unitMember), priesthood);
+                    Result result = new Member().addMember(model.FirstName, model.LastName, model.BirthDate, gender, new Common().convertBool(unitMember), priesthood, loggedUser.Unit);
                     if (result.Success)
                         return RedirectToAction("Success");
                     else
@@ -56,7 +56,7 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                Member member = new Member().getMember(id);
+                Member member = new Member().getMember(id, loggedUser.Unit);
                 MemberViewModel model = new MemberViewModel();
                 model.Id = member.Id;
                 model.BirthDate = member.BirthDate;
@@ -80,7 +80,7 @@ namespace OrganizadorReuniao.Controllers
                 if (ModelState.IsValid)
                 {
                     //new Common().convertDate(date.Replace("/", "-")
-                    Result result = new Member().updateMember(model.Id, model.FirstName, model.LastName, model.BirthDate, gender, new Common().convertBool(unitMember), priesthood);
+                    Result result = new Member().updateMember(model.Id, model.FirstName, model.LastName, model.BirthDate, gender, new Common().convertBool(unitMember), priesthood, loggedUser.Unit);
                     if (result.Success)
                         return RedirectToAction("Success");
                     else

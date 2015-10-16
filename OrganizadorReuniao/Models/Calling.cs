@@ -91,15 +91,19 @@ namespace OrganizadorReuniao.Models
             return database.executeQuery(cmd);
         }
 
-        public List<Calling> getAllCallings()
+        public List<Calling> getAllCallings(int unit_id)
         {
             List<Calling> list = new List<Calling>();
-            foreach (List<string> data in database.retrieveData("select id, calling_id, member_id, other, "+common.formatDate("calling_date") + ", calling_flag from lds_calling_member order by calling_date asc"))
+            foreach (List<string> data in database.retrieveData("select cm.id, cm.calling_id, cm.member_id, cm.other, " + common.formatDate("cm.calling_date") + ", cm.calling_flag " +
+                "	from lds_calling_member cm, lds_member m " +
+                "	where cm.member_id = m.id " +
+                "	  and m.unit_id = @unit_id " +
+                "order by cm.calling_date asc", unit_id))
             {
                 Calling call = new Calling();
                 call.Id = common.convertNumber(data[0]);
                 call.Name = getCallingName(common.convertNumber(data[1]));
-                Member member = new Member().getMember(common.convertNumber(data[2]));
+                Member member = new Member().getMember(common.convertNumber(data[2]), unit_id);
                 call.Member = member.FirstName + " " + member.LastName;
                 call.Other = data[3];
                 call.Date = common.convertDate(data[4]);
@@ -109,15 +113,17 @@ namespace OrganizadorReuniao.Models
             return list;
         }
 
-        public List<Calling> getNextNMonths(int nInterval)
+        public List<Calling> getNextNMonths(int nInterval, int unitId)
         {
             List<Calling> list = new List<Calling>();
-            foreach (List<string> data in database.retrieveData("select id, calling_id, member_id, other, " + common.formatDate("calling_date") + ", calling_flag from lds_calling_member where calling_date > now() and calling_date < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) order by calling_date asc"))
+            foreach (List<string> data in database.retrieveData("select cm.id, cm.calling_id, cm.member_id, cm.other, " + common.formatDate("cm.calling_date") + ", cm.calling_flag " +
+                "from lds_calling_member cm, lds_member m where cm.member_id = m.id and cm.calling_date > now() and cm.calling_date < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) " + 
+                " and m.unit_id = @unit_id order by cm.calling_date asc", unitId))
             {
                 Calling call = new Calling();
                 call.Id = common.convertNumber(data[0]);
                 call.Name = getCallingName(common.convertNumber(data[1]));
-                Member member = new Member().getMember(common.convertNumber(data[2]));
+                Member member = new Member().getMember(common.convertNumber(data[2]), unitId);
                 call.Member = member.FirstName + " " + member.LastName;
                 call.Other = data[3];
                 call.Date = common.convertDate(data[4]);
@@ -127,16 +133,17 @@ namespace OrganizadorReuniao.Models
             return list;
         }
 
-        public Calling get(int id)
+        public Calling get(int id, int unitId)
         {
             Calling call = null;
-            foreach (List<string> data in database.retrieveData("select id, calling_id, member_id, other, " + common.formatDate("calling_date") + ", calling_flag from lds_calling_member where id = @id", id))
+            foreach (List<string> data in database.retrieveData("select cm.id, cm.calling_id, cm.member_id, cm.other, " + common.formatDate("cm.calling_date") + ", cm.calling_flag " + 
+                "from lds_calling_member cm, lds_member m where cm.member_id = m.id and cm.id = @id and m.unit_id = @unit_id", id, unitId))
             {
                 call = new Calling();
                 call.Id = common.convertNumber(data[0]);
                 call.Name = getCallingName(common.convertNumber(data[1]));
                 call.CallingId = common.convertNumber(data[1]);
-                Member member = new Member().getMember(common.convertNumber(data[2]));
+                Member member = new Member().getMember(common.convertNumber(data[2]), unitId);
                 call.MemberId = common.convertNumber(data[2]);
                 call.Member = member.FirstName + " " + member.LastName;
                 call.Other = data[3];

@@ -28,5 +28,9 @@ namespace OrganizadorReuniao.Models
         [Display(ResourceType = typeof(pt_br), Name = "ConfirmPasswordField")]
         [Compare("Password", ErrorMessageResourceType = typeof(pt_br), ErrorMessageResourceName = "PasswordDoesNotMatch")]
         public string Confirm { get; set; }
+
+        [Required(ErrorMessage="Nome da ala obrigatório")]
+        [Display(Name="Nome da Ala")]
+        public string UnitName { get; set; }
     }
 }

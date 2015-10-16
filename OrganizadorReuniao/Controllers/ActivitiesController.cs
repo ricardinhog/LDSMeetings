@@ -19,8 +19,8 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                new Activity().deleteOld();
-                return View(new Activity().getAll());
+                new Activity().deleteOld(loggedUser.Unit);
+                return View(new Activity().getAll(loggedUser.Unit));
             }
         }
 
@@ -31,7 +31,7 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                new Activity().delete(id);
+                new Activity().delete(id, loggedUser.Unit);
                 return RedirectToAction("Index");
             }
         }
@@ -43,7 +43,7 @@ namespace OrganizadorReuniao.Controllers
             else
             {
                 ActivityViewModel model = new ActivityViewModel();
-                Activity activity = new Activity().get(id);
+                Activity activity = new Activity().get(id, loggedUser.Unit);
                 model.Id = activity.Id;
                 model.Name = activity.Name;
                 model.Date = activity.Date;
@@ -67,7 +67,7 @@ namespace OrganizadorReuniao.Controllers
                         new DateTime(model.Date.Year, model.Date.Month, model.Date.Day, new Common().convertNumber(hour), new Common().convertNumber(minute), 0),
                         model.Place,
                         model.Obs,
-                        1);
+                        loggedUser.Unit);
                     if (result.Success)
                         return RedirectToAction("Index");
                     else
@@ -104,7 +104,7 @@ namespace OrganizadorReuniao.Controllers
                         new DateTime(model.Date.Year, model.Date.Month, model.Date.Day, new Common().convertNumber(hour), new Common().convertNumber(minute), 0),
                         model.Place,
                         model.Obs,
-                        1);
+                        loggedUser.Unit);
                     if (result.Success)
                         return RedirectToAction("Index");
                     else

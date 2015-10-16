@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Novo Chamado/Desobrigação";
 
-    List<OrganizadorReuniao.Models.Member> members = new OrganizadorReuniao.Models.Member().getMembers(1);
+    List<OrganizadorReuniao.Models.Member> members = new OrganizadorReuniao.Models.Member().getMembers((int)ViewBag.unit);
     members = members.OrderBy(m => m.LastName).OrderBy(m => m.FirstName).ToList();
     List<OrganizadorReuniao.Models.Calling> callings = new OrganizadorReuniao.Models.Calling().getAll();
 }

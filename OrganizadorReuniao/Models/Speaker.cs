@@ -26,7 +26,7 @@ namespace OrganizadorReuniao.Models
             Position = position;
         }
 
-        public List<Speaker> getAll()
+        public List<Speaker> getAll(int unitId)
         {
             string sql = "select " +
                 "	" + common.formatDate("s.date") + ",  " +
@@ -39,12 +39,12 @@ namespace OrganizadorReuniao.Models
                 "	(s.speaker1 > 0 and s.speaker1 is not null) or  " +
                 "	(s.speaker2 > 0 and s.speaker2 is not null) or  " +
                 "	(s.speaker3 > 0 and s.speaker3 is not null) or  " +
-                "	(s.speaker5 > 0 and s.speaker5 is not null) and date >= now()" +
+                "	(s.speaker5 > 0 and s.speaker5 is not null) and date >= now() and s.unit_id = @unit_id " +
                 "	order by s.date asc";
 
             List<Speaker> speakers = new List<Speaker>();
 
-            foreach (List<string> data in database.retrieveData(sql))
+            foreach (List<string> data in database.retrieveData(sql, unitId))
             {
                 DateTime date = common.convertDate(data[0]);
 

@@ -42,7 +42,7 @@ namespace OrganizadorReuniao.Models
         private Database database = new Database();
         private Common common = new Common();
 
-        public void loadData(DateTime date)
+        public void loadData(DateTime date, int unitId)
         {
             string sql = "select `id`, " + //0
                 "`conducted_by`, " + //1
@@ -70,9 +70,9 @@ namespace OrganizadorReuniao.Models
                 "`hymn_conducted_by`, " + //23
                 "`other_subjects`, " + //24
                 "`last_hymn`, " + //25
-                "`last_prayer` from lds_sacramental where date = @date"; //26
+                "`last_prayer` from lds_sacramental where date = @date and unit_id = @unit_id"; //26
 
-            foreach (List<string> data in database.retrieveData(sql, date))
+            foreach (List<string> data in database.retrieveData(sql, date, unitId))
             {
                 id = common.convertNumber(data[0]);
                 this.date = date;
@@ -105,15 +105,15 @@ namespace OrganizadorReuniao.Models
             }
         }
 
-        public Result updateOrAdd()
+        public Result updateOrAdd(int unitId)
         {
             if (id == 0)
-                return add();
+                return add(unitId);
             else
-                return update();
+                return update(unitId);
         }
 
-        public Result update()
+        public Result update(int unitId)
         {
             string sql = "UPDATE `bakeappdb`.`lds_sacramental` " +
                 "SET " +
@@ -144,7 +144,7 @@ namespace OrganizadorReuniao.Models
                 "`other_subjects` = @other_subjects, " +
                 "`last_hymn` = @last_hymn, " +
                 "`last_prayer` = @last_prayer " +
-                "WHERE id = @id";
+                "WHERE id = @id and unit_id = @unit_id";
 
             MySqlCommand cmd = new MySqlCommand(sql);
             cmd.Parameters.AddWithValue("date", date);
@@ -175,11 +175,12 @@ namespace OrganizadorReuniao.Models
             cmd.Parameters.AddWithValue("last_hymn", lastHymn);
             cmd.Parameters.AddWithValue("last_prayer", lastPrayer);
             cmd.Parameters.AddWithValue("id", id);
+            cmd.Parameters.AddWithValue("unit_id", unitId);
 
             return database.executeQuery(cmd);
         }
 
-        public Result add()
+        public Result add(int unitId)
         {
             string sql = "INSERT INTO `bakeappdb`.`lds_sacramental` " +
                 "(`date`, " +
@@ -208,7 +209,7 @@ namespace OrganizadorReuniao.Models
                 "`hymn_conducted_by`, " +
                 "`other_subjects`, " +
                 "`last_hymn`, " +
-                "`last_prayer`) " +
+                "`last_prayer`, unit_id) " +
                 "VALUES " +
                 "(@date, " +
                 "@conducted_by, " +
@@ -236,7 +237,7 @@ namespace OrganizadorReuniao.Models
                 "@hymn_conducted_by, " +
                 "@other_subjects, " +
                 "@last_hymn, " +
-                "@last_prayer)";
+                "@last_prayer, @unit_id)";
 
             MySqlCommand cmd = new MySqlCommand(sql);
             cmd.Parameters.AddWithValue("date", date);
@@ -266,6 +267,7 @@ namespace OrganizadorReuniao.Models
             cmd.Parameters.AddWithValue("other_subjects", otherSubjects);
             cmd.Parameters.AddWithValue("last_hymn", lastHymn);
             cmd.Parameters.AddWithValue("last_prayer", lastPrayer);
+            cmd.Parameters.AddWithValue("unit_id", unitId);
 
             return database.executeQuery(cmd);
         }

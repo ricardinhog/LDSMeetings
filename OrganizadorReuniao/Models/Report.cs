@@ -30,7 +30,7 @@ namespace OrganizadorReuniao.Models
         private Database database = new Database();
         private Common common = new Common();
 
-        public List<Report> getReport(Member.memberType type, int year)
+        public List<Report> getReport(Member.memberType type, int year, int unitId)
         {
             string sql = "select " +
                 "	m.last_name,  " +
@@ -98,11 +98,15 @@ namespace OrganizadorReuniao.Models
                     break;
             }
 
+            if (sqlCont != "")
+                sqlCont += " and m.unit_id = @unit_id ";
+            else
+                sqlCont += " where m.unit_id = @unit_id ";
 
             sql += sqlCont + " order by m.last_name, m.first_name";
 
             List<Report> reportData = new List<Report>();
-            foreach (List<string> data in database.retrieveData(sql))
+            foreach (List<string> data in database.retrieveData(sql, unitId))
             {
                 Report report = new Report();
                 report.lastName = data[0];

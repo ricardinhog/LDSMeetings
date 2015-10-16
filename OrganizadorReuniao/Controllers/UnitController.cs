@@ -31,7 +31,7 @@ namespace OrganizadorReuniao.Controllers
                     User user = (User)Session["user"];
 
                     Unit unit = new Unit();
-                    Result result = unit.addUnit(model.Name, model.Phone, model.Email, user.Id, model.Number);
+                    Result result = unit.addUnit(model.Name, user.Id);
 
                     if (result.Success)
                         return RedirectToAction("Success");

@@ -13,8 +13,8 @@ namespace OrganizadorReuniao.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime CreatedBy { get; set; }
-        public List<Admin> Administrators { get; set; }
-        public List<Unit> Units { get; set; }
+        public int Unit { get; set; }
+        public string UnitName { get; set; }
 
         // private variables
         private Database database = new Database();
@@ -67,8 +67,9 @@ namespace OrganizadorReuniao.Models
                 user.Id = Convert.ToInt32(data[0]);
                 user.Email = email;
                 user.Password = password;
-                user.Units = new List<Unit>();
-                user.Units.Add(new Unit().getUnit(user.Id));
+                Unit unit = new Unit().getUnit(user.Id);
+                user.Unit = unit.Id;
+                user.UnitName = unit.Name;
             }
             return user;
         }

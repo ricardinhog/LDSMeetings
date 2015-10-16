@@ -18,7 +18,7 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                return View(new Speaker().getAll());
+                return View(new Speaker().getAll(loggedUser.Unit));
             }
         }
 
