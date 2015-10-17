@@ -13,11 +13,11 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    
+
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    
+
     <!-- favicon -->
     @Html.Partial("_Icon")
 </head>
@@ -47,11 +47,25 @@
                         <li><a href="/Memo/Index">Agenda</a></li>
                         <li><a href="/Activities/Index">Atividades</a></li>
                         <li><a href="/Calling/Index">Chamados</a></li>
-                        <li><a href="/Speaker/Index">Discursantes</a></li>
                         <li><a href="/Home/Index">Frequência</a></li>
-                        <li><a href="/Member/Index">Novo Membro</a></li>
-                        <li><a href="/Report">Relatório</a></li>
-                        @*<li class="dropdown">
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatório <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Speaker/Index">Discursantes</a></li>
+                                <li><a href="/Report">Trimestral</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Membros/Acesso <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/AccessArea/Index">Controle Acesso</a></li>
+                                <li><a href="/Member/Index">Novo Membro</a></li>
+                                @*<li><a href="#" onclick="alert('Funcionalidade em Desenvolvimento')">Subir Lista Membro</a></li>*@
+                            </ul>
+                        </li>
+                            @*<li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuracoes <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Atualizar Dados</a></li>
@@ -99,7 +113,7 @@
         </div>
     </footer>
 
-    
+
     <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/app.js" type="text/javascript"></script>

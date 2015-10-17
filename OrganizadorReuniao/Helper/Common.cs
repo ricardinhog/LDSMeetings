@@ -1,7 +1,10 @@
 ﻿using OrganizadorReuniao.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Resources;
 using System.Security.Cryptography;
 using System.Text;
@@ -195,6 +198,44 @@ namespace OrganizadorReuniao.Helper
             string textHash = hash(text);
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
             return (0 == comparer.Compare(textHash, hashToCompare));
+        }
+
+        public bool sendEmail(string email, string message, string subject)
+        {
+            // setting email configuration
+            MailMessage myMail = new MailMessage();
+            myMail.To.Add(new MailAddress(email));
+            myMail.From = new MailAddress(ConfigurationManager.AppSettings["senderEmail"]);
+            myMail.IsBodyHtml = false;
+            myMail.Subject = subject;
+            myMail.Priority = MailPriority.High;
+            myMail.Body = message;
+            SmtpClient sc = new SmtpClient(ConfigurationManager.AppSettings["smtpHost"]);
+            sc.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["user"], ConfigurationManager.AppSettings["password"]);
+            sc.Port = Int32.Parse(ConfigurationManager.AppSettings["smtpPort"]);
+            sc.EnableSsl = true;
+            try
+            {
+                sc.Send(myMail);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex);
+            }
+            return false;
+        }
+
+        public string generatePassword(int length)
+        {
+            const string valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
         }
     }
 }
