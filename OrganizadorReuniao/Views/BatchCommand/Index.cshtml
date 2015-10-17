@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Cadastro Lista Membros";
+}
+
+<div class="page-header">
+    <h2>Cadastro Lista Membros</h2>
+</div>
+
+@using (Html.BeginForm("Index", "BatchCommand", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+
+    <div class="alert alert-danger">
+        <p><b>Atenção as regras do formato de arquivo aceito</b></p>
+        <ul>
+            <li>A extensão do arquivo deve ser .txt</li>
+            <li>O arquivo deve possuir um membro por linha</li>
+            <li>Este sistema de cadastro não verifica membros duplicados</li>
+            <li>Os dados do membro devem estar separados por ponto e vírgula</li>
+            <li>A ordem dos dados é a seguinte:
+                <ol>
+                    <li>Primeiro nome</li>
+                    <li>Sobrenome</li>
+                    <li>Data de nascimento: ano-mês-dia</li>
+                    <li>Sexo (M ou F)</li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+
+    <div class="alert alert-info">
+        <p><b>Exemplo</b></p>
+        <p style="font-family: 'Courier New'">
+            Mario;Silva;1989-10-24;M<br />
+            Jonathan;Oliveira;2010-05-17;M<br />
+            Maria Isabel;Tobias;1985-09-10;F
+        </p>
+    </div>
+    
+    <br />
+    
+    <label>Selecione o arquivo</label>
+    
+    <input type="file" name="file" />
+    
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-primary">Enviar</button>
+}

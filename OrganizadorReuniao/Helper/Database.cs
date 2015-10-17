@@ -10,6 +10,45 @@ namespace OrganizadorReuniao.Helper
     public class Database
     {
         /// <summary>
+        /// Execute several commands on the same transaction
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <returns></returns>
+        public Result executeBatch(List<MySqlCommand> commands)
+        {
+            Result result = new Result(true);
+
+            using (MySqlConnection cn = new MySqlConnection(DefaultConfig.ConnectionString))
+            {
+                cn.Open();
+                using (MySqlTransaction trans = cn.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (MySqlCommand cmd in commands)
+                        {
+                            cmd.Transaction = trans;
+                            cmd.Connection = cn;
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        Log.error(ex, "Batch");
+
+                        result.ErrorDetails = ex;
+                        result.Success = false;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Insert, update or delete data on the database
         /// </summary>
         /// <param name="cmd"></param>
