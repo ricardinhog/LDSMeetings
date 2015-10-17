@@ -134,6 +134,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccessAreaController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -158,6 +159,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>pt-br.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccessViewModel.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Calling.cs" />
@@ -420,6 +422,11 @@
     <Content Include="Views\Calling\Index.cshtml" />
     <Content Include="Views\Calling\Edit.cshtml" />
     <Content Include="Views\Speaker\Index.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\Feedback.cshtml" />
+    <Content Include="Views\AccessArea\Index.cshtml" />
+    <Content Include="Views\AccessArea\New.cshtml" />
+    <Content Include="Views\AccessArea\Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

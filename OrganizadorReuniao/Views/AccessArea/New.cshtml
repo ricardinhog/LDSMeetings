@@ -1,0 +1,23 @@
+﻿@model OrganizadorReuniao.Models.AccessViewModel
+@{
+    ViewBag.Title = "Novo Acesso";
+}
+
+<div class="page-header">
+    <h2>Novo Acesso</h2>
+</div>
+
+@using (Html.BeginForm("New", "AccessArea", FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    
+    @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
+    
+    <hr />
+    
+    <button type="submit" class="btn btn-primary">@OrganizadorReuniao.Languages.pt_br.CreateButton</button>
+}

@@ -22,7 +22,17 @@ namespace OrganizadorReuniao.Models
             cmd.Parameters.AddWithValue("name", name);
             cmd.Parameters.AddWithValue("user_id", userId);
 
-            return database.executeQuery(cmd);
+            Result result = database.executeQuery(cmd);
+            if (result.Success)
+            {
+                cmd = new MySqlCommand("insert into lds_user_unit (user_id, unit_id) values (@user_id, @unit_id)");
+                cmd.Parameters.AddWithValue("user_id", userId);
+                cmd.Parameters.AddWithValue("unit_id", result.Id);
+
+                result = database.executeQuery(cmd);
+            }
+
+            return result;
         }
 
         public Result updateUnit(string name, int userId)
@@ -37,7 +47,10 @@ namespace OrganizadorReuniao.Models
         public Unit getUnit(int userId)
         {
             Unit unit = new Unit();
-            foreach (List<string> data in database.retrieveData("select id, name from lds_unit where user_id = @id", userId))
+            foreach (List<string> data in database.retrieveData("select un.id, un.name from lds_user us, lds_unit un, lds_user_unit uu  " +
+                " where uu.user_id = @id " +
+                "   and uu.unit_id = un.id " +
+                "   and uu.user_id = us.id", userId))
             {
                 unit.Id = common.convertNumber(data[0]);
                 unit.Name = data[1];

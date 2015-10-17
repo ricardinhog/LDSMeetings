@@ -1,0 +1,69 @@
+﻿@model List<OrganizadorReuniao.Models.User>
+@{
+    ViewBag.Title = "Controle de Acesso";
+}
+
+<div class="page-header">
+    <h2>Controle de Acesso</h2>
+</div>
+
+<div class="row no-print">
+    <input type="button" value="Novo Acesso" onclick="location.href = '/AccessArea/New'" style="margin-left: 15px;" class="btn btn-primary" />
+</div>
+
+<br />
+
+@if (Model.Count == 0)
+{
+    <br />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p class="bg-warning" style="padding: 10px;">Você ainda não tem nenhuma acesso cadastrado</p>
+        </div>
+    </div>
+}
+else
+{
+    <table class="table table-striped datatable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Email</th>
+                <th>Nível Acesso</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="no-print">
+                        @if ((int)ViewBag.userId == user.Id)
+                        {
+                            <span class="label label-info">Seu Acesso</span>
+                        }
+                        else
+                        {
+                            <img src='/Images/Button-Delete-icon.png' title='Excluir acesso' style='display: block; cursor: pointer;' onclick="removeAccess(@user.Id, '@user.Email')" />    
+                        }
+                    </td>
+                    <td>@user.Email</td>
+                    <td>Administrador</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function removeAccess(id, name) {
+            var confirmation = confirm("Deseja mesmo excluir o acesso de '" + name + "'?");
+            if (confirmation) {
+                $.post("/AccessArea/Delete/", "id=" + id, function () {
+                    location.href = '/AccessArea/';
+                });
+            }
+        }
+    </script>
+}
