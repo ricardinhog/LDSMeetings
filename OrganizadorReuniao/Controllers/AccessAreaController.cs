@@ -15,7 +15,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -26,7 +26,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult New()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -35,9 +35,9 @@ namespace OrganizadorReuniao.Controllers
         }
 
         [HttpPost]
-        public ActionResult New(AccessViewModel model)
+        public ActionResult New(AccessViewModel model, string accessLevel)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -48,7 +48,7 @@ namespace OrganizadorReuniao.Controllers
                         Common common = new Common();
                         string newPassword = common.generatePassword(6);
                         bool emailSent = common.sendEmail(model.Email, string.Format("Seu acesso foi criado no Agenda SUD\n\nEmail: {0}\nSenha: {1}\n\nAgenda SUD", model.Email, newPassword), "Agenda SUD - Acesso Criado");
-                        Result result = new User().addUser(model.Email, newPassword, loggedUser.Unit);
+                        Result result = new User().addUser(model.Email, newPassword, loggedUser.Unit, (accessLevel == "A"));
 
                         if (emailSent && result.Success)
                             return RedirectToAction("Index");
@@ -75,7 +75,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

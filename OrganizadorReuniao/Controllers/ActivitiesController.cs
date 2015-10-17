@@ -15,7 +15,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -27,7 +27,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -38,7 +38,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Edit(int id)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -56,7 +56,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Edit(ActivityViewModel model, string hour, string minute)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -80,7 +80,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult New()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -93,7 +93,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult New(ActivityViewModel model, string hour, string minute)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

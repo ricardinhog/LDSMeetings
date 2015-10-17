@@ -12,7 +12,7 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Get(string date)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -29,7 +29,7 @@ namespace OrganizadorReuniao.Controllers
             string theme3, string theme4, string theme5, int intermediateHymn, int pianist,
             int conductor, string otherSubjects, int lastHymn, int lastPrayer)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -71,7 +71,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

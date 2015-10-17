@@ -15,9 +15,22 @@
         @Html.ValidationMessageFor(m => m.Email)
     </div>
     
+    <div class="form-group">
+        <select name="accessLevel" class="form-control">
+            <option value="A" selected="selected">Administrador</option>
+            <option value="U">Usuário</option>
+        </select>
+    </div>
+    
     @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
     <hr />
     
     <button type="submit" class="btn btn-primary">@OrganizadorReuniao.Languages.pt_br.CreateButton</button>
 }
+
+<div class="alert alert-info">
+    <p><b>Administrador</b> - Podem usar qualquer funcionalidade do sistema, alterar o nome da ala, e liberar acesso à outros usuários.</p>
+    <p><b>Usuário</b> - Podem acessar somente as listas de frequência.</p>
+</div>
+

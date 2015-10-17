@@ -12,7 +12,7 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
                 return View();
@@ -21,7 +21,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Index(MemberViewModel model, string gender, string unitMember, string priesthood)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -41,7 +41,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Delete(int deleteId)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -52,7 +52,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Edit(int id)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -73,7 +73,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Edit(MemberViewModel model, string gender, string unitMember, string priesthood)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -92,7 +92,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Success()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
                 return View();

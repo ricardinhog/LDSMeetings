@@ -160,6 +160,9 @@ namespace OrganizadorReuniao.Controllers
                 model.Confirm = user.Password;
                 model.Id = user.Id;
                 model.UnitName = user.UnitName;
+
+                ViewBag.isAdmin = loggedUser.isAdmin;
+
                 return View(model);
             }
         }
@@ -211,6 +214,9 @@ namespace OrganizadorReuniao.Controllers
                         ModelState.AddModelError("", "Os campos email e senha precisam ser preenchidos");
                     }
                 }
+
+                ViewBag.isAdmin = loggedUser.isAdmin;
+
                 return View(model);
             }
         }

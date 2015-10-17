@@ -11,7 +11,7 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Create()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -22,7 +22,7 @@ namespace OrganizadorReuniao.Controllers
         [HttpPost]
         public ActionResult Create(UnitViewModel model)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -42,7 +42,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Success()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

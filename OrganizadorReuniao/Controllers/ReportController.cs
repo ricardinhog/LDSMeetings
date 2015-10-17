@@ -15,7 +15,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {
@@ -28,7 +28,7 @@ namespace OrganizadorReuniao.Controllers
         [OutputCache(NoStore = true, Location = OutputCacheLocation.None)]
         public ActionResult Index(int reportId, int year)
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

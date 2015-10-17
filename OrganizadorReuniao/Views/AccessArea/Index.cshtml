@@ -48,7 +48,14 @@ else
                         }
                     </td>
                     <td>@user.Email</td>
-                    <td>Administrador</td>
+                    @if (user.isAdmin)
+                    {
+                        <td><span class="label label-danger">Administrador</span></td>
+                    }
+                    else
+                    {
+                        <td><span class="label label-success">Usuário</span></td>
+                    }
                 </tr>
             }
         </tbody>

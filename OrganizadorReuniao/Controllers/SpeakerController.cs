@@ -14,7 +14,7 @@ namespace OrganizadorReuniao.Controllers
 
         public ActionResult Index()
         {
-            if (!isAuthenticated())
+            if (!isAuthenticated() || !loggedUser.isAdmin)
                 return new HttpUnauthorizedResult();
             else
             {

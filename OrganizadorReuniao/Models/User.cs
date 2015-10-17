@@ -15,6 +15,7 @@ namespace OrganizadorReuniao.Models
         public DateTime CreatedBy { get; set; }
         public int Unit { get; set; }
         public string UnitName { get; set; }
+        public bool isAdmin { get; set; }
 
         // private variables
         private Database database = new Database();
@@ -22,18 +23,19 @@ namespace OrganizadorReuniao.Models
 
         public Result addUser(string email, string password)
         {
-            MySqlCommand cmd = new MySqlCommand("insert into lds_user (email, password, created_by) values (@email, @password, now())");
+            MySqlCommand cmd = new MySqlCommand("insert into lds_user (email, password, created_by, profile) values (@email, @password, now(), 1)");
             cmd.Parameters.AddWithValue("email", email);
             cmd.Parameters.AddWithValue("password", common.hash(password)); 
 
             return database.executeQuery(cmd);
         }
 
-        public Result addUser(string email, string password, int unitId)
+        public Result addUser(string email, string password, int unitId, bool isAdmin)
         {
-            MySqlCommand cmd = new MySqlCommand("insert into lds_user (email, password, created_by) values (@email, @password, now())");
+            MySqlCommand cmd = new MySqlCommand("insert into lds_user (email, password, created_by, profile) values (@email, @password, now(), @isAdmin)");
             cmd.Parameters.AddWithValue("email", email);
             cmd.Parameters.AddWithValue("password", common.hash(password));
+            cmd.Parameters.AddWithValue("isAdmin", (isAdmin) ? 1 : 0);
 
             Result result = database.executeQuery(cmd);
             if (result.Success)
@@ -77,7 +79,7 @@ namespace OrganizadorReuniao.Models
         public List<User> getWardUsers(int unitId)
         {
             List<User> users = new List<User>();
-            foreach (List<string> data in database.retrieveData("select us.id, us.email from lds_user us, lds_unit un, lds_user_unit uu " +
+            foreach (List<string> data in database.retrieveData("select us.id, us.email, us.profile from lds_user us, lds_unit un, lds_user_unit uu " +
                 " where unit_id = @unit_id " +
                 "   and uu.unit_id = un.id " +
                 "   and uu.user_id = us.id " +
@@ -86,6 +88,7 @@ namespace OrganizadorReuniao.Models
                 User user = new User();
                 user.Id = common.convertNumber(data[0]);
                 user.Email = data[1];
+                user.isAdmin = (data[2] == "1");
                 users.Add(user);
             }
             return users;
@@ -94,11 +97,12 @@ namespace OrganizadorReuniao.Models
         public User getUser(int id)
         {
             User user = new User();
-            foreach(List<string> data in database.retrieveData("select email, password from lds_user where id = @id", id))
+            foreach(List<string> data in database.retrieveData("select email, password, profile from lds_user where id = @id", id))
             {
                 user.Id = id;
                 user.Email = data[0];
                 user.Password = data[1];
+                user.isAdmin = (data[2] == "1");
                 Unit unit = new Unit().getUnit(id);
                 user.Unit = unit.Id;
                 user.UnitName = unit.Name;
@@ -109,11 +113,12 @@ namespace OrganizadorReuniao.Models
         public User getUser(string email, string password)
         {
             User user = new User();
-            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email and password = @password", email, common.hash(password)))
+            foreach (List<string> data in database.retrieveData("select id, profile from lds_user where email = @email and password = @password", email, common.hash(password)))
             {
                 user.Id = Convert.ToInt32(data[0]);
                 user.Email = email;
                 user.Password = password;
+                user.isAdmin = (data[1] == "1");
                 Unit unit = new Unit().getUnit(user.Id);
                 user.Unit = unit.Id;
                 user.UnitName = unit.Name;
@@ -124,10 +129,11 @@ namespace OrganizadorReuniao.Models
         public User getUser(string email)
         {
             User user = new User();
-            foreach (List<string> data in database.retrieveData("select id from lds_user where email = @email", email))
+            foreach (List<string> data in database.retrieveData("select id, profile from lds_user where email = @email", email))
             {
                 user.Id = Convert.ToInt32(data[0]);
                 user.Email = email;
+                user.isAdmin = (data[1] == "1");
                 Unit unit = new Unit().getUnit(user.Id);
                 user.Unit = unit.Id;
                 user.UnitName = unit.Name;

@@ -14,26 +14,33 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Email)
         @Html.EditorFor(m => m.Email)
-        @Html.ValidationMessageFor(m => m.Email) 
+        @Html.ValidationMessageFor(m => m.Email)
     </div>
     
     <div class="form-group">
         @Html.LabelFor(m => m.Password)
         @Html.PasswordFor(m => m.Password, new { placeholder = OrganizadorReuniao.Languages.pt_br.TypeYourNewPassword })
-        @Html.ValidationMessageFor(m => m.Password) 
+        @Html.ValidationMessageFor(m => m.Password)
     </div>
     
     <div class="form-group">
         @Html.LabelFor(m => m.Confirm)
         @Html.PasswordFor(m => m.Confirm, new { placeholder = OrganizadorReuniao.Languages.pt_br.ConfirmYourNewPassword })
-        @Html.ValidationMessageFor(m => m.Confirm) 
+        @Html.ValidationMessageFor(m => m.Confirm)
     </div>
     
-    <div class="form-group">
-        @Html.LabelFor(m => m.UnitName)
-        @Html.EditorFor(m => m.UnitName)
-        @Html.ValidationMessageFor(m => m.UnitName) 
-    </div>
+    if ((bool)ViewBag.isAdmin)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.UnitName)
+            @Html.EditorFor(m => m.UnitName)
+            @Html.ValidationMessageFor(m => m.UnitName)
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(m => m.UnitName)
+    }
     
     @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
