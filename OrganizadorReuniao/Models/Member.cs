@@ -132,6 +132,34 @@ namespace OrganizadorReuniao.Models
             return result;
         }
 
+        public Member findMember(string lastName, string firstName, DateTime birthdate, string gender, int unitId)
+        {
+            Member member = new Member();
+            foreach (List<string> data in database.retrieveData("SELECT id, first_name, last_name, " + common.formatDate("birthdate") + ", unit_id, " + 
+                common.formatDate("created_by") + ", member_record, active, restricted, gender, unit_member " +
+                "FROM bakeappdb.lds_member  " +
+                "where unit_id = @unit_id " +
+                "and last_name = @last_name " +
+                "and first_name = @first_name " +
+                "and birthdate = @birthdate " +
+                "and gender = @gender " +
+                "order by last_name, first_name", unitId, lastName, firstName, birthdate, gender))
+            {
+                member.Id = common.convertNumber(data[0]);
+                member.FirstName = data[1];
+                member.LastName = data[2];
+                member.BirthDate = common.convertDate(data[3]);
+                member.Date = common.convertDate(data[5]);
+                member.MemberRecord = data[6];
+                member.Actived = common.convertBool(data[7]);
+                member.Restricted = common.convertBool(data[8]);
+                member.Gender = data[9];
+                member.isUnitMember = common.convertBool(data[10]);
+                member.priesthood = new Priesthood().getMemberPriesthood(member.Id);
+            }
+            return member;
+        }
+
         public Member getMember(int id, int unitId)
         {
             Member member = new Member();

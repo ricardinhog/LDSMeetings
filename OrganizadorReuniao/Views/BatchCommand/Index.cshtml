@@ -9,31 +9,47 @@
 @using (Html.BeginForm("Index", "BatchCommand", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
 {
 
-    <div class="alert alert-danger">
-        <p><b>Atenção as regras do formato de arquivo aceito</b></p>
+    <div class="alert alert-warning">
+        <label><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;Atenção as regras do formato do arquivo</label>
+        <br />
         <ul>
             <li>A extensão do arquivo deve ser .txt</li>
             <li>O arquivo deve possuir um membro por linha</li>
-            <li>Este sistema de cadastro não verifica membros duplicados</li>
+            <li>Este sistema de cadastro não verifica registros duplicados</li>
             <li>Os dados do membro devem estar separados por ponto e vírgula</li>
-            <li>A ordem dos dados é a seguinte:
+            <li>O sacerdócio tem a seguinte classificação numérica:
+                <ol>
+                    <li>Diácono</li>
+                    <li>Mestre</li>
+                    <li>Sacerdote</li>
+                    <li>Élder</li>
+                    <li>Sumo-Sacerdote</li>
+                </ol>
+            </li>
+            <li>Portanto a ordem dos dados é a seguinte:
                 <ol>
                     <li>Primeiro nome</li>
                     <li>Sobrenome</li>
                     <li>Data de nascimento: ano-mês-dia</li>
                     <li>Sexo (M ou F)</li>
+                    <li>Sacerdócio (1 a 5)</li>
                 </ol>
             </li>
         </ul>
     </div>
 
     <div class="alert alert-info">
-        <p><b>Exemplo</b></p>
+        <label><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;&nbsp;Exemplo formato arquivo</label>
+        <br />
         <p style="font-family: 'Courier New'">
-            Mario;Silva;1989-10-24;M<br />
-            Jonathan;Oliveira;2010-05-17;M<br />
-            Maria Isabel;Tobias;1985-09-10;F
+            Mario;Silva;1989-10-24;M;4<br />
+            Jonathan;Oliveira;1998-05-17;M;3<br />
+            Maria Isabel;Tobias;1985-09-10;F<br />
+            Sabrina;Tobias;2010-03-12;F
         </p>
+        <br />
+        <p>No exemplo acima o primeiro membro da lista é um Élder, o segundo é um Sacerdote, e os dois últimos nomes são mulheres que não possuem nenhum sacerdócio.</p>
+        <p>Caso haja algum homem sem sacerdócio, basta deixar sem nenhum número de referência ou com o número 0.</p>
     </div>
     
     <br />
@@ -44,7 +60,16 @@
     
     @Html.ValidationSummary(OrganizadorReuniao.Languages.pt_br.PleaseCheckTheFollowingErrors, new { @class = "alert alert-danger" })
     
-    <hr />
+    <br />
     
     <button type="submit" class="btn btn-primary">Enviar</button>
+    
+    <br />
+    <br />
+    
+    <div class="alert alert-danger">
+        <label><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;Atenção</label>
+        <p>Este processo pode levar alguns minutos para ser executado dependendo da quantidade de membros da lista.</p>
+        <p>Não feche o navegador enquanto o processo não for concluído.</p>
+    </div>
 }

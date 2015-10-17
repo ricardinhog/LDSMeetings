@@ -23,13 +23,13 @@ namespace OrganizadorReuniao.Models
         /// <returns></returns>
         public Result execute(StreamReader file, int unitId)
         {
-            Result result = new Result(false);
+            Result result = new Result(true);
+            int errors = 0;
 
             if (file != null)
             {
                 string line;
-                List<MySqlCommand> commands = new List<MySqlCommand>();
-
+                
                 // Read the file and display it line by line.
                 while ((line = file.ReadLine()) != null)
                 {
@@ -37,35 +37,64 @@ namespace OrganizadorReuniao.Models
 
                     if (data.Length >= 4)
                     {
-                        string firstName = data[0];
-                        string lastName = data[1];
-                        DateTime birthDate = common.convertDate(data[2], true);
-                        string gender = data[3];
+                        string firstName = data[0].Trim();
+                        string lastName = data[1].Trim();
+                        DateTime birthDate = common.convertDate(data[2].Trim(), true);
+                        string gender = data[3].Trim();
+                        
                         int priesthood = 0;
                         if (data.Length > 4)
-                            priesthood = common.convertNumber(data[4]);
+                            priesthood = common.convertNumber(data[4].Trim());
 
-                        MySqlCommand cmd = new MySqlCommand("insert into lds_member (first_name, last_name, birthdate, unit_id, created_by, active, restricted, gender, unit_member) values " +
-                            "(@first_name, @last_name, @birthdate, @unit_id, now(), 1, 0, @gender, 1)");
-                        cmd.Parameters.AddWithValue("first_name", firstName);
-                        cmd.Parameters.AddWithValue("last_name", lastName);
-                        cmd.Parameters.AddWithValue("birthdate", birthDate);
-                        cmd.Parameters.AddWithValue("unit_id", unitId);
-                        cmd.Parameters.AddWithValue("gender", gender);
-                        commands.Add(cmd);
+                        Member member = new Member().findMember(lastName, firstName, birthDate, gender, unitId);
 
-                        //if (gender == "M" && priesthood != 0)
-                        //{
-                        //    MySqlCommand cmd2 = new MySqlCommand
-                        //}
+                        if (member == null || member.Id == 0)
+                        {
+                            MySqlCommand cmd = new MySqlCommand("insert into lds_member (first_name, last_name, birthdate, unit_id, created_by, active, restricted, gender, unit_member) values " +
+                                "(@first_name, @last_name, @birthdate, @unit_id, now(), 1, 0, @gender, 1)");
+                            cmd.Parameters.AddWithValue("first_name", firstName);
+                            cmd.Parameters.AddWithValue("last_name", lastName);
+                            cmd.Parameters.AddWithValue("birthdate", birthDate);
+                            cmd.Parameters.AddWithValue("unit_id", unitId);
+                            cmd.Parameters.AddWithValue("gender", gender);
+                            result = database.executeQuery(cmd);
+
+                            if (result.Success)
+                            {
+                                if (gender == "M" && priesthood != 0)
+                                {
+                                    result = new Priesthood().addPriesthood(result.Id, priesthood);
+                                    if (!result.Success)
+                                        errors++;
+                                }
+                            }
+                            else
+                                errors++;
+                        }
+                        else
+                        {
+                            int priestH = new Priesthood().getMemberPriesthood(member.Id);
+                            if (priestH != priesthood)
+                            {
+                                result = new Priesthood().deletePriesthood(member.Id);
+                                if (result.Success)
+                                {
+                                    result = new Priesthood().addPriesthood(member.Id, priesthood);
+                                    if (!result.Success)
+                                        errors++;
+                                }
+                                else
+                                    errors++;
+                            }
+                        }
                     }
                 }
 
                 file.Close();
-
-                // execute batch commands
-                result = database.executeBatch(commands);
             }
+
+            if (errors > 0)
+                result.Success = false;
 
             return result;
         }
