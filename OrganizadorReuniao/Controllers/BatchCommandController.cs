@@ -51,7 +51,7 @@ namespace OrganizadorReuniao.Controllers
 
                     using (var reader = new StreamReader(path))
                     {
-                        result = new BatchCommand().execute(reader, 5);
+                        result = new BatchCommand().execute(reader, loggedUser.Unit);
                     }
 
                     System.IO.File.Delete(path);
