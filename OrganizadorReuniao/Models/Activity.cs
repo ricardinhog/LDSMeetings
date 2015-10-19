@@ -55,7 +55,7 @@ namespace OrganizadorReuniao.Models
 
         public Result deleteOld(int unitId)
         {
-            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where scheduled_by < now() and unit_id = @unit_id");
+            MySqlCommand cmd = new MySqlCommand("delete from lds_activity where scheduled_by < date_sub(curdate(), interval 1 day) and unit_id = @unit_id");
             cmd.Parameters.AddWithValue("unit_id", unitId);
 
             return database.executeQuery(cmd);
@@ -80,7 +80,8 @@ namespace OrganizadorReuniao.Models
         public List<Activity> getNextNMonths(int nInterval, int unitId)
         {
             List<Activity> list = new List<Activity>();
-            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + ", place, obs from lds_activity where scheduled_by >= now() and scheduled_by < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) and unit_id = @unit_id order by scheduled_by asc", unitId))
+            foreach (List<string> data in database.retrieveData("select id, name, " + common.formatDate("scheduled_by") + 
+                ", place, obs from lds_activity where scheduled_by >= date_sub(curdate(), interval 1 day) and scheduled_by < DATE_ADD(curdate(), INTERVAL " + nInterval + " MONTH) and unit_id = @unit_id order by scheduled_by asc", unitId))
             {
                 Activity activity = new Activity();
                 activity.Id = common.convertNumber(data[0]);

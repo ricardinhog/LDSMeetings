@@ -39,7 +39,7 @@ namespace OrganizadorReuniao.Models
                 "	((s.speaker1 > 0 and s.speaker1 is not null) or  " +
                 "	(s.speaker2 > 0 and s.speaker2 is not null) or  " +
                 "	(s.speaker3 > 0 and s.speaker3 is not null) or  " +
-                "	(s.speaker5 > 0 and s.speaker5 is not null)) and date >= now() and s.unit_id = @unit_id " +
+                "	(s.speaker5 > 0 and s.speaker5 is not null)) and date >= curdate() and s.unit_id = @unit_id " +
                 "	order by s.date asc";
 
             List<Speaker> speakers = new List<Speaker>();

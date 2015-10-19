@@ -87,7 +87,7 @@ namespace OrganizadorReuniao.Models
 
         public Result deleteOld()
         {
-            MySqlCommand cmd = new MySqlCommand("delete from lds_calling_member where calling_date < now()");
+            MySqlCommand cmd = new MySqlCommand("delete from lds_calling_member where calling_date < curdate()");
             return database.executeQuery(cmd);
         }
 
@@ -117,7 +117,7 @@ namespace OrganizadorReuniao.Models
         {
             List<Calling> list = new List<Calling>();
             foreach (List<string> data in database.retrieveData("select cm.id, cm.calling_id, cm.member_id, cm.other, " + common.formatDate("cm.calling_date") + ", cm.calling_flag " +
-                "from lds_calling_member cm, lds_member m where cm.member_id = m.id and cm.calling_date > now() and cm.calling_date < DATE_ADD(now(), INTERVAL " + nInterval + " MONTH) " + 
+                "from lds_calling_member cm, lds_member m where cm.member_id = m.id and cm.calling_date >= date_sub(curdate(), interval 1 day) and cm.calling_date < DATE_ADD(curdate(), INTERVAL " + nInterval + " MONTH) " + 
                 " and m.unit_id = @unit_id order by cm.calling_date asc", unitId))
             {
                 Calling call = new Calling();

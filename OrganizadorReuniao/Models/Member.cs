@@ -222,7 +222,7 @@ namespace OrganizadorReuniao.Models
         {
             List<Member> members = new List<Member>();
             string sql = "SELECT id, first_name, last_name, " + common.formatDate("birthdate") +
-                ", unit_id, " + common.formatDate("created_by") + ", member_record, (select count(0) from lds_frequency where created_by >= (NOW() - INTERVAL 3 MONTH) and member_id = m.id) presencas, restricted, gender, unit_member " +
+                ", unit_id, " + common.formatDate("created_by") + ", member_record, (select count(0) from lds_frequency where created_by >= (curdate() - INTERVAL 3 MONTH) and member_id = m.id) presencas, restricted, gender, unit_member " +
                 "FROM bakeappdb.lds_member m where unit_id = @unit ";
 
             string sqlCont = string.Empty;
@@ -231,7 +231,7 @@ namespace OrganizadorReuniao.Models
             {
                 case memberType.active:
                     // check last three months
-                    sqlCont += " and id in (select member_id from lds_frequency where created_by >= (NOW() - INTERVAL 3 MONTH)) ";
+                    sqlCont += " and id in (select member_id from lds_frequency where created_by >= (curdate() - INTERVAL 3 MONTH)) ";
                     break;
                 case memberType.absent:
                     // if absent last sunday
