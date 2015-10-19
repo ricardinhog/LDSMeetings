@@ -41,7 +41,7 @@ namespace OrganizadorReuniao.Controllers
                 return new HttpUnauthorizedResult();
             else
             {
-                if (file != null && file.ContentLength > 0 && file.ContentType == "text/plain")
+                if (file != null && file.ContentLength > 0 && (file.ContentType == "text/csv" || file.ContentType == "application/vnd.ms-excel"))
                 {
                     var fileName = new Common().generatePassword(20) + DateTime.Now.Ticks;
                     var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
@@ -49,7 +49,7 @@ namespace OrganizadorReuniao.Controllers
 
                     Result result = new Result(false);
 
-                    using (var reader = new StreamReader(path))
+                    using (var reader = new StreamReader(path, System.Text.Encoding.GetEncoding("ISO-8859-1")))
                     {
                         result = new BatchCommand().execute(reader, loggedUser.Unit);
                     }

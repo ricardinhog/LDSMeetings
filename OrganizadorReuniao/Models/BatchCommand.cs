@@ -33,12 +33,12 @@ namespace OrganizadorReuniao.Models
                 // Read the file and display it line by line.
                 while ((line = file.ReadLine()) != null)
                 {
-                    string[] data = line.Split(';');
+                    string[] data = line.Split(',');
 
                     if (data.Length >= 4)
                     {
-                        string firstName = data[0].Trim();
-                        string lastName = data[1].Trim();
+                        string firstName = data[1].Trim();
+                        string lastName = data[0].Trim();
                         DateTime birthDate = common.convertDate(data[2].Trim(), true);
                         string gender = data[3].Trim();
                         

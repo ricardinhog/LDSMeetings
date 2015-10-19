@@ -46,7 +46,7 @@ namespace OrganizadorReuniao.Controllers
             else
             {
                 new Member().deleteMember(deleteId);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Frequency");
             }
         }
 

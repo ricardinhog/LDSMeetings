@@ -13,10 +13,9 @@
         <label><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;Atenção as regras do formato do arquivo</label>
         <br />
         <ul>
-            <li>A extensão do arquivo deve ser .txt</li>
+            <li>A extensão do arquivo deve ser .csv</li>
             <li>O arquivo deve possuir um membro por linha</li>
-            <li>Este sistema de cadastro não verifica registros duplicados</li>
-            <li>Os dados do membro devem estar separados por ponto e vírgula</li>
+            <li>Os dados do membro devem estar separados por vírgula</li>
             <li>O sacerdócio tem a seguinte classificação numérica:
                 <ol>
                     <li>Diácono</li>
@@ -28,8 +27,8 @@
             </li>
             <li>Portanto a ordem dos dados é a seguinte:
                 <ol>
-                    <li>Primeiro nome</li>
                     <li>Sobrenome</li>
+                    <li>Primeiro nome</li>
                     <li>Data de nascimento: ano-mês-dia</li>
                     <li>Sexo (M ou F)</li>
                     <li>Sacerdócio (1 a 5)</li>
@@ -42,10 +41,10 @@
         <label><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;&nbsp;Exemplo formato arquivo</label>
         <br />
         <p style="font-family: 'Courier New'">
-            Mario;Silva;1989-10-24;M;4<br />
-            Jonathan;Oliveira;1998-05-17;M;3<br />
-            Maria Isabel;Tobias;1985-09-10;F<br />
-            Sabrina;Tobias;2010-03-12;F
+            Silva,Mario,1989-10-24,M,4<br />
+            Oliveira,Jonathan,1998-05-17,M,3<br />
+            Tobias,Maria Isabel,1985-09-10,F<br />
+            Tobias,Sabrina,2010-03-12,F
         </p>
         <br />
         <p>No exemplo acima o primeiro membro da lista é um Élder, o segundo é um Sacerdote, e os dois últimos nomes são mulheres que não possuem nenhum sacerdócio.</p>
