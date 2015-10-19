@@ -29,8 +29,8 @@ else
         <thead>
             <tr>
                 <th></th>
-                <th>Email</th>
-                <th>Nível Acesso</th>
+                <th></th>
+                <th>Email/Conta</th>
             </tr>
         </thead>
         <tbody>
@@ -40,27 +40,37 @@ else
                     <td class="no-print">
                         @if ((int)ViewBag.userId == user.Id)
                         {
-                            <span class="label label-info">Seu Acesso</span>
+                            <span class="label label-info" title="Seu próprio acesso">S</span>
                         }
                         else
                         {
                             <img src='/Images/Button-Delete-icon.png' title='Excluir acesso' style='display: block; cursor: pointer;' onclick="removeAccess(@user.Id, '@user.Email')" />    
                         }
                     </td>
-                    <td>@user.Email</td>
                     @if (user.isAdmin)
                     {
-                        <td><span class="label label-danger">Administrador</span></td>
+                        <td><span class="label label-danger" title="Administrador">A</span></td>
                     }
                     else
                     {
-                        <td><span class="label label-success">Usuário</span></td>
+                        <td><span class="label label-success" title="Usuário">U</span></td>
                     }
+                    <td>@user.Email</td>
                 </tr>
             }
         </tbody>
     </table>
 }
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="label label-danger">A</span> Administrador<br />
+        <span class="label label-success">U</span> Usuário<br />
+        <span class="label label-info">S</span> Seu Conta <i>* Não pode ser excluída por você mesmo.</i>
+    </div>
+</div>
 
 @section scripts {
     <script type="text/javascript">

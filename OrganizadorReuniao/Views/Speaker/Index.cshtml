@@ -25,7 +25,7 @@ else
             <tr>
                 <th>Data</th>
                 <th>Nome</th>
-                <th>Ordem</th>
+                <th>#</th>
                 <th>Tema</th>
             </tr>
         </thead>
@@ -33,7 +33,7 @@ else
             @foreach (var member in Model)
             {
                 <tr>
-                    <td>@member.Date.ToString("d/MM/yy")</td>
+                    <td>@member.Date.ToString("d/M")</td>
                     <td>@member.Name</td>
                     <td>@member.Position</td>
                     <td>@member.Theme</td>

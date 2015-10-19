@@ -44,15 +44,32 @@ else
                         <img src='/Images/Pencil-icon.png' title='Editar chamado' style='display: block; cursor: pointer;' onclick='editCalling(@call.Id)' /></td>
                     <td class="no-print">
                         <img src='/Images/Button-Delete-icon.png' title='Excluir chamado' style='display: block; cursor: pointer;' onclick="removeCalling(@call.Id, '@call.Name')" /></td>
-                    <td>@call.Date.ToString("dd/MM/yy")</td>
+                    <td>@call.Date.ToString("d/M")</td>
                     <td>@call.Member</td>
                     <td>@call.Name</td>
-                    <td class="@((call.CallingFlag)?"bg-success":"bg-info")">@((call.CallingFlag)?"C":"D")</td>
+                    @if (call.CallingFlag)
+                    {
+                        <td><span class="label label-success" title="Chamado">C</span></td>
+                    }
+                    else
+                    {
+                        <td><span class="label label-danger" title="Desobrigação">D</span></td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
 }
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <span class="label label-success">C</span> Chamado<br />
+        <span class="label label-danger">D</span> Desobrigação
+    </div>
+</div>
+
 @section scripts {
     <script type="text/javascript">
         function editCalling(id) {
