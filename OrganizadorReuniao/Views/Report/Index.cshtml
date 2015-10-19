@@ -14,10 +14,20 @@
     int nov = 0;
     int dec = 0;
 
-    int trim1 = 0;
-    int trim2 = 0;
-    int trim3 = 0;
-    int trim4 = 0;
+    bool isSacramental = false;
+
+    int janM = 0;
+    int febM = 0;
+    int marM = 0;
+    int aprM = 0;
+    int mayM = 0;
+    int junM = 0;
+    int julM = 0;
+    int augM = 0;
+    int sepM = 0;
+    int octM = 0;
+    int novM = 0;
+    int decM = 0;
 }
 
 <div class="page-header">
@@ -86,6 +96,11 @@
         <tbody id="tbody">
             @foreach (var item in Model)
             {
+                if (item.memberType == OrganizadorReuniao.Models.Member.memberType.sacramental)
+                {
+                    isSacramental = true;
+                }
+
                 if (item.jan > 0 || item.feb > 0 || item.mar > 0 || item.apr > 0 || item.may > 0 ||
                     item.jun > 0 || item.jul > 0 || item.aug > 0 || item.sep > 0 || item.oct > 0 ||
                     item.nov > 0 || item.dec > 0)
@@ -109,35 +124,66 @@
                 }
                 if (item.isUnitMember || item.memberType == OrganizadorReuniao.Models.Member.memberType.sacramental)
                 {
-                    if (item.jan > 0 || item.feb > 0 || item.mar > 0)
+                    if (item.jan > 0)
                     {
-                        trim1 += 1;
+                        jan += 1;
+                        janM += item.jan;
                     }
-                    if (item.apr > 0 || item.may > 0 || item.jun > 0)
+                    if (item.feb > 0)
                     {
-                        trim2 += 1;
+                        feb += 1;
+                        febM += item.feb;
                     }
-                    if (item.jul > 0 || item.aug > 0 || item.sep > 0)
+                    if (item.mar > 0)
                     {
-                        trim3 += 1;
+                        mar += 1;
+                        marM += item.mar;
                     }
-                    if (item.oct > 0 || item.nov > 0 || item.dec > 0)
+                    if (item.apr > 0)
                     {
-                        trim4 += 1;
+                        apr += 1;
+                        aprM += item.apr;
                     }
-
-                    jan += item.jan;
-                    feb += item.feb;
-                    mar += item.mar;
-                    apr += item.apr;
-                    may += item.may;
-                    jun += item.jun;
-                    jul += item.jul;
-                    aug += item.aug;
-                    sep += item.sep;
-                    oct += item.oct;
-                    nov += item.nov;
-                    dec += item.dec;
+                    if (item.may > 0)
+                    {
+                        may += 1;
+                        mayM += item.may;
+                    }
+                    if (item.jun > 0)
+                    {
+                        jun += 1;
+                        junM += item.jun;
+                    }
+                    if (item.jul > 0)
+                    {
+                        jul += 1;
+                        julM += item.jul;
+                    }
+                    if (item.aug > 0)
+                    {
+                        aug += 1;
+                        augM += item.aug;
+                    }
+                    if (item.sep > 0)
+                    {
+                        sep += 1;
+                        sepM += item.sep;
+                    }
+                    if (item.oct > 0)
+                    {
+                        oct += 1;
+                        octM += item.oct;
+                    }
+                    if (item.nov > 0)
+                    {
+                        nov += 1;
+                        novM += item.nov;
+                    }
+                    if (item.dec > 0)
+                    {
+                        dec += 1;
+                        decM += item.dec;
+                    }
                 }
             }
         </tbody>
@@ -161,40 +207,43 @@
         </tbody>
         <tbody>
             <tr class="info">
-                <td style="font-weight: bold;">Frequência trimestral</td>
+                <td style="font-weight: bold;">Frequência</td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@trim1</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@trim2</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@trim3</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@trim4</td>
+                <td>@((jan > 0) ? jan.ToString() : "")</td>
+                <td>@((feb > 0) ? feb.ToString() : "")</td>
+                <td>@((mar > 0) ? mar.ToString() : "")</td>
+                <td>@((apr > 0) ? apr.ToString() : "")</td>
+                <td>@((may > 0) ? may.ToString() : "")</td>
+                <td>@((jun > 0) ? jun.ToString() : "")</td>
+                <td>@((jul > 0) ? jul.ToString() : "")</td>
+                <td>@((aug > 0) ? aug.ToString() : "")</td>
+                <td>@((sep > 0) ? sep.ToString() : "")</td>
+                <td>@((oct > 0) ? oct.ToString() : "")</td>
+                <td>@((nov > 0) ? nov.ToString() : "")</td>
+                <td>@((dec > 0) ? dec.ToString() : "")</td>
             </tr>
         </tbody>
-        <tbody>
-            <tr class="success">
-                <td style="font-weight: bold;">Média trimestral</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@(Math.Round((decimal)mar / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(3, 2015), 0))</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@(Math.Round((decimal)jun / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(6, 2015), 0))</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@(Math.Round((decimal)sep / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(9, 2015), 0))</td>
-                <td></td>
-                <td></td>
-                <td style="font-weight: bold;">@(Math.Round((decimal)dec / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(12, 2015), 0))</td>
-            </tr>
-        </tbody>
+        @if (isSacramental)
+        {
+            <tbody>
+                <tr class="success">
+                    <td style="font-weight: bold;">Média</td>
+                    <td></td>
+                    <td>@((janM > 0) ? (Math.Round((decimal)janM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(1, 2015), 0)).ToString() : "")</td>
+                    <td>@((febM > 0) ? (Math.Round((decimal)febM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(2, 2015), 0)).ToString() : "")</td>
+                    <td>@((marM > 0) ? (Math.Round((decimal)marM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(3, 2015), 0)).ToString() : "")</td>
+                    <td>@((aprM > 0) ? (Math.Round((decimal)aprM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(4, 2015), 0)).ToString() : "")</td>
+                    <td>@((mayM > 0) ? (Math.Round((decimal)mayM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(5, 2015), 0)).ToString() : "")</td>
+                    <td>@((junM > 0) ? (Math.Round((decimal)junM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(6, 2015), 0)).ToString() : "")</td>
+                    <td>@((julM > 0) ? (Math.Round((decimal)julM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(7, 2015), 0)).ToString() : "")</td>
+                    <td>@((augM > 0) ? (Math.Round((decimal)augM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(8, 2015), 0)).ToString() : "")</td>
+                    <td>@((sepM > 0) ? (Math.Round((decimal)sepM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(9, 2015), 0)).ToString() : "")</td>
+                    <td>@((octM > 0) ? (Math.Round((decimal)octM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(10, 2015), 0)).ToString() : "")</td>
+                    <td>@((novM > 0) ? (Math.Round((decimal)novM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(11, 2015), 0)).ToString() : "")</td>
+                    <td>@((decM > 0) ? (Math.Round((decimal)decM / (decimal)new OrganizadorReuniao.Helper.Common().sundaysPerMonth(12, 2015), 0)).ToString() : "")</td>
+                </tr>
+            </tbody>
+        }
     </table>
 </div>
 
