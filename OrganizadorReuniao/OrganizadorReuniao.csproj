@@ -337,6 +337,7 @@
     <Content Include="Images\favicon.png" />
     <Content Include="Images\Pencil-icon.png" />
     <Content Include="Images\spacer.gif" />
+    <Content Include="Images\ward.jpg" />
     <Content Include="manifest.json" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
@@ -431,6 +432,7 @@
     <Content Include="Views\AccessArea\Feedback.cshtml" />
     <Content Include="Views\BatchCommand\Index.cshtml" />
     <Content Include="Views\BatchCommand\Success.cshtml" />
+    <Content Include="Views\Frequency\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

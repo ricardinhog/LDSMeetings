@@ -8,14 +8,12 @@ namespace OrganizadorReuniao.Controllers
 {
     public class FrequencyController : BaseController
     {
-        public ActionResult Index(int frequencyType)
+        public ActionResult Index()
         {
             if (!isAuthenticated())
                 return new HttpUnauthorizedResult();
             else
-            {
                 return View();
-            }
         }
 
     }

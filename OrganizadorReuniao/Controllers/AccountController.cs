@@ -116,7 +116,7 @@ namespace OrganizadorReuniao.Controllers
                 {
                     Session["user"] = checkUser;
                     if (url == "")
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Frequency");
                     else
                         return RedirectPermanent(url);
                 }

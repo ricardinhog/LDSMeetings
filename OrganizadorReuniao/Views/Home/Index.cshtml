@@ -1,168 +1,47 @@
 ﻿@{
-    ViewBag.Title = "Lista de Frequência";
-    OrganizadorReuniao.Models.Member member = new OrganizadorReuniao.Models.Member();
-}
-
-@section scripts {
-    <script type="text/javascript">
-        var sum = 0;
-        var ajax_request;
-        function updateMembersList() {
-            sum = 0;
-            if (typeof ajax_request !== 'undefined')
-                ajax_request.abort();
-
-            var date = $("#date").val();
-
-            if (date != "") {
-
-                loadAnimation(true);
-                var count = 0;
-                var id = $("#frequencyType").val();
-
-                ajax_request = $.ajax({
-                    type: 'get',
-                    url: '/JSON/SearchMembers',
-                    data: "typeId=" + id + "&date=" + date,
-                    cache: false,
-                    success: function (data) {
-                        $("#countPresent").html("0");
-                        $("#countPresent2").html("0");
-                        var html = "";
-                        if (data.length > 0) {
-                            $.each(data, function (index, value) {
-                                html += "<tr ";
-                                if (!value.isUnitMember) {
-                                    html += " class='warning' ";
-                                }
-                                html += " >";
-                                html += "<td><img src='/Images/Pencil-icon.png' title='Editar membro' style='display: block; cursor: pointer;' onclick='editMember(" + value.Id + ")' /></td>";
-                                html += "<td>" + value.LastName + ", " + value.FirstName + "</td>";
-                                html += "<td>" + value.FormatedDate + "</td>";
-                                html += "<td onclick='markMember(" + count + ")' style='text-align: center;'><input style='display: none;' onclick=\"markMember(" + count + ")\" type='checkbox' value='" + value.Id + "' id='input_" + count + "' class='checks' ";
-                                if (value.Present) {
-                                    html += " checked='checked' ";
-                                    sum = sum + 1;
-                                    $("#countPresent").html(sum);
-                                    $("#countPresent2").html(sum);
-                                }
-                                html += " />";
-                                if (value.Present) {
-                                    html += "<img src='/Images/spacer.gif' title='Present' class='check' id='checkMark_" + count + "' />";
-                                } else {
-                                    html += "<img src='/Images/spacer.gif' title='Present' class='uncheck' id='checkMark_" + count + "' />";
-                                }
-                                html += "</td></tr>";
-                                count++;
-                            });
-                        }
-                        else {
-                            html = "<tr><td colspan='3'><h2><span class='label label-warning'>Nenhum membro encontrado</span></h2></td></tr>";
-                        }
-                        $("#tbody").html(html);
-                        $("#count").html(count);
-                        $("#count2").html(count);
-                        loadAnimation(false);
-                    }
-                });
-            } else {
-            }
-        }
-        updateMembersList();
-
-        function markMember(num) {
-            var checked = $("#input_" + num).prop('checked');
-            $("#input_" + num).prop('checked', !checked);
-
-            var value = $("#input_" + num).val();
-            var present = $("#input_" + num).prop('checked');
-            var type = $("#frequencyType").val();
-            var date = $("#date").val();
-
-            // save data
-            $.getJSON("/JSON/SaveData", "member=" + value + "&present=" + present + "&type=" + type + "&date=" + date, function (data) {
-                sum = 0;
-
-                if (present) {
-                    $("#checkMark_" + num).removeClass("uncheck");
-                    $("#checkMark_" + num).addClass("check");
-                } else {
-                    $("#checkMark_" + num).removeClass("check");
-                    $("#checkMark_" + num).addClass("uncheck");
-                }
-
-                $(".checks").each(function () {
-                    var isImportant = $(this).prop('checked');
-                    if (isImportant) {
-                        sum++;
-                    }
-                    $("#countPresent").html(sum);
-                    $("#countPresent2").html(sum);
-                });
-            });
-        }
-
-        function loadAnimation(on) {
-            if (on) {
-                $("#loading").show();
-                $("#tbody").html("");
-                $("#count").html("0");
-            } else {
-                $("#loading").hide();
-            }
-        }
-
-        function editMember(id) {
-            var confirmation = confirm('Clique OK para editar os dados\n\nVocê será redirecionado para outra tela');
-            if (confirmation) {
-                location.href = "/Member/Edit/" + id;
-            }
-        }
-    </script>
+    ViewBag.Title = "Home";
 }
 
 <div class="page-header">
-    <h2>Lista de Frequência</h2>
+    <h2>Agenda SUD</h2>
 </div>
-
-<div class="row" style="padding: 10px;">
-    <label for="date">Data dd/mm/aaaa</label>
-    <input type="date" name="date" id="date" class="form-control" value="@(DateTime.Now.ToString("dd/MM/yyyy"))" onchange="updateMembersList();" />
-    <label for="frequencyType">Tipo de lista</label>
-    <select id="frequencyType" name="frequencyType" class="form-control" onchange="updateMembersList();">
-        @foreach (OrganizadorReuniao.Models.Frequency frequency in new OrganizadorReuniao.Models.Frequency().getTypes())
-        {
-            <option value="@frequency.Id">@frequency.Name</option>
-        }
-    </select>
-</div>
-
-<div class="row" style="text-align: center; padding: 10px;">
-    <br />
-    <img src="~/Images/ajax-loader.gif" style="margin: auto; display: none;" id="loading" />
-</div>
-
-<hr />
 
 <div class="row">
-    <p style="text-align: center;"><span id="count2">0</span> membro(s) encontrado(s)</p>
-    <p style="text-align: center;"><span id="countPresent2">0</span> membro(s) presente(s)</p>
-</div>
-
-<table class="table table-striped datatable">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Nome</th>
-            <th>Nasc.</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-    </tbody>
-</table>
-
-<div class="row">
-    <p style="text-align: center;"><span id="count">0</span> membro(s) encontrado(s)</p>
-    <p style="text-align: center;"><span id="countPresent">0</span> membro(s) presente(s)</p>
+    <div class="col-md-8">
+        <p>Confira abaixo as funcionalidades contidas na nova Agenda SUD</p>
+        <ul>
+            <li>Agenda Sacramental</li>
+            <li>Cadastro de Membros
+                <ul>
+                    <li>Individual</li>
+                    <li>Em Massa</li>
+                </ul>
+            </li>
+            <li>Controle de Acesso (com diferentes perfis)</li>
+            <li>Controle de Frequência
+                <ul>
+                    <li>Elder</li>
+                    <li>Escola Dominical - Adultos</li>
+                    <li>Escola Dominical - Jovens</li>
+                    <li>Moças</li>
+                    <li>Primária</li>
+                    <li>Rapazes</li>
+                    <li>Sacramental (Exclusivo)</li>
+                    <li>Sociedade de Socorro</li>
+                    <li>Sumo Sacerdote</li>
+                </ul>
+            </li>
+            <li>Lista de Atividades</li>
+            <li>Lista de Chamados e Desobrigações</li>
+            <li>Relatório
+                <ul>
+                    <li>Lista de Discursantes</li>
+                    <li>Relatório Trimestral</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <img src="~/Images/ward.jpg" class="img-thumbnail" />
+    </div>
 </div>

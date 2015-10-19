@@ -10,10 +10,7 @@ namespace OrganizadorReuniao.Controllers
     {
         public ActionResult Index()
         {
-            if (!isAuthenticated())
-                return new HttpUnauthorizedResult();
-            else
-                return View();
+            return View();
         }
     }
 }
