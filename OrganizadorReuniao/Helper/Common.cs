@@ -16,11 +16,6 @@ namespace OrganizadorReuniao.Helper
     {
         private DefaultConfig config = new DefaultConfig();
 
-        public void sendEmail(string email, string message)
-        {
-
-        }
-
         public List<Member> parseFile(string fileContent)
         {
             List<Member> members = new List<Member>();

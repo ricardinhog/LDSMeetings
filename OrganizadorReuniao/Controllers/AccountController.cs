@@ -27,7 +27,7 @@ namespace OrganizadorReuniao.Controllers
                 Common common = new Common();
                 string newPassword = common.generatePassword(6);
                 Result result = user.updateUser(user.Id, email.ToLower(), newPassword);
-                if (result.Success && common.sendEmail(email, string.Format("Sua nova senha é\n\n{0}\n\nAgenda SUD", newPassword), "Agenda SUD - Nova senha"))
+                if (result.Success && common.sendEmail(email, string.Format("Sua nova senha é\n\n{0}\n\nAgenda SUD\nhttp://lds.toughland.com", newPassword), "Agenda SUD - Nova senha"))
                 {
                     return RedirectToAction("Feedback", new { message = "Uma nova senha foi enviada para seu endereço de email" });
                 }

@@ -47,7 +47,7 @@ namespace OrganizadorReuniao.Controllers
                     {
                         Common common = new Common();
                         string newPassword = common.generatePassword(6);
-                        bool emailSent = common.sendEmail(model.Email, string.Format("Seu acesso foi criado no Agenda SUD\n\nEmail: {0}\nSenha: {1}\n\nAgenda SUD", model.Email, newPassword), "Agenda SUD - Acesso Criado");
+                        bool emailSent = common.sendEmail(model.Email, string.Format("Seu acesso foi criado no Agenda SUD\n\nEmail: {0}\nSenha: {1}\n\nAgenda SUD\nhttp://lds.toughland.com", model.Email, newPassword), "Agenda SUD - Acesso Criado");
                         Result result = new User().addUser(model.Email, newPassword, loggedUser.Unit, (accessLevel == "A"));
 
                         if (emailSent && result.Success)
