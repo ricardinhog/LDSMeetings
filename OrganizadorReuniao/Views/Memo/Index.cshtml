@@ -63,14 +63,18 @@
         <label><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;Data</label>
         <input type="date" class="form-control" onchange="loadForm()" onblur="loadForm()" id="date" />
         <p class="help-block no-print">Formato: dd/mm/aaaa</p>
+		<div class="row no-print">
+    		<input value="Salvar Agenda" onclick="saveForm()" class="btn btn-success pull-right btn-lg" style="margin-right: 15px;" type="button">
+		</div>
     </div>
 </div>
 
 <hr />
 
 <div class="row no-print">
-    <div class="col-md-12">
-        <p class="bg-info" style="padding: 10px;">Ao preencher o formulário os dados serão salvos automaticamente</p>
+    <div class="alert alert-danger">
+        <label><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;Atenção</label>
+        <p>As informacoes desta ata nao serao salvas automaticamente. Clique no botao salvar para guardar os dados.</p>
     </div>
 </div>
 
@@ -81,7 +85,7 @@
 <div class="row">
     <div class="col-md-6">
         <label>Digirida por</label>
-        <select class="form-control" name="conductedBy" onchange="saveForm()" id="conductedBy">
+        <select class="form-control" name="conductedBy" id="conductedBy">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -90,7 +94,7 @@
     </div>
     <div class="col-md-6">
         <label>Presidida por</label>
-        <select class="form-control" name="presidedBy" onchange="saveForm()" id="presidedBy">
+        <select class="form-control" name="presidedBy" id="presidedBy">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -104,7 +108,7 @@
 <div class="row">
     <div class="col-md-12">
         <label>Abertura e Reconhecimentos</label>
-        <textarea class="form-control" rows="3" onchange="saveForm()" id="recognitions"></textarea>
+        <textarea class="form-control" rows="3" id="recognitions"></textarea>
     </div>
 </div>
 
@@ -149,7 +153,7 @@
 <div class="row">
     <div class="col-md-12">
         <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino de abertura</label>
-        <select class="form-control" onchange="saveForm()" id="firstHymn">
+        <select class="form-control" id="firstHymn">
             @foreach (var hymn in hymns)
             {
                 <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
@@ -161,7 +165,7 @@
 <div class="row">
     <div class="col-md-12">
         <label for="firstPrayer">Primeira Oração</label>
-        <select class="form-control" name="firstPrayer" onchange="saveForm()" id="firstPrayer">
+        <select class="form-control" name="firstPrayer" id="firstPrayer">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -175,7 +179,7 @@
 <div class="row">
     <div class="col-md-12">
         <label><span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>&nbsp;&nbsp;Chamados/Desobrigações</label>
-        @if (list.Count == 0)
+        @if (callings.Count == 0)
         {
             <p class="bg-warning" style="padding: 10px;">Nenhum chamado/desobrigação nos próximos 3 meses encontrado</p>
         }
@@ -212,16 +216,16 @@
     <div class="col-md-2">
         <label>Assuntos da Estaca</label><br />
         <label class="radio-inline">
-            <input type="radio" name="stakeFlag" id="stakeFlagY" value="1" onclick="saveForm()">
+            <input type="radio" name="stakeFlag" id="stakeFlagY" value="1">
             Sim
         </label>
         <label class="radio-inline">
-            <input type="radio" name="stakeFlag" id="stakeFlagN" value="0" checked onclick="saveForm()">
+            <input type="radio" name="stakeFlag" id="stakeFlagN" value="0" checked="checked" />
             Não
         </label>
     </div>
     <div class="col-md-10">
-        <textarea class="form-control" rows="2" onchange="saveForm()" id="stake"></textarea>
+        <textarea class="form-control" rows="2" id="stake"></textarea>
     </div>
 </div>
 
@@ -231,16 +235,16 @@
     <div class="col-md-2">
         <label>Assuntos da Ala</label><br />
         <label class="radio-inline no-print">
-            <input type="radio" name="wardFlag" id="wardFlagY" value="1" onclick="saveForm()">
+            <input type="radio" name="wardFlag" id="wardFlagY" value="1">
             Sim
         </label>
         <label class="radio-inline no-print">
-            <input type="radio" name="wardFlag" id="wardFlagN" value="0" checked onclick="saveForm()">
+            <input type="radio" name="wardFlag" id="wardFlagN" value="0" checked="checked" />
             Não
         </label>
     </div>
     <div class="col-md-10">
-        <textarea class="form-control" rows="2" onchange="saveForm()" id="ward"></textarea>
+        <textarea class="form-control" rows="2" id="ward"></textarea>
     </div>
 </div>
 
@@ -249,7 +253,7 @@
 <div class="row">
     <div class="col-md-12">
         <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino sacramental</label>
-        <select class="form-control" onchange="saveForm()" id="sacramentalHymn">
+        <select class="form-control" id="sacramentalHymn">
             @foreach (var hymn in hymns)
             {
                 <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
@@ -271,7 +275,7 @@
 <div class="row">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Primeiro discurso</label>
-        <select class="form-control" name="speaker1" onchange="saveForm()" id="speaker1">
+        <select class="form-control" name="speaker1" id="speaker1">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -280,14 +284,14 @@
     </div>
     <div class="col-md-6">
         <label>Tema</label>
-        <input class="form-control" name="theme1" onchange="saveForm()" id="theme1" />
+        <input class="form-control" name="theme1" id="theme1" />
     </div>
 </div>
 <br />
 <div class="row">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Segundo discurso</label>
-        <select class="form-control" name="speaker2" onchange="saveForm()" id="speaker2">
+        <select class="form-control" name="speaker2" id="speaker2">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -296,7 +300,7 @@
     </div>
     <div class="col-md-6">
         <label>Tema</label>
-        <input class="form-control" name="theme2"  onchange="saveForm()" id="theme2"/>
+        <input class="form-control" name="theme2" id="theme2"/>
     </div>
 </div>
 
@@ -305,7 +309,7 @@
 <div class="row">
     <div class="col-md-12">
         <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino intermediário</label>
-        <select class="form-control" onchange="saveForm()" id="intermediateHymn">
+        <select class="form-control" id="intermediateHymn">
             @foreach (var hymn in hymns)
             {
                 <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
@@ -319,7 +323,7 @@
 <div class="row">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Terceiro discurso</label>
-        <select class="form-control" name="speaker3" onchange="saveForm()" id="speaker3">
+        <select class="form-control" name="speaker3" id="speaker3">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -328,14 +332,14 @@
     </div>
     <div class="col-md-6">
         <label>Tema</label>
-        <input class="form-control" name="theme3" onchange="saveForm()" id="theme3" />
+        <input class="form-control" name="theme3" id="theme3" />
     </div>
 </div>
 <br />
 <div class="row" style="display: none;">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Quarto discurso</label>
-        <select class="form-control" name="speaker4" onchange="saveForm()" id="speaker4">
+        <select class="form-control" name="speaker4" id="speaker4">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -344,7 +348,7 @@
     </div>
     <div class="col-md-6">
         <label>Tema</label>
-        <input class="form-control" name="theme4" onchange="saveForm()" id="theme4" />
+        <input class="form-control" name="theme4" id="theme4" />
     </div>
 </div>
 
@@ -360,7 +364,7 @@
 <div class="row">
     <div class="col-md-6">
         <label>Pianista</label>
-        <select class="form-control" name="pianist" onchange="saveForm()" id="pianist">
+        <select class="form-control" name="pianist" id="pianist">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -369,7 +373,7 @@
     </div>
     <div class="col-md-6">
         <label>Regente</label>
-        <select class="form-control" name="conductor" onchange="saveForm()" id="conductor">
+        <select class="form-control" name="conductor" id="conductor">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -383,7 +387,7 @@
 <div class="row">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Último discurso</label>
-        <select class="form-control" name="speaker5" onchange="saveForm()" id="speaker5">
+        <select class="form-control" name="speaker5" id="speaker5">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -392,7 +396,7 @@
     </div>
     <div class="col-md-6">
         <label>Tema</label>
-        <input class="form-control" name="theme5" onchange="saveForm()" id="theme5" />
+        <input class="form-control" name="theme5" id="theme5" />
     </div>
 </div>
 
@@ -401,7 +405,7 @@
 <div class="row" style="display: none;">
     <div class="col-md-12">
         <label>Outros assuntos</label>
-        <textarea class="form-control" rows="3" onchange="saveForm()" id="otherSubjects"></textarea>
+        <textarea class="form-control" rows="3" id="otherSubjects"></textarea>
     </div>
 </div>
 
@@ -410,7 +414,7 @@
 <div class="row">
     <div class="col-md-12">
         <label><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;&nbsp;Hino de encerramento</label>
-        <select class="form-control" onchange="saveForm()" id="lastHymn">
+        <select class="form-control" id="lastHymn">
             @foreach (var hymn in hymns)
             {
                 <option value="@hymn.Number">@hymn.Number - @hymn.Name</option>
@@ -424,7 +428,7 @@
 <div class="row">
     <div class="col-md-12">
         <label for="lastPrayer">Última Oração</label>
-        <select class="form-control" name="lastPrayer" onchange="saveForm()" id="lastPrayer">
+        <select class="form-control" name="lastPrayer" id="lastPrayer">
             @foreach (var member in members)
             {
                 <option value="@member.Id">@member.FirstName @member.LastName</option>
@@ -552,6 +556,8 @@
 
                         if (goToLink != "")
                             location.href = goToLink;
+
+						alert("Agenda salva com sucesso");
                     }
                 });
             }
@@ -562,17 +568,18 @@
         }
         $(document).ready(function () {
             loadForm();
-            setInterval(function(){
-                saveForm();
-            }, 30000);
+            //setInterval(function(){
+            //    saveForm();
+            //}, 30000);
 
-            $("a").click(function (event) {
-                event.preventDefault();
-                var link = $(this).prop("href");
-                goToLink = link;
-                saveForm();
-            });
+            //$("a").click(function (event) {
+            //    event.preventDefault();
+            //    var link = $(this).prop("href");
+            //    goToLink = link;
+            //    saveForm();
+            //});
         });
+	
         function checkFlags() {
             var stakeFlag = $("#stakeFlagN").prop("checked");
             var wardFlag = $("#wardFlagN").prop("checked");
