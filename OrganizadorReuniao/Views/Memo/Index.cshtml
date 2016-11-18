@@ -438,7 +438,6 @@
 </div>
 <br />
 <br />
-<h6 id="updatedOn" style="text-align: center;" class="no-print"></h6>
 <br />
 <br />
 
@@ -494,8 +493,6 @@
                     $("#lastHymn").val(data.lastHymn);
                     $("#lastPrayer").val(data.lastPrayer);
 
-                    $("#updatedOn").html("Informacoes atualizadas");
-
                     checkFlags();
                 } else {
                     $("#id").val("0");
@@ -550,7 +547,7 @@
                     data: data,
                     cache: false,
                     success: function (result) {
-                        $("#updatedOn").html("Informacoes salvas em " + Date());
+                        //$("#updatedOn").html("Informacoes salvas em " + Date());
                         if (result.Id != 0)
                             $("#id").val(result.Id);
 
