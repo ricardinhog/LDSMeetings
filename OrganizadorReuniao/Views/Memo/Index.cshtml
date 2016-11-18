@@ -78,20 +78,9 @@
     </div>
 </div>
 
-<hr />
-
 <form>
 
 <div class="row">
-    <div class="col-md-6">
-        <label>Digirida por</label>
-        <select class="form-control" name="conductedBy" id="conductedBy">
-            @foreach (var member in members)
-            {
-                <option value="@member.Id">@member.FirstName @member.LastName</option>
-            }
-        </select>
-    </div>
     <div class="col-md-6">
         <label>Presidida por</label>
         <select class="form-control" name="presidedBy" id="presidedBy">
@@ -101,10 +90,47 @@
             }
         </select>
     </div>
+	<div class="col-md-6">
+        <label>Digirida por</label>
+        <select class="form-control" name="conductedBy" id="conductedBy">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="bg-warning" style="padding: 10px;">Agradecimentos</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Pianista</label>
+        <select class="form-control" name="pianist" id="pianist">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label>Regente</label>
+        <select class="form-control" name="conductor" id="conductor">
+            @foreach (var member in members)
+            {
+                <option value="@member.Id">@member.FirstName @member.LastName</option>
+            }
+        </select>
+    </div>
 </div>
 
 <br />
-
+	
 <div class="row">
     <div class="col-md-12">
         <label>Abertura e Reconhecimentos</label>
@@ -355,36 +381,6 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-12">
-        <p class="bg-warning" style="padding: 10px;">Agradecimentos</p>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-6">
-        <label>Pianista</label>
-        <select class="form-control" name="pianist" id="pianist">
-            @foreach (var member in members)
-            {
-                <option value="@member.Id">@member.FirstName @member.LastName</option>
-            }
-        </select>
-    </div>
-    <div class="col-md-6">
-        <label>Regente</label>
-        <select class="form-control" name="conductor" id="conductor">
-            @foreach (var member in members)
-            {
-                <option value="@member.Id">@member.FirstName @member.LastName</option>
-            }
-        </select>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
     <div class="col-md-6">
         <label><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Último discurso</label>
         <select class="form-control" name="speaker5" id="speaker5">
@@ -437,8 +433,11 @@
     </div>
 </div>
 <br />
-<br />
-<br />
+<div class="row no-print">
+	<div class="col-md-12">
+    	<input value="Salvar Agenda" onclick="saveForm()" class="btn btn-success pull-right btn-lg" type="button">
+	</div>
+</div>
 <br />
 
 <input type="hidden" value="0" id="id" />
